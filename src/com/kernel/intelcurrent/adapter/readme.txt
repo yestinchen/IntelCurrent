@@ -1,0 +1,1 @@
+此包添加XXXListAdapter类和XXXPagerAdapter类
