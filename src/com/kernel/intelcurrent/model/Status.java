@@ -9,7 +9,7 @@ public class Status
     /**
      * 微博id
      * */
-    public long id;
+    public String id;
     
     /**
      * 文本内容

@@ -10,7 +10,7 @@ public class User
   /**
    * 用户唯一id
    * */
-  public long id;
+  public String id;
   
   /**
    * 用户昵称

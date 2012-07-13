@@ -58,7 +58,7 @@ public class Group
     		 users.add(user);
     	 }
      }
-     public boolean removeUser(long id)
+     public boolean removeUser(String id)
      {
     	 int index=hasUser(id);
     	 if(index==-1)
@@ -74,13 +74,13 @@ public class Group
      /**
       * 判断分组中有没有给定id的用户，若有返回其索引值，若无返回-1
       * */
-     public int hasUser(long id)
+     public int hasUser(String id)
      {
     	 int result=-1;
     	 int size=users.size();
     	 for(int i=0;i<size;i++)
     	 {
-    		 if(users.get(i).id==id)
+    		 if(users.get(i).id.equals(id))
     		 {
     			 result=i;
     			 return result;
