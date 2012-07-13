@@ -1,4 +1,4 @@
-package com.kernel.intelcurrent.model;
+ï»¿package com.kernel.intelcurrent.model;
 
 import java.util.LinkedList;
 
@@ -6,7 +6,7 @@ import com.kernel.intelcurrent.service.MainService;
 
 /**
  * classname:ICModel.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class ICModel 
 {
@@ -31,7 +31,7 @@ public class ICModel
 	   return model;
    }
    /**
-    * ÈÎÎñÖ´ĞĞ£¬serviceµ÷ÓÃ¸Ã·½·¨Ö´ĞĞÈÎÎñ
+    * ä»»åŠ¡æ‰§è¡Œï¼Œserviceè°ƒç”¨è¯¥æ–¹æ³•æ‰§è¡Œä»»åŠ¡
     * */
    public void doTask(Task task)
    {
@@ -41,17 +41,17 @@ public class ICModel
 	   task.total=total;
 	   switch(type)
 	   {
-	   //Ìí¼ÓÈÎÎñ·ÖÀàÖ´ĞĞ
+	   //æ·»åŠ ä»»åŠ¡åˆ†ç±»æ‰§è¡Œ
 	   }
    }
    public int checkForThreadsNum(int type)
    {
 	   int result=1;
-	   //Ôö¼ÓÂß¼­ÅĞ¶Ï
+	   //å¢åŠ é€»è¾‘åˆ¤æ–­
 	   return result;
    }
    /**
-    * ¸÷Ïß³ÌÍê³ÉÈÎÎñÊ±µ÷ÓÃcallback·½·¨»Øµ÷
+    * å„çº¿ç¨‹å®Œæˆä»»åŠ¡æ—¶è°ƒç”¨callbackæ–¹æ³•å›è°ƒ
     * */
    public void callBack(Task task)
    {

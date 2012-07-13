@@ -1,99 +1,99 @@
-package com.kernel.intelcurrent.model;
+ï»¿package com.kernel.intelcurrent.model;
 
 /**
  * classname:User.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class User 
 {
   private static final String TAG=User.class.getSimpleName();
   /**
-   * ÓÃ»§Î¨Ò»id
+   * ç”¨æˆ·å”¯ä¸€id
    * */
   public long id;
   
   /**
-   * ÓÃ»§êÇ³Æ
+   * ç”¨æˆ·æ˜µç§°
    * */
   public String nick;
   
   /**
-   * ËùÔÚÊ¡·İ´úÂë
+   * æ‰€åœ¨çœä»½ä»£ç 
    * */
   public int province;
   
   /**
-   * ËùÔÚ³ÇÊĞ´úÂë
+   * æ‰€åœ¨åŸå¸‚ä»£ç 
    * */
   public int city;
   
   /**
-   * ËùÔÚµØ
+   * æ‰€åœ¨åœ°
    * */
   public String location;
   
   /**
-   * ¸öÈË¼ò½é
+   * ä¸ªäººç®€ä»‹
    * */
   public String description;
   
   /**
-   * ¸öÈËÖ÷Ò³
+   * ä¸ªäººä¸»é¡µ
    * */
   public String homepage;
   
   /**
-   * Í·Ïñurl
+   * å¤´åƒurl
    * */
   public String head;
   
   /**
-   * ĞÔ±ğ£º0-Î»ÖÃ£¬1-ÄĞĞÔ£¬2-Å®ĞÔ
+   * æ€§åˆ«ï¼š0-ä½ç½®ï¼Œ1-ç”·æ€§ï¼Œ2-å¥³æ€§
    * */
   public int gender;
   
   /**
-   * ·ÛË¿Êı
+   * ç²‰ä¸æ•°
    * */
   public int fansnum;
   
   /**
-   * ¹Ø×¢Êı
+   * å…³æ³¨æ•°
    * */
   public int idolnum;
   
   /**
-   * ÊÕ²ØÊı
+   * æ”¶è—æ•°
    * */
   public int favnum;
   
   /**
-   * Î¢²©Êı
+   * å¾®åšæ•°
    * */
   public int statusnum;
   
   /**
-   * ×¢²áÊ±¼ä
+   * æ³¨å†Œæ—¶é—´
    * */
   public String regTime;
   
   /**
-   * ÊÇ·ñÎÒµÄ¹Ø×¢
+   * æ˜¯å¦æˆ‘çš„å…³æ³¨
    * */
   public boolean ismyidol;
   
   /**
-   *ÊÇ·ñ¹Ø×¢ÎÒ 
+   *æ˜¯å¦å…³æ³¨æˆ‘ 
    * */
   public boolean ismyfan;
   
   /**
-   * ÓÃ»§ËùÔÚÆ½Ì¨
+   * ç”¨æˆ·æ‰€åœ¨å¹³å°
    * */
   public String platform;
   
   /**
-   * ×îĞÂÎ¢²©
+   * æœ€æ–°å¾®åš
    * */
   public Status newest;
 }

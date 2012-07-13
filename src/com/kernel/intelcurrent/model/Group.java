@@ -1,9 +1,9 @@
-package com.kernel.intelcurrent.model;
+ï»¿package com.kernel.intelcurrent.model;
 
 import java.util.LinkedList;
 /**
  * classname:Group.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class Group 
 {
@@ -72,7 +72,7 @@ public class Group
     	 }
      }
      /**
-      * ÅĞ¶Ï·Ö×éÖĞÓĞÃ»ÓĞ¸ø¶¨idµÄÓÃ»§£¬ÈôÓĞ·µ»ØÆäË÷ÒıÖµ£¬ÈôÎŞ·µ»Ø-1
+      * åˆ¤æ–­åˆ†ç»„ä¸­æœ‰æ²¡æœ‰ç»™å®šidçš„ç”¨æˆ·ï¼Œè‹¥æœ‰è¿”å›å…¶ç´¢å¼•å€¼ï¼Œè‹¥æ— è¿”å›-1
       * */
      public int hasUser(long id)
      {

@@ -1,4 +1,4 @@
-package com.kernel.intelcurrent.service;
+ï»¿package com.kernel.intelcurrent.service;
 import com.kernel.intelcurrent.model.ICModel;
 import com.kernel.intelcurrent.model.Task;
 
@@ -10,7 +10,7 @@ import android.os.IBinder;
 import android.os.Message;
 /**
  * classname:MainService.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class MainService extends Service
 {
@@ -45,7 +45,7 @@ public class MainService extends Service
     public class ICBinder extends Binder
     {
     	/**
-    	 * ÈÃactivity »ñµÃMainServiceÊµÀı
+    	 * è®©activity è·å¾—MainServiceå®ä¾‹
     	 * */
     	public MainService getService()
  	   {
@@ -57,7 +57,7 @@ public class MainService extends Service
     	Activity target=task.target;
     	if(target!=currentActivity)
     	{
-    		//¼ÇÂ¼ÈÎÎñ±»ÖÕÖ¹
+    		//è®°å½•ä»»åŠ¡è¢«ç»ˆæ­¢
     		//...
     		return;
     	}
@@ -67,7 +67,7 @@ public class MainService extends Service
     	handler.sendMessage(msg);
     }
     /**
-     * ´¦Àíµ×²ãÏûÏ¢µÄÄÚ²¿Àà
+     * å¤„ç†åº•å±‚æ¶ˆæ¯çš„å†…éƒ¨ç±»
      * */
     private Handler handler=new Handler()
     {

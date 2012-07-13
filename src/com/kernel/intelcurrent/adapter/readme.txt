@@ -1,1 +1,1 @@
-´Ë°üÌí¼ÓXXXListAdapterÀàºÍXXXPagerAdapterÀà
+ï»¿æ­¤åŒ…æ·»åŠ XXXListAdapterç±»å’ŒXXXPagerAdapterç±»

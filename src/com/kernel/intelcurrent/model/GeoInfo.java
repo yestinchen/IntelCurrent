@@ -1,7 +1,7 @@
-package com.kernel.intelcurrent.model;
+ï»¿package com.kernel.intelcurrent.model;
 /**
  * classname:GeoInfo.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class GeoInfo 
 {

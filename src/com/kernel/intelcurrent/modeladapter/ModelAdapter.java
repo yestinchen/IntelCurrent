@@ -1,11 +1,11 @@
-package com.kernel.intelcurrent.modeladapter;
+ï»¿package com.kernel.intelcurrent.modeladapter;
 
 import com.kernel.intelcurrent.model.ICModel;
 import com.kernel.intelcurrent.model.Task;
 
 /**
  * classname:ModelAdapter.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public abstract class ModelAdapter extends Thread 
 {
@@ -18,7 +18,7 @@ public abstract class ModelAdapter extends Thread
     	model=ICModel.getICModel();
     }
     /**
-     * ×ÓÀàĞèÊµÏÖrun·½·¨À´Ö´ĞĞÈÎÎñ£¬Í¬Ò»¸öÈÎÎñµÄ×îºóÒ»¸öÏß³ÌÍê³ÉÊ±ĞèÒª»Øµ÷modelµÄcallback·½·¨
+     * å­ç±»éœ€å®ç°runæ–¹æ³•æ¥æ‰§è¡Œä»»åŠ¡ï¼ŒåŒä¸€ä¸ªä»»åŠ¡çš„æœ€åä¸€ä¸ªçº¿ç¨‹å®Œæˆæ—¶éœ€è¦å›è°ƒmodelçš„callbackæ–¹æ³•
      * */
     public abstract void run();
 }

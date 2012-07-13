@@ -1,4 +1,4 @@
-package com.kernel.intelcurrent.model;
+ï»¿package com.kernel.intelcurrent.model;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -6,39 +6,39 @@ import java.util.Map;
 import android.app.Activity;
 /**
  * classname:Task.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class Task 
 {
 	private static final String TAG=Task.class.getSimpleName();
 	
 	/**
-	 * ÈÎÎñÀàĞÍ
+	 * ä»»åŠ¡ç±»å‹
 	 * */
 	public int type;
 	
 	/**
-	 * Ïß³Ì×ÜÊı
+	 * çº¿ç¨‹æ€»æ•°
 	 * */
 	public int total;
 	
 	/**
-	 * Ä¿Ç°»Ø¸´½á¹ûµÄÏß³ÌÊı
+	 * ç›®å‰å›å¤ç»“æœçš„çº¿ç¨‹æ•°
 	 * */
 	public int current;
 	
 	/**
-	 * ÈÎÎñÄ¿±êactivity
+	 * ä»»åŠ¡ç›®æ ‡activity
 	 * */
 	public Activity target;
 	
 	/**
-	 * ÈÎÎñ½á¹û¼¯
+	 * ä»»åŠ¡ç»“æœé›†
 	 * */
 	public LinkedList<Object> result;
 	
 	/**
-	 * ÈÎÎñ²ÎÊı±í
+	 * ä»»åŠ¡å‚æ•°è¡¨
 	 * */
     private Map<String,Object> param;
     public Task(int t,Map<String,Object> p,Activity target)

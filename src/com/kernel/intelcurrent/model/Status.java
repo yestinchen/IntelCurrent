@@ -1,58 +1,58 @@
-package com.kernel.intelcurrent.model;
+ï»¿package com.kernel.intelcurrent.model;
 /**
  * classname:Status.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class Status 
 {
     private static final String TAG=Status.class.getSimpleName();
     /**
-     * Î¢²©id
+     * å¾®åšid
      * */
     public long id;
     
     /**
-     * ÎÄ±¾ÄÚÈİ
+     * æ–‡æœ¬å†…å®¹
      * */
     public String text;
     
     /**
-     * Î¢²©À´Ô´
+     * å¾®åšæ¥æº
      * */
     public String source;
     
     /**
-     * Í¼Æ¬urlÁĞ±í
+     * å›¾ç‰‡urlåˆ—è¡¨
      * */
     public String[] image;
     
     /**
-     * Î¢²©·¢²¼Ê±¼ä´Á
+     * å¾®åšå‘å¸ƒæ—¶é—´æˆ³
      * */
     public int timestamp;
     
     /**
-     *»Ø¸´Êı 
+     *å›å¤æ•° 
      * */
     public int rCount;
     
     /**
-     * ÆÀÂÛÊı
+     * è¯„è®ºæ•°
      * */
     public int cCount;
     
     /**
-     * µØÀíĞÅÏ¢¶ÔÏó
+     * åœ°ç†ä¿¡æ¯å¯¹è±¡
      * */
     public GeoInfo geo;
     
     /**
-     * ÓÃ»§¶ÔÏó
+     * ç”¨æˆ·å¯¹è±¡
      * */
     public User user;
     
     /**
-     * Î¢²©·¢²¼Æ½Ì¨
+     * å¾®åšå‘å¸ƒå¹³å°
      * */
     public String platform;
 }

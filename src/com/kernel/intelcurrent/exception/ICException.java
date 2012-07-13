@@ -1,7 +1,7 @@
-package com.kernel.intelcurrent.exception;
+ï»¿package com.kernel.intelcurrent.exception;
 /**
  * classname:ICException.java
- * @author ÐíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public class ICException extends Exception 
 {

@@ -1,4 +1,4 @@
-package com.kernel.intelcurrent.activity;
+ï»¿package com.kernel.intelcurrent.activity;
 import com.kernel.intelcurrent.*;
 import com.kernel.intelcurrent.service.MainService;
 import com.kernel.intelcurrent.service.MainService.ICBinder;
@@ -8,7 +8,7 @@ import android.content.*;
 import android.os.*;
 /**
  * classname:BaseActivity.java
- * @author ĞíÁèÏö
+ * @author è®¸å‡Œéœ„
  * */
 public abstract class BaseActivity extends Activity
 {
@@ -18,7 +18,7 @@ public abstract class BaseActivity extends Activity
     boolean isBound=false;
     
     /**
-     * Æä×ÓÀàĞè¼Ì³Ğupdate·½·¨£¬¹©service¸üĞÂactivity
+     * å…¶å­ç±»éœ€ç»§æ‰¿updateæ–¹æ³•ï¼Œä¾›serviceæ›´æ–°activity
      * 
      * */
     public abstract  void update(int type ,Object param);
