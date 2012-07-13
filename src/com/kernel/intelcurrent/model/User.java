@@ -48,7 +48,7 @@ public class User
   public String head;
   
   /**
-   * 性别：0-位置，1-男性，2-女性
+   * 性别：0-未知，1-男性，2-女性
    * */
   public int gender;
   
