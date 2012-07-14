@@ -75,7 +75,7 @@ public class Task
 	/**
 	 * 任务参数表
 	 * */
-    private Map<String,Object> param;
+    public Map<String,Object> param;
     public Task(int t,Map<String,Object> p,Activity target)
     {
     	type=t;
