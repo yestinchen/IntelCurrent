@@ -13,10 +13,13 @@ import android.util.Log;
 
 import com.kernel.intelcurrent.model.Comment;
 import com.kernel.intelcurrent.model.ICArrayList;
+import com.kernel.intelcurrent.model.SimpleUser;
 import com.kernel.intelcurrent.model.Status;
 import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
+import com.tencent.weibo.api.FavAPI;
 import com.tencent.weibo.api.FriendsAPI;
+import com.tencent.weibo.api.SearchAPI;
 import com.tencent.weibo.api.StatusesAPI;
 import com.tencent.weibo.api.TAPI;
 import com.tencent.weibo.api.UserAPI;
@@ -56,6 +59,25 @@ public class TencentAdapter extends ModelAdapter {
 		task.result.add(response);
 		Log.d(TAG, response);
 		return response;
+	}
+	
+	/**
+	 * 添加一条带图片的微博
+	 * @author allenjin
+	 */
+	public void addpicWeibo(){
+		TAPI tapi=new TAPI();
+		Map<String,Object> map=task.param;
+		String response=null;
+		try{
+			response=tapi.addPic((OAuth)map.get("oauth"), "json",map.get("content").toString(),
+									map.get("clientip").toString(),map.get("imgurl").toString());
+			Log.v(TAG,response);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		task.result.add(response);
+		tapi.shutdownConnection();
 	}
 	
 	/**
@@ -140,6 +162,24 @@ public class TencentAdapter extends ModelAdapter {
 		tapi.shutdownConnection();
 		task.result.add(response);
 		return response;
+	}
+	/**
+	 * 回复一条微博
+	 * @author allenjin
+	 */
+	public void replyWeibo(){
+		TAPI tapi=new TAPI();
+		Map<String,Object> map=task.param;
+		String response=null;
+		try{
+			response=tapi.reply((OAuth)map.get("oauth"), "json", map.get("content").toString(),
+					map.get("clientip").toString(), map.get("reid").toString());
+					Log.v(TAG,response);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		tapi.shutdownConnection();
+		task.result.add(response);
 	}
 	
 	/**转发一条微博
@@ -276,7 +316,7 @@ public class TencentAdapter extends ModelAdapter {
 	 * 处理结果为一个ICArrayList对象，hasnext为是否还有可拉取的评论，0为有，1为无，list存获取的评论列表。
 	 * @author allenjin
 	 */
-	public void getreList(){
+	public void getCommentList(){
 		TAPI tapi=new TAPI();
 		Map<String, Object> map=task.param;
 		String response=null;
@@ -357,5 +397,160 @@ public class TencentAdapter extends ModelAdapter {
 		}
 		Log.v(TAG, "getUserWeibos "+response);		
 		Log.v(TAG, "getUserWeibos Obj"+arraylist);		
+	}
+	
+	/**
+	 * 搜索用户列表，根据关键字
+	 * 处理结果为ICArrayList
+	 * 其中hastnext表示为：0，第一页且只有一页,1.多页第一页,还可向下翻页，2-还可向上翻页，3-可向上或向下翻页
+	 * 其中list存放SimpleUser类的对象列表.
+	 * @author allenjin
+	 */
+	public void searchUser(){
+		SearchAPI sapi=new SearchAPI();
+		Map<String, Object> map = task.param;
+		String response = null;
+		try{
+			response=sapi.user((OAuth)map.get("oauth"),map.get("keyword").toString(),
+					map.get("pagesize").toString(), map.get("page").toString());
+			JSONObject data=new JSONObject(response).getJSONObject("data");
+			ICArrayList list=new ICArrayList();
+			list.hasNext=data.getInt("hasnext");
+			if(data.get("info")instanceof JSONArray){
+				JSONArray info=data.getJSONArray("info");
+				for(int j=0;j<info.length();j++){
+					SimpleUser users=new SimpleUser();
+					JSONObject iobj=info.getJSONObject(j);
+					users.head=iobj.getString("head");
+					users.id=iobj.getString("openid");
+					users.name=iobj.getString("name");
+					users.nick=iobj.getString("nick");
+					Log.v("第"+j+"个：用户", users.toString());
+					list.list.add(users);
+				}
+			}
+			Log.v(TAG,response);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		sapi.shutdownConnection();
+		task.result.add(response);
+	}
+	
+	/**
+	 * 收藏一个微博
+	 * @author allenjin
+	 */
+	public void addFavWeibo(){
+		FavAPI fav=new FavAPI();
+		Map<String,Object> map=task.param;
+		String response=null;
+		try{
+			response=fav.addFav((OAuth)map.get("oauth"), map.get("id").toString());
+			Log.v(TAG, response);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		task.result.add(response);
+		fav.shutdownConnection();
+	}
+	
+	/**
+	 * 取消一个收藏微博
+	 * @author allenjin
+	 */
+	public void delFavWeibo(){
+		FavAPI fav=new FavAPI();
+		Map<String,Object> map=task.param;
+		String response=null;
+		try{
+			response=fav.delFav((OAuth)map.get("oauth"), map.get("id").toString());
+			Log.v(TAG, response);
+			task.result.add(response);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		fav.shutdownConnection();
+	}
+	
+	/**
+	 * 获取收藏微博的列表
+	 * 处理结果为ICArrayList 
+	 * 其中hasnext :0-表示还有微博可拉取，1-已拉取完毕
+	 * 其中list存放收藏的微博的列表
+	 * @author allenjin
+	 */
+	public void getFavWeiboList(){
+		FavAPI fav=new FavAPI();
+		Map<String,Object> map=task.param;
+		String response=null;
+		try{
+			response=fav.listFav((OAuth)map.get("oauth"), map.get("pageflag").toString(), 
+					map.get("pagetime").toString(),map.get("reqnum").toString(), map.get("lastid").toString());
+			Log.v(TAG, response);
+			ICArrayList iclist=new ICArrayList();
+			JSONObject data=new JSONObject(response).getJSONObject("data");
+			iclist.hasNext=data.getInt("hasnext");
+			if(data.get("info")instanceof JSONArray){
+				JSONArray info=data.getJSONArray("info");
+				for(int i=0;i<info.length();i++){
+					JSONObject iobj=info.getJSONObject(i);
+					Status s=new Status();
+					s.id=iobj.getString("id");
+					s.cCount=iobj.getInt("count");
+					s.rCount=iobj.getInt("mcount");
+					s.geo=null;
+					s.platform=TENCENT_PLAT_FORM;
+					s.source=iobj.getString("from");
+					s.text=iobj.getString("origtext");
+					s.timestamp=iobj.getLong("timestamp");
+					s.user.city=iobj.getInt("city_code");
+					s.user.head=iobj.getString("head");
+					s.user.id=iobj.getString("openid");
+					s.user.name=iobj.getString("name");
+					s.user.nick=iobj.getString("nick");
+					s.user.location=iobj.getString("location");
+					if(iobj.get("image")instanceof JSONArray){
+						JSONArray imgs=iobj.getJSONArray("image");
+						for(int j=0;j<imgs.length();j++){			
+							s.image.add(imgs.getString(j));
+						}
+					}
+
+					if(iobj.get("source") instanceof JSONObject){
+						JSONObject res=iobj.getJSONObject("source");
+						Status reStatus=new Status();
+						reStatus.cCount=res.getInt("count");
+						reStatus.rCount=res.getInt("mcount");
+						reStatus.geo=null;
+						reStatus.id=res.getString("id");
+						reStatus.source=res.getString("from");
+						reStatus.platform=TENCENT_PLAT_FORM;
+						reStatus.timestamp=res.getLong("timestamp");
+						reStatus.text=res.getString("origtext");
+						reStatus.user.city=res.getInt("city_code");
+						reStatus.user.head=res.getString("head");
+						reStatus.user.id=res.getString("openid");
+						reStatus.user.name=res.getString("name");
+						reStatus.user.nick=res.getString("nick");
+						reStatus.user.location=res.getString("location");
+						if(res.get("image")instanceof JSONArray){
+							JSONArray image=res.getJSONArray("data");
+							for(int j=0;j<image.length();j++){
+								s.image.add(image.getString(j));
+							}
+						}
+						s.reStatus=reStatus;
+					}
+					iclist.list.add(s);
+					Log.v("第"+i+"个收藏微博：",s.toString());
+				}
+				task.result.add(iclist);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		fav.shutdownConnection();
 	}
 }

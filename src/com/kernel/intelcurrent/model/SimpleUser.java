@@ -10,7 +10,7 @@ public class SimpleUser {
 	 * 用户名账号
 	 */
 	public String name;
-	
+
 	/**
 	 * 昵称
 	 */
@@ -25,4 +25,10 @@ public class SimpleUser {
 	 * 用户头像地址
 	 */
 	public String head;
+	
+	@Override
+	public String toString() {
+		return "SimpleUser [name=" + name + ", nick=" + nick + ", id=" + id
+				+ ", head=" + head + "]";
+	}
 }

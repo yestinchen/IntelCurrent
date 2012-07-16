@@ -32,6 +32,9 @@ public class Task
 	public static final int WEIBO_PRIVATE_ADD = 0x000017;
 	public static final int WEIBO_ADD_AT = 0x000018;
 	public static final int WEIBO_COMMENTS_RE = 0x000019;
+	public static final int WEIBO_REPLY=0x00001A;
+	public static final int WEIBO_FAV_DEL=0x00001B;
+	
 	/*-------关于用户的操作------*/
 	public static final int USER_INFO = 0x000021;
 	public static final int USER_FANS_LIST = 0x000022;
