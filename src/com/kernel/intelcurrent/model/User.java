@@ -95,5 +95,5 @@ public class User
   /**
    * 最新微博
    * */
-  public Status newest;
+  public Status newest=new Status();
 }

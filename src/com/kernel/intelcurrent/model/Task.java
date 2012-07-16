@@ -70,7 +70,7 @@ public class Task
 	/**
 	 * 任务结果集
 	 * */
-	public LinkedList<Object> result;
+	public LinkedList<Object> result=new LinkedList<Object>();
 	
 	/**
 	 * 任务参数表

@@ -1,4 +1,8 @@
 ﻿package com.kernel.intelcurrent.model;
+
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+
 /**
  * classname:Status.java
  * @author 许凌霄
@@ -24,7 +28,7 @@ public class Status
     /**
      * 图片url列表
      * */
-    public String[] image;
+    public ArrayList<String> image=new ArrayList<String>();
     
     /**
      * 微博发布时间戳
@@ -44,12 +48,12 @@ public class Status
     /**
      * 地理信息对象
      * */
-    public GeoInfo geo;
+    public GeoInfo geo=new GeoInfo();
     
     /**
      * 用户对象
      * */
-    public User user;
+    public User user=new User();
     
     /**
      * 微博发布平台
