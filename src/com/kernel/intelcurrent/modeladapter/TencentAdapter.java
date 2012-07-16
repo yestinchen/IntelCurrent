@@ -13,9 +13,11 @@ import android.util.Log;
 
 import com.kernel.intelcurrent.model.Comment;
 import com.kernel.intelcurrent.model.ICArrayList;
+import com.kernel.intelcurrent.model.Status;
 import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
 import com.tencent.weibo.api.FriendsAPI;
+import com.tencent.weibo.api.StatusesAPI;
 import com.tencent.weibo.api.TAPI;
 import com.tencent.weibo.api.UserAPI;
 import com.tencent.weibo.beans.OAuth;
@@ -214,11 +216,10 @@ public class TencentAdapter extends ModelAdapter {
 			response=tapi.reList((OAuth)map.get("oauth"),"josn",map.get("flag").toString(),map.get("rootid").toString(),
 					map.get("pageflag").toString(), map.get("pagetime").toString(),
 					map.get("reqnum").toString(), map.get("twitterid").toString());
-			ArrayList<Comment> alist=new ArrayList<Comment>();
+			ICArrayList ica=new ICArrayList();
 			JSONObject jsonobject=new JSONObject(response.substring(5, response.length()-1));
 			JSONObject data=jsonobject.getJSONObject("data");
-			String hasnext=data.getString("hasnext");
-			Log.v("hasnext",hasnext);
+			ica.hasNext = data.getInt("hasnext");
 			JSONArray info=data.getJSONArray("info");
 			for(int i=0;i<info.length();i++){
 				Comment comment=new Comment();
@@ -227,16 +228,66 @@ public class TencentAdapter extends ModelAdapter {
 				comment.nick=infoobject.getString("nick");
 				comment.text=infoobject.getString("origtext");
 				comment.timestamp=Integer.parseInt(infoobject.getString("timestamp"));
-				alist.add(comment);
+				ica.list.add(comment);
 			}	
-			ICArrayList ica=new ICArrayList();
-			ica.hasNext=hasnext.equals("1")?false:true;
-			ica.list=alist;
-			task.result.add(alist);
+			task.result.add(ica);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		tapi.shutdownConnection();
 	}
 	
+	/**得到用户发表的微博列表
+	 * 处理结果为ArrayList
+	 * @author sheling*/
+	public void getUserWeiboList(){
+		StatusesAPI sapi = new StatusesAPI();
+		Map<String, Object> map = task.param;
+		String response = null;
+		JSONObject jsonObj = null;
+		JSONArray jsonArr = null,arrTmp = null;
+		ICArrayList arraylist = new ICArrayList();
+		try {
+			response = sapi.broadcastTimeline((OAuth)map.get("oauth"), "json", map.get("pageflag").toString()
+					, map.get("pagetime").toString(), map.get("reqnum").toString(), map.get("lastid").toString()
+					, "0", "1");
+			jsonObj = new JSONObject(response).getJSONObject("data");
+			arraylist.hasNext = jsonObj.getInt("hasnext");
+			jsonArr = jsonObj.getJSONArray("info");
+			int length = jsonArr.length();
+			for(int i=0;i<length;i++){
+				jsonObj = jsonArr.getJSONObject(i);
+				Status status = new Status();
+				//TODO 封装为微博对象
+				status.id = jsonObj.getString("id");
+				status.text = jsonObj.getString("text");
+				status.source = jsonObj.getString("from");
+				if(jsonObj.get("image") instanceof JSONArray){
+					arrTmp = jsonObj.getJSONArray("image");
+					for(int j=0;j<arrTmp.length();j++){
+						status.image.add(arrTmp.getString(j));	
+					}
+				}
+				status.timestamp = jsonObj.getLong("timestamp");
+				status.rCount = jsonObj.getInt("count");
+				status.cCount = jsonObj.getInt("mcount");
+				status.user.id = jsonObj.getString("openid");
+				status.user.nick = jsonObj.getString("nick");
+				String province = jsonObj.getString("province_code");
+				if(province!=null && !province.equals("")) status.user.province = Integer.valueOf(province);
+				String city = jsonObj.getString("city_code");
+				if(city !=null && !city.equals("")) status.user.city = Integer.valueOf(city);
+				status.user.location = jsonObj.getString("location");
+				status.user.head = jsonObj.getString("head");
+				status.platform = TENCENT_PLAT_FORM;
+				arraylist.list.add(status);
+			}
+			task.result.add(arraylist);
+			sapi.shutdownConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Log.v(TAG, "getUserWeibos "+response);		
+		Log.v(TAG, "getUserWeibos Obj"+arraylist);		
+	}
 }

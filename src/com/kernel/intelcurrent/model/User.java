@@ -91,9 +91,20 @@ public class User
    * 用户所在平台
    * */
   public String platform;
+
+@Override
+public String toString() {
+	return "User [id=" + id + ", nick=" + nick + ", province=" + province
+			+ ", city=" + city + ", location=" + location + ", description="
+			+ description + ", homepage=" + homepage + ", head=" + head
+			+ ", gender=" + gender + ", fansnum=" + fansnum + ", idolnum="
+			+ idolnum + ", favnum=" + favnum + ", statusnum=" + statusnum
+			+ ", regTime=" + regTime + ", ismyidol=" + ismyidol + ", ismyfan="
+			+ ismyfan + ", platform=" + platform + "]";
+}
   
   /**
    * 最新微博
    * */
-  public Status newest=new Status();
+//  public Status newest=new Status();
 }

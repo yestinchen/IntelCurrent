@@ -6,9 +6,13 @@ public class ICArrayList {
 	/**
 	 * 保存获取的结果并封装成list
 	 */
-	public ArrayList<?> list = new ArrayList();
+	public ArrayList<Object> list = new ArrayList<Object>();
 	/**
 	 * 保存获取的结果的标志位
 	 */
-	public boolean hasNext;
+	public int hasNext;
+	@Override
+	public String toString() {
+		return "ICArrayList [list=" + list + ", hasNext=" + hasNext + "]";
+	}
 }

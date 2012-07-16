@@ -33,10 +33,10 @@ public class Status
     /**
      * 微博发布时间戳
      * */
-    public int timestamp;
+    public long timestamp;
     
     /**
-     *回复数 
+     *转发数 
      * */
     public int rCount;
     
@@ -59,4 +59,14 @@ public class Status
      * 微博发布平台
      * */
     public String platform;
+
+	@Override
+	public String toString() {
+		return "Status [id=" + id + ", text=" + text + ", source=" + source
+				+ ", image=" + image + ", timestamp=" + timestamp + ", rCount="
+				+ rCount + ", cCount=" + cCount + ", geo=" + geo + ", user="
+				+ user + ", platform=" + platform + "]";
+	}
+    
+    
 }
