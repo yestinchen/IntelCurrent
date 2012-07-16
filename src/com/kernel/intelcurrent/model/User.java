@@ -13,6 +13,11 @@ public class User
   public String id;
   
   /**
+   * 用户账号名
+   */
+  public String name;
+  
+  /**
    * 用户昵称
    * */
   public String nick;
@@ -82,7 +87,19 @@ public class User
    * */
   public boolean ismyidol;
   
-  /**
+  @Override
+public String toString() {
+	return "User [id=" + id + ", name=" + name + ", nick=" + nick
+			+ ", province=" + province + ", city=" + city + ", location="
+			+ location + ", description=" + description + ", homepage="
+			+ homepage + ", head=" + head + ", gender=" + gender + ", fansnum="
+			+ fansnum + ", idolnum=" + idolnum + ", favnum=" + favnum
+			+ ", statusnum=" + statusnum + ", regTime=" + regTime
+			+ ", ismyidol=" + ismyidol + ", ismyfan=" + ismyfan + ", platform="
+			+ platform + "]";
+}
+
+/**
    *是否关注我 
    * */
   public boolean ismyfan;
@@ -92,16 +109,7 @@ public class User
    * */
   public String platform;
 
-@Override
-public String toString() {
-	return "User [id=" + id + ", nick=" + nick + ", province=" + province
-			+ ", city=" + city + ", location=" + location + ", description="
-			+ description + ", homepage=" + homepage + ", head=" + head
-			+ ", gender=" + gender + ", fansnum=" + fansnum + ", idolnum="
-			+ idolnum + ", favnum=" + favnum + ", statusnum=" + statusnum
-			+ ", regTime=" + regTime + ", ismyidol=" + ismyidol + ", ismyfan="
-			+ ismyfan + ", platform=" + platform + "]";
-}
+
   
   /**
    * 最新微博

@@ -58,6 +58,72 @@ public class TencentAdapter extends ModelAdapter {
 		return response;
 	}
 	
+	/**
+	 * 获取一条微博的详细信息,通过微博ID
+	 * @author allenjin
+	 */
+	public void showWeibo(){
+		TAPI tapi=new TAPI();
+		Map<String,Object> map=task.param;
+		String response= null;
+		try{
+			response=tapi.show((OAuth)map.get("oauth"),"json", (String) map.get("id"));
+			JSONObject data=new JSONObject(response).getJSONObject("data");
+			Status s=new Status();
+			s.user.id=data.getString("openid");
+			s.user.city=data.getInt("city_code");
+			s.user.head=data.getString("head");
+			s.user.name=data.getString("name");
+			s.user.nick=data.getString("nick");
+			s.user.location=data.getString("location");
+			s.id=data.getString("id");
+			s.cCount=data.getInt("count");
+			s.rCount=data.getInt("mcount");
+			s.source=data.getString("from");
+			if(data.get("image")instanceof JSONArray){
+				JSONArray image=data.getJSONArray("data");
+				for(int i=0;i<image.length();i++){
+					s.image.add(image.getString(i));
+				}
+			}
+			if(data.get("source") instanceof JSONObject){
+				JSONObject res=data.getJSONObject("source");
+				Status reStatus=new Status();
+				reStatus.cCount=res.getInt("count");
+				reStatus.rCount=res.getInt("mcount");
+				reStatus.geo=null;
+				reStatus.id=res.getString("id");
+				reStatus.source=res.getString("from");
+				reStatus.platform=TENCENT_PLAT_FORM;
+				reStatus.timestamp=res.getLong("timestamp");
+				reStatus.text=res.getString("origtext");
+				reStatus.user.city=res.getInt("city_code");
+				reStatus.user.head=res.getString("head");
+				reStatus.user.id=res.getString("openid");
+				reStatus.user.name=res.getString("name");
+				reStatus.user.nick=res.getString("nick");
+				reStatus.user.location=res.getString("location");
+				if(res.get("image")instanceof JSONArray){
+					JSONArray image=res.getJSONArray("data");
+					for(int i=0;i<image.length();i++){
+						s.image.add(image.getString(i));
+					}
+				}
+				s.reStatus=reStatus;
+			}		
+			s.platform=TENCENT_PLAT_FORM;
+			s.text=data.getString("origtext");
+			s.timestamp=data.getLong("timestamp");
+			Log.v(TAG, s.toString());
+			task.result.add(s);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		tapi.shutdownConnection();
+		
+	}
+	
 	/**添加一条评论
 	 * @author sheling*/
 	public String addComment(){
@@ -145,6 +211,8 @@ public class TencentAdapter extends ModelAdapter {
 		Log.v(TAG, "get User Info:"+response);
 		Log.v(TAG, "get User object:"+me.toString());
 	}
+
+	
 	
 	/**
 	 * 得到用户列表
@@ -205,7 +273,7 @@ public class TencentAdapter extends ModelAdapter {
 		Log.v(TAG, "get object:"+users.toString());
 	}
 	/**根据微博ID获取评论列表
-	 * 处理结果为一个ICArrayList对象，hasnext为是否还有可拉取的评论，true为有，list存获取的评论列表。
+	 * 处理结果为一个ICArrayList对象，hasnext为是否还有可拉取的评论，0为有，1为无，list存获取的评论列表。
 	 * @author allenjin
 	 */
 	public void getreList(){

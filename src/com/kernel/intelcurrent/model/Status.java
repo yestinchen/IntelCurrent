@@ -56,6 +56,11 @@ public class Status
     public User user=new User();
     
     /**
+     * 若不为空,则存放转发的微博对象
+     */
+    public Status reStatus=null;
+    
+    /**
      * 微博发布平台
      * */
     public String platform;
@@ -65,8 +70,11 @@ public class Status
 		return "Status [id=" + id + ", text=" + text + ", source=" + source
 				+ ", image=" + image + ", timestamp=" + timestamp + ", rCount="
 				+ rCount + ", cCount=" + cCount + ", geo=" + geo + ", user="
-				+ user + ", platform=" + platform + "]";
+				+ user + ", reStatus=" + reStatus + ", platform=" + platform
+				+ "]";
 	}
+
+
     
     
 }
