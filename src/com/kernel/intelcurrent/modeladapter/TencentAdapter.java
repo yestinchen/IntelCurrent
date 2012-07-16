@@ -1,6 +1,7 @@
 package com.kernel.intelcurrent.modeladapter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -9,6 +10,9 @@ import org.json.JSONObject;
 
 import android.R.raw;
 import android.util.Log;
+
+import com.kernel.intelcurrent.model.Comment;
+import com.kernel.intelcurrent.model.ICArrayList;
 import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
 import com.tencent.weibo.api.FriendsAPI;
@@ -198,6 +202,41 @@ public class TencentAdapter extends ModelAdapter {
 		Log.v(TAG, "getUserList:"+type+" "+response);
 		Log.v(TAG, "get object:"+users.toString());
 	}
-	
+	/**根据微博ID获取评论列表
+	 * 处理结果为一个ICArrayList对象，hasnext为是否还有可拉取的评论，true为有，list存获取的评论列表。
+	 * @author allenjin
+	 */
+	public void getreList(){
+		TAPI tapi=new TAPI();
+		Map<String, Object> map=task.param;
+		String response=null;
+		try{
+			response=tapi.reList((OAuth)map.get("oauth"),"josn",map.get("flag").toString(),map.get("rootid").toString(),
+					map.get("pageflag").toString(), map.get("pagetime").toString(),
+					map.get("reqnum").toString(), map.get("twitterid").toString());
+			ArrayList<Comment> alist=new ArrayList<Comment>();
+			JSONObject jsonobject=new JSONObject(response.substring(5, response.length()-1));
+			JSONObject data=jsonobject.getJSONObject("data");
+			String hasnext=data.getString("hasnext");
+			Log.v("hasnext",hasnext);
+			JSONArray info=data.getJSONArray("info");
+			for(int i=0;i<info.length();i++){
+				Comment comment=new Comment();
+				JSONObject infoobject=info.getJSONObject(i);
+				comment.id=infoobject.getString("id");
+				comment.nick=infoobject.getString("nick");
+				comment.text=infoobject.getString("origtext");
+				comment.timestamp=Integer.parseInt(infoobject.getString("timestamp"));
+				alist.add(comment);
+			}	
+			ICArrayList ica=new ICArrayList();
+			ica.hasNext=hasnext.equals("1")?false:true;
+			ica.list=alist;
+			task.result.add(alist);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		tapi.shutdownConnection();
+	}
 	
 }
