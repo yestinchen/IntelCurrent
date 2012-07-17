@@ -53,7 +53,7 @@ public class Status
     /**
      * 用户对象
      * */
-    public User user=new User();
+    public SimpleUser user=new SimpleUser();
     
     /**
      * 若不为空,则存放转发的微博对象

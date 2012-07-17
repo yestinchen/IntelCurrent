@@ -26,9 +26,22 @@ public class SimpleUser {
 	 */
 	public String head;
 	
+	/**
+	 * 微博平台
+	 */
+	public String platform;
+
+	/**
+	 * 粉丝数
+	 */
+	public int fansnum;
+
 	@Override
 	public String toString() {
 		return "SimpleUser [name=" + name + ", nick=" + nick + ", id=" + id
-				+ ", head=" + head + "]";
+				+ ", head=" + head + ", platform=" + platform + ", fansnum="
+				+ fansnum + "]";
 	}
+	
+	
 }

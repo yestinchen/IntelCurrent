@@ -44,6 +44,9 @@ public class Task
 	public static final int USER_FRIENDS_ADD = 0x000026;
 	public static final int USER_FREINDS_DEL = 0x000027;
 	public static final int USER_SEARCH = 0x000028;
+	public static final int USER_OTHER_FANS_LIST=0x000029;
+	public static final int USER_OTHER_FRIENDS_LIST=0x00002A;
+	public static final int USER_OTHER_WEIBO_LIST=0x00002B;
 	/*-----关于消息的操作-----*/
 	public static final int MSG_COMMENTS_MENTIONS = 0x000031;
 	public static final int MSG_COMMENTS_ME_LIST = 0x000032;
