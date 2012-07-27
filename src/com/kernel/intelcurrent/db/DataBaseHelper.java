@@ -19,8 +19,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase arg0) {
-
+	public void onCreate(SQLiteDatabase db) {
+		String createSql_1 = "create table t_group( gid varchar(255), gname varchar(255) );";
+		String createSql_2 = "create table t_ginfo( gid varchar(255), userid varchar(255), platform int );";
+		db.execSQL(createSql_1);
+		db.execSQL(createSql_2);
 	}
 
 	@Override
