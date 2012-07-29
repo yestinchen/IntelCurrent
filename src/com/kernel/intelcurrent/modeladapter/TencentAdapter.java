@@ -105,7 +105,7 @@ public class TencentAdapter extends ModelAdapter {
 			s.rCount=data.getInt("mcount");
 			s.source=data.getString("from");
 			if(data.get("image")instanceof JSONArray){
-				JSONArray image=data.getJSONArray("data");
+				JSONArray image=data.getJSONArray("image");
 				for(int i=0;i<image.length();i++){
 					s.image.add(image.getString(i));
 				}
@@ -125,9 +125,9 @@ public class TencentAdapter extends ModelAdapter {
 				reStatus.user.name=res.getString("name");
 				reStatus.user.nick=res.getString("nick");
 				if(res.get("image")instanceof JSONArray){
-					JSONArray image=res.getJSONArray("data");
+					JSONArray image=res.getJSONArray("image");
 					for(int i=0;i<image.length();i++){
-						s.image.add(image.getString(i));
+						reStatus.image.add(image.getString(i));
 					}
 				}
 				s.reStatus=reStatus;
@@ -554,9 +554,9 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.user.name=res.getString("name");
 						reStatus.user.nick=res.getString("nick");
 						if(res.get("image")instanceof JSONArray){
-							JSONArray image=res.getJSONArray("data");
+							JSONArray image=res.getJSONArray("image");
 							for(int j=0;j<image.length();j++){
-								s.image.add(image.getString(j));
+								reStatus.image.add(image.getString(j));
 							}
 						}
 						s.reStatus=reStatus;
@@ -633,9 +633,9 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.user.name=res.getString("name");
 						reStatus.user.nick=res.getString("nick");
 						if(res.get("image")instanceof JSONArray){
-							JSONArray image=res.getJSONArray("data");
+							JSONArray image=res.getJSONArray("image");
 							for(int j=0;j<image.length();j++){
-								s.image.add(image.getString(j));
+								reStatus.image.add(image.getString(j));
 							}
 						}
 						s.reStatus=reStatus;
@@ -710,9 +710,9 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.user.name=res.getString("name");
 						reStatus.user.nick=res.getString("nick");
 						if(res.get("image")instanceof JSONArray){
-							JSONArray image=res.getJSONArray("data");
+							JSONArray image=res.getJSONArray("image");
 							for(int j=0;j<image.length();j++){
-								s.image.add(image.getString(j));
+								reStatus.image.add(image.getString(j));
 							}
 						}
 						s.reStatus=reStatus;
@@ -866,9 +866,9 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.user.name=res.getString("name");
 						reStatus.user.nick=res.getString("nick");
 						if(res.get("image")instanceof JSONArray){
-							JSONArray image=res.getJSONArray("data");
+							JSONArray image=res.getJSONArray("image");
 							for(int j=0;j<image.length();j++){
-								s.image.add(image.getString(j));
+								reStatus.image.add(image.getString(j));
 							}
 						}
 						s.reStatus=reStatus;
