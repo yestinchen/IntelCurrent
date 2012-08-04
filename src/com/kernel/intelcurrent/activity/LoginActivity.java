@@ -44,6 +44,8 @@ public class LoginActivity extends Activity {
 	                    map.put(OAuthManager.TENCENT_ACCESS_TOKEN,oAuth.getAccessToken());
 	                    map.put(OAuthManager.TENCENT_OPEN_ID, oAuth.getOpenid());
 	                    map.put(OAuthManager.TENCENT_OPEN_KEY, oAuth.getOpenkey());
+	                    map.put(OAuthManager.TENCENT_EXPIRES_IN, oAuth.getExpiresIn());
+	                    map.put(OAuthManager.TENCENT_ACCESS_TOKEN_START_TIME,System.currentTimeMillis()+"");
 	                    OAuthManager.getInstance().setOAuthKey(this, OAuthManager.TENCENT_PLATFORM, map);
 	                    Log.v("openid", oAuth.getOpenid());
 	                    Log.v("openkey", oAuth.getOpenkey());

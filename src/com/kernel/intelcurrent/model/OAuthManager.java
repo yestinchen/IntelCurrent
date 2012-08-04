@@ -33,6 +33,8 @@ public class OAuthManager {
 	public static final String TENCENT_ACCESS_TOKEN="tencent_access_token";
 	public static final String TENCENT_OPEN_ID="tencent_openid";
 	public static final String TENCENT_OPEN_KEY="tencent_openkey";
+	public static final String TENCENT_EXPIRES_IN = "tencent_expires_in";
+	public static final String TENCENT_ACCESS_TOKEN_START_TIME = "tencent_start_time";
 	public static final String TENCENT_CUSTOMER_KEY="f73f4b5dbc88040e4ed8a8787e88fdc6";
 	public static final String TENCENT_CUSTOMER_ID="801189892";
 	public static final String TENCENT_REDIRECT_URI="http://t.qq.com/sheling2010";
@@ -81,6 +83,8 @@ public class OAuthManager {
 			editor.putString(TENCENT_ACCESS_TOKEN, map.get(TENCENT_ACCESS_TOKEN));
 			editor.putString(TENCENT_OPEN_ID, map.get(TENCENT_OPEN_ID));
 			editor.putString(TENCENT_OPEN_KEY, map.get(TENCENT_OPEN_KEY));
+			editor.putString(TENCENT_EXPIRES_IN, map.get(TENCENT_EXPIRES_IN));
+			editor.putString(TENCENT_ACCESS_TOKEN_START_TIME, map.get(TENCENT_ACCESS_TOKEN_START_TIME));
 			editor.commit();
 			break;
 		case SINA_PLATFORM:
