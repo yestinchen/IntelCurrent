@@ -1,8 +1,6 @@
 ﻿package com.kernel.intelcurrent.activity;
-import com.kernel.intelcurrent.*;
 import com.kernel.intelcurrent.service.MainService;
 import com.kernel.intelcurrent.service.MainService.ICBinder;
-
 import android.app.*;
 import android.content.*;
 import android.os.*;
@@ -14,15 +12,7 @@ public abstract class BaseActivity extends Activity
 {
     private static final String TAG=BaseActivity.class.getSimpleName();
     private MainService mService;
-    private ServiceConnection connection;
     boolean isBound=false;
-    
-    /**
-     * 其子类需继承update方法，供service更新activity
-     * 
-     * */
-    public abstract  void update(int type ,Object param);
-
     
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,9 +33,9 @@ public abstract class BaseActivity extends Activity
 	}
    
     /**
-     * inner class:ICConnection
+     * inner class:ServiceConnection
      * */
-    private class ICConnection implements ServiceConnection
+    private ServiceConnection connection= new ServiceConnection()
     {
 
 		public void onServiceConnected(ComponentName className, IBinder service)
@@ -61,5 +51,5 @@ public abstract class BaseActivity extends Activity
 			isBound = false;
 		}
     	
-    }
+    };
 }
