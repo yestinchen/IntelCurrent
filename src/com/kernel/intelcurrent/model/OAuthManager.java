@@ -28,6 +28,8 @@ public class OAuthManager {
 	public static final String SINA_CUSTOMER_KEY="";
 	public static final String SINA_CUSTOMER_ID="";
 	public static final String SINA_REDIRECT_URI="";
+	public static final String SINA_EXPIRES_IN = "sina_expires_in";
+	public static final String SINA_ACCESS_TOKEN_START_TIME = "sina_start_time";
 	
 	public static final String TENCENT_WEIBO="tencent";
 	public static final String TENCENT_ACCESS_TOKEN="tencent_access_token";
@@ -38,6 +40,11 @@ public class OAuthManager {
 	public static final String TENCENT_CUSTOMER_KEY="f73f4b5dbc88040e4ed8a8787e88fdc6";
 	public static final String TENCENT_CUSTOMER_ID="801189892";
 	public static final String TENCENT_REDIRECT_URI="http://t.qq.com/sheling2010";
+	
+	public static final int RESULT_NO_PLATFORM_AVALIABLE = 0;
+	public static final int RESULT_ONLY_SINA_AVALIABLE = 1;
+	public static final int RESULT_ONLY_TENCENT_AVALIABLE = 2;
+	public static final int RESULT_BOTH_AVALIABLE = 3;
 	/**
 	 * 创建一个OAuthManager的单例
 	 * @author allenjin
@@ -55,17 +62,27 @@ public class OAuthManager {
 	/**
 	 * 判断OAuth认证是否过期
 	 * @author allenjin
+	 * <br/> modified by sheling
+	 * @return int 
 	 */
-	public boolean OAuthCheck(Context context){
-		boolean result=false;
+	public int OAuthCheck(Context context){
+		int result= 0;
 		SharedPreferences spf=context.getSharedPreferences(OAUTH_FILE, 0);
-		boolean isTencent=spf.getBoolean(TENCENT_WEIBO, false);
-		boolean isSina=spf.getBoolean(SINA_WEIBO, false);
-		if(isTencent){//判断是否登录了腾讯微博,若是,判断是否过期
-			
+		boolean hasTencent=spf.getBoolean(TENCENT_WEIBO, false);
+		boolean hasSina=spf.getBoolean(SINA_WEIBO, false);
+		if(hasTencent){//判断是否登录了腾讯微博,若是,判断是否过期
+			String exiresIn = spf.getString(TENCENT_EXPIRES_IN, "0");
+			String startTime = spf.getString(TENCENT_ACCESS_TOKEN, "0");
+			if(Integer.valueOf(exiresIn) + Integer.valueOf(startTime) > System.currentTimeMillis()){
+				result += RESULT_ONLY_TENCENT_AVALIABLE;
+			}
 		}
-		if(isSina){//判断是否登录了新浪微博,若是,判断是否过期
-			
+		if(hasSina){//判断是否登录了新浪微博,若是,判断是否过期
+			String exiresIn = spf.getString(SINA_EXPIRES_IN, "0");
+			String startTime = spf.getString(SINA_ACCESS_TOKEN, "0");
+			if(Integer.valueOf(exiresIn) + Integer.valueOf(startTime) > System.currentTimeMillis()){
+				result += RESULT_ONLY_SINA_AVALIABLE;
+			}
 		}
 		return result;
 	}
