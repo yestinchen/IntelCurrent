@@ -66,14 +66,16 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				SharedPreferences spf=LoginActivity.this.getSharedPreferences(OAuthManager.OAUTH_FILE, 0);
-				String tencent=spf.getString(OAuthManager.TENCENT_WEIBO, null);//判断是否已经登陆过
-				if(tencent==null){	//若为空证明没登陆或过期，重新登陆
+				OAuthManager authManager = OAuthManager.getInstance();
+				int result = authManager.oAuthCheck(LoginActivity.this);
+				if(result == OAuthManager.RESULT_BOTH_AVALIABLE ||
+					result == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
+					Toast.makeText(LoginActivity.this, "已经登陆!直接跳转到主界面.", Toast.LENGTH_SHORT).show();
+				}else{
 					Intent intent=new Intent(LoginActivity.this,OAuthV2AuthorizeWebView.class);
 					intent.putExtra("oauth", t_oauth);
 					startActivityForResult(intent, 2);
-				}else{
-					Toast.makeText(LoginActivity.this, "已经登陆!直接跳转到主界面.", 3000).show();
-				}			
+				}
 			}
 		});
 		s_weibo.setOnClickListener(new OnClickListener() {

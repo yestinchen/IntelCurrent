@@ -11,6 +11,7 @@ import com.tencent.weibo.oauthv2.OAuthV2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 /**
  * 
@@ -19,8 +20,10 @@ import android.content.SharedPreferences.Editor;
  */
 public class OAuthManager {
 	
-	public static final int TENCENT_PLATFORM=0;
-	public static final int SINA_PLATFORM=1;
+	public static final String TAG = OAuthManager.class.getSimpleName();
+	
+	public static final int TENCENT_PLATFORM=1;
+	public static final int SINA_PLATFORM=2;
 	public static final String OAUTH_FILE="oauth";
 	
 	public static final String SINA_WEIBO="sina";
@@ -65,25 +68,28 @@ public class OAuthManager {
 	 * <br/> modified by sheling
 	 * @return int 
 	 */
-	public int OAuthCheck(Context context){
+	public int oAuthCheck(Context context){
 		int result= 0;
 		SharedPreferences spf=context.getSharedPreferences(OAUTH_FILE, 0);
 		boolean hasTencent=spf.getBoolean(TENCENT_WEIBO, false);
 		boolean hasSina=spf.getBoolean(SINA_WEIBO, false);
 		if(hasTencent){//判断是否登录了腾讯微博,若是,判断是否过期
 			String exiresIn = spf.getString(TENCENT_EXPIRES_IN, "0");
-			String startTime = spf.getString(TENCENT_ACCESS_TOKEN, "0");
-			if(Integer.valueOf(exiresIn) + Integer.valueOf(startTime) > System.currentTimeMillis()){
+			String startTime = spf.getString(TENCENT_ACCESS_TOKEN_START_TIME, "0");
+			if(Long.valueOf(exiresIn) + Long.valueOf(startTime) > System.currentTimeMillis()){
 				result += RESULT_ONLY_TENCENT_AVALIABLE;
 			}
+			Log.d(TAG, "check tencent"+result);
 		}
 		if(hasSina){//判断是否登录了新浪微博,若是,判断是否过期
 			String exiresIn = spf.getString(SINA_EXPIRES_IN, "0");
-			String startTime = spf.getString(SINA_ACCESS_TOKEN, "0");
-			if(Integer.valueOf(exiresIn) + Integer.valueOf(startTime) > System.currentTimeMillis()){
+			String startTime = spf.getString(SINA_ACCESS_TOKEN_START_TIME, "0");
+			if(Long.valueOf(exiresIn) + Long.valueOf(startTime) > System.currentTimeMillis()){
 				result += RESULT_ONLY_SINA_AVALIABLE;
 			}
+			Log.d(TAG, "check sina"+result);
 		}
+		Log.d(TAG, "oauth check result:"+result);
 		return result;
 	}
 	
@@ -96,7 +102,7 @@ public class OAuthManager {
 		Editor editor=spf.edit();
 		switch(type){
 		case TENCENT_PLATFORM:
-			editor.putString(TENCENT_WEIBO, TENCENT_WEIBO);
+			editor.putBoolean(TENCENT_WEIBO,true);
 			editor.putString(TENCENT_ACCESS_TOKEN, map.get(TENCENT_ACCESS_TOKEN));
 			editor.putString(TENCENT_OPEN_ID, map.get(TENCENT_OPEN_ID));
 			editor.putString(TENCENT_OPEN_KEY, map.get(TENCENT_OPEN_KEY));
