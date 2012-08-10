@@ -71,7 +71,7 @@ public class MainService extends Service
      * */
     private Handler handler=new Handler()
     {
-    	public void handlerMessage(Message msg)
+    	public void handleMessage(Message msg)
     	{
     		switch(msg.what)
     		{

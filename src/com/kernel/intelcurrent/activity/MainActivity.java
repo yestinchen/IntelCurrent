@@ -1,9 +1,16 @@
 package com.kernel.intelcurrent.activity;
 
+import com.kernel.intelcurrent.service.MainService;
+import com.kernel.intelcurrent.service.MainService.ICBinder;
+
 import android.app.ActivityGroup;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -13,8 +20,12 @@ import android.widget.LinearLayout;
  * @author sheling*/
 public class MainActivity extends ActivityGroup implements Updateable{
 
+	private static final String TAG = MainActivity.class.getSimpleName();
+	
 	private ImageView iv1,iv2,iv3,iv4,iv5,selectedIv;
 	private LinearLayout container;
+	boolean isBound = false;
+	private MainService mService;
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -23,6 +34,24 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		setListeners();
 		//init the first activity
 //		switchActivityInContent(GroupBlockActivity.class);
+	}
+	
+	protected void onStart(){
+	   super.onStart();
+	   Intent intent=new Intent(this,MainService.class);
+	   bindService(intent,connection, Context.BIND_AUTO_CREATE);
+	}
+	 
+	protected void onStop(){
+	   super.onStop();
+	   unbindService(connection);
+	   isBound = false;
+	}
+
+	@Override
+	public void update(int type, Object param){
+		//TODO 这里应该增加一些判断，确保正确的结果传递给正确的activity
+		((Updateable)getCurrentActivity()).update(type, param);
 	}
 	
 	private void findViews(){
@@ -43,7 +72,24 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		iv4.setOnClickListener(l);
 		iv5.setOnClickListener(l);
 	}
+
+	/**切换中间显示的activity
+	 * */
+	private void switchActivityInContent(@SuppressWarnings("rawtypes") Class className){
+		container.removeAllViews();
+		container.addView(getLocalActivityManager().startActivity(className.getSimpleName(),
+				new Intent(MainActivity.this,className)
+					.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+					).getDecorView());
+	}
 	
+	/**
+	 * 更改下方tab的图标背景*/
+	private void switchImageViewBackground(View v){
+		selectedIv.setBackgroundColor(Color.parseColor("#00000000"));
+		v.setBackgroundResource(R.drawable.ic_tab_foucus_bg);
+		selectedIv = (ImageView) v;
+	}
 	/**
 	 * 监听下方按钮的监听器
 	 * @author sheling*/
@@ -79,26 +125,19 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		}
 	}
 	
-	/**切换中间显示的activity
-	 * */
-	private void switchActivityInContent(@SuppressWarnings("rawtypes") Class className){
-		container.removeAllViews();
-		container.addView(getLocalActivityManager().startActivity(className.getSimpleName(),
-				new Intent(MainActivity.this,className)
-					.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-					).getDecorView());
-	}
-	
 	/**
-	 * 更改下方tab的图标背景*/
-	private void switchImageViewBackground(View v){
-		selectedIv.setBackgroundColor(Color.parseColor("#00000000"));
-		v.setBackgroundResource(R.drawable.ic_tab_foucus_bg);
-		selectedIv = (ImageView) v;
-	}
+    * */
+   private ServiceConnection connection= new ServiceConnection(){
+		public void onServiceConnected(ComponentName className, IBinder service){
+			ICBinder binder=(ICBinder)service;
+			mService = binder.getService();
+			binder.getService();
+			isBound = true;
+		}
 
-	@Override
-	public void update(int type, Object param){
-		((Updateable)getCurrentActivity()).update(type, param);
-	}
+		public void onServiceDisconnected(ComponentName name){
+			isBound = false;
+		}
+   };
+	
 }
