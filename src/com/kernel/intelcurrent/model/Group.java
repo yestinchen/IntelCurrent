@@ -9,10 +9,14 @@ public class Group
 {
      private static final String TAG=Group.class.getSimpleName();
      
-     private String image;
-     private String name;
+     public String image;
+     public String name;
      private String description;
-     private LinkedList<User> users;
+     public LinkedList<User> users;
+     
+     public Group(){
+    	 
+     }
      
      public Group(String name,String url,String ds)
      {

@@ -29,7 +29,7 @@ public class SimpleUser {
 	/**
 	 * 微博平台
 	 */
-	public String platform;
+	public int platform;
 
 	/**
 	 * 粉丝数

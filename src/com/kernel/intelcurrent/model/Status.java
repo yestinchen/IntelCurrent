@@ -63,7 +63,7 @@ public class Status
     /**
      * 微博发布平台
      * */
-    public String platform;
+    public int platform;
 
 	@Override
 	public String toString() {

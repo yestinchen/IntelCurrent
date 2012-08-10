@@ -31,7 +31,6 @@ import com.tencent.weibo.beans.OAuth;
 public class TencentAdapter extends ModelAdapter {
 
 	private static final String TAG = TencentAdapter.class.getSimpleName();
-	public static final String TENCENT_PLAT_FORM = "腾讯微博";
 	
 	public TencentAdapter(Task t) {
 		super(t);
@@ -117,7 +116,7 @@ public class TencentAdapter extends ModelAdapter {
 				reStatus.rCount=res.getInt("mcount");
 				reStatus.id=res.getString("id");
 				reStatus.source=res.getString("from");
-				reStatus.platform=TENCENT_PLAT_FORM;
+				reStatus.platform=User.PLATFORM_TENCENT_CODE;
 				reStatus.timestamp=res.getLong("timestamp");
 				reStatus.text=res.getString("origtext");
 				reStatus.user.head=res.getString("head");
@@ -132,7 +131,7 @@ public class TencentAdapter extends ModelAdapter {
 				}
 				s.reStatus=reStatus;
 			}		
-			s.platform=TENCENT_PLAT_FORM;
+			s.platform=User.PLATFORM_TENCENT_CODE;
 			s.text=data.getString("origtext");
 			s.timestamp=data.getLong("timestamp");
 			Log.v(TAG, s.toString());
@@ -242,7 +241,7 @@ public class TencentAdapter extends ModelAdapter {
 				if(infoObj.getInt("ismyfans") ==1) me.ismyfan = true;
 				if(infoObj.getInt("ismyidol") == 1); me.ismyidol = true;
 			}
-			me.platform = TENCENT_PLAT_FORM;
+			me.platform = User.PLATFORM_TENCENT_CODE;
 			uapi.shutdownConnection();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -303,7 +302,7 @@ public class TencentAdapter extends ModelAdapter {
 //				user.regTime = obj.getString("regtiuser");
 				user.ismyfan = obj.getBoolean("isfans");
 				user.ismyidol = obj.getBoolean("isidol");
-				user.platform = TENCENT_PLAT_FORM;
+				user.platform = User.PLATFORM_TENCENT_CODE;
 				users.add(user);
 			}
 		} catch (Exception e) {
@@ -343,7 +342,7 @@ public class TencentAdapter extends ModelAdapter {
 					user.id=job.getString("openid");
 					user.name=job.getString("name");
 					user.nick=job.getString("nick");
-					user.platform=TENCENT_PLAT_FORM;
+					user.platform=User.PLATFORM_TENCENT_CODE;
 					user.fansnum=job.getInt("fansnum");
 					ica.list.add(user);
 					Log.v("第"+i+"个粉丝：", user.toString());
@@ -384,7 +383,7 @@ public class TencentAdapter extends ModelAdapter {
 					user.id=job.getString("openid");
 					user.name=job.getString("name");
 					user.nick=job.getString("nick");
-					user.platform=TENCENT_PLAT_FORM;
+					user.platform=User.PLATFORM_TENCENT_CODE;
 					user.fansnum=job.getInt("fansnum");
 					ica.list.add(user);
 					Log.v("第"+i+"个关注：", user.toString());
@@ -479,7 +478,7 @@ public class TencentAdapter extends ModelAdapter {
 				status.user.id = jsonObj.getString("openid");
 				status.user.nick = jsonObj.getString("nick");
 				status.user.head = jsonObj.getString("head");
-				status.platform = TENCENT_PLAT_FORM;
+				status.platform = User.PLATFORM_TENCENT_CODE;
 				arraylist.list.add(status);
 			}
 		}
@@ -523,7 +522,7 @@ public class TencentAdapter extends ModelAdapter {
 					s.cCount=iobj.getInt("count");
 					s.rCount=iobj.getInt("mcount");
 					s.geo=null;
-					s.platform=TENCENT_PLAT_FORM;
+					s.platform=User.PLATFORM_TENCENT_CODE;
 					s.source=iobj.getString("from");
 					s.text=iobj.getString("origtext");
 					s.timestamp=iobj.getLong("timestamp");
@@ -546,7 +545,7 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.geo=null;
 						reStatus.id=res.getString("id");
 						reStatus.source=res.getString("from");
-						reStatus.platform=TENCENT_PLAT_FORM;
+						reStatus.platform=User.PLATFORM_TENCENT_CODE;
 						reStatus.timestamp=res.getLong("timestamp");
 						reStatus.text=res.getString("origtext");
 						reStatus.user.head=res.getString("head");
@@ -602,7 +601,7 @@ public class TencentAdapter extends ModelAdapter {
 					s.cCount=iobj.getInt("count");
 					s.rCount=iobj.getInt("mcount");
 					s.geo=null;
-					s.platform=TENCENT_PLAT_FORM;
+					s.platform=User.PLATFORM_TENCENT_CODE;
 					s.source=iobj.getString("from");
 					s.text=iobj.getString("origtext");
 					s.timestamp=iobj.getLong("timestamp");
@@ -625,7 +624,7 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.geo=null;
 						reStatus.id=res.getString("id");
 						reStatus.source=res.getString("from");
-						reStatus.platform=TENCENT_PLAT_FORM;
+						reStatus.platform=User.PLATFORM_TENCENT_CODE;
 						reStatus.timestamp=res.getLong("timestamp");
 						reStatus.text=res.getString("origtext");
 						reStatus.user.head=res.getString("head");
@@ -679,7 +678,7 @@ public class TencentAdapter extends ModelAdapter {
 					s.cCount=iobj.getInt("count");
 					s.rCount=iobj.getInt("mcount");
 					s.geo=null;
-					s.platform=TENCENT_PLAT_FORM;
+					s.platform=User.PLATFORM_TENCENT_CODE;
 					s.source=iobj.getString("from");
 					s.text=iobj.getString("origtext");
 					s.timestamp=iobj.getLong("timestamp");
@@ -702,7 +701,7 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.geo=null;
 						reStatus.id=res.getString("id");
 						reStatus.source=res.getString("from");
-						reStatus.platform=TENCENT_PLAT_FORM;
+						reStatus.platform=User.PLATFORM_TENCENT_CODE;
 						reStatus.timestamp=res.getLong("timestamp");
 						reStatus.text=res.getString("origtext");
 						reStatus.user.head=res.getString("head");
@@ -755,7 +754,7 @@ public class TencentAdapter extends ModelAdapter {
 					users.id=iobj.getString("openid");
 					users.name=iobj.getString("name");
 					users.nick=iobj.getString("nick");
-					users.platform=TENCENT_PLAT_FORM;
+					users.platform=User.PLATFORM_TENCENT_CODE;
 					Log.v("第"+j+"个：用户", users.toString());
 					list.list.add(users);
 				}
@@ -835,7 +834,7 @@ public class TencentAdapter extends ModelAdapter {
 					s.cCount=iobj.getInt("count");
 					s.rCount=iobj.getInt("mcount");
 					s.geo=null;
-					s.platform=TENCENT_PLAT_FORM;
+					s.platform=User.PLATFORM_TENCENT_CODE;
 					s.source=iobj.getString("from");
 					s.text=iobj.getString("origtext");
 					s.timestamp=iobj.getLong("timestamp");
@@ -858,7 +857,7 @@ public class TencentAdapter extends ModelAdapter {
 						reStatus.geo=null;
 						reStatus.id=res.getString("id");
 						reStatus.source=res.getString("from");
-						reStatus.platform=TENCENT_PLAT_FORM;
+						reStatus.platform=User.PLATFORM_TENCENT_CODE;
 						reStatus.timestamp=res.getLong("timestamp");
 						reStatus.text=res.getString("origtext");
 						reStatus.user.head=res.getString("head");

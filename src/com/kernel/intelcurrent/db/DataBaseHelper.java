@@ -12,6 +12,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String TAG = DataBaseHelper.class.getSimpleName();
+	public static final String DB_FILE = "database";
+	
+	public DataBaseHelper(Context context){
+		super(context,DB_FILE,null,1);
+	}
 	
 	public DataBaseHelper(Context context, String name, CursorFactory factory,
 			int version) {

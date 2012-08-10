@@ -7,6 +7,11 @@
 public class User 
 {
   private static final String TAG=User.class.getSimpleName();
+  public static final String PLATFORM_TENCENT = "腾讯微博";
+  public static final String PLATFORM_SINA = "新浪微博";
+  
+  public static final int PLATFORM_TENCENT_CODE = 1;
+  public static final int PLATFORM_SINA_CODE = 2;
   /**
    * 用户唯一id
    * */
@@ -107,7 +112,7 @@ public String toString() {
   /**
    * 用户所在平台
    * */
-  public String platform;
+  public int platform;
 
 
   
