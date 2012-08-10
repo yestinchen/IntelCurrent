@@ -2,7 +2,6 @@ package com.kernel.intelcurrent.activity;
 
 import com.kernel.intelcurrent.service.MainService;
 import com.kernel.intelcurrent.service.MainService.ICBinder;
-
 import android.app.ActivityGroup;
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,7 +32,7 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		findViews();
 		setListeners();
 		//init the first activity
-//		switchActivityInContent(GroupBlockActivity.class);
+		switchActivityInContent(GroupBlockActivity.class);
 	}
 	
 	protected void onStart(){
@@ -98,27 +97,27 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		public void onClick(View v) {
 			if(v == iv1){
 				if(selectedIv != v){
-//					switchActivityInContent(GroupBlockActivity.class);
+					switchActivityInContent(GroupBlockActivity.class);
 					switchImageViewBackground(v);
 				}
 			}else if (v == iv2){
 				if(selectedIv != v){
-//					switchActivityInContent(InfoCenterActivity.class);
+					switchActivityInContent(InfoCenterActivity.class);
 					switchImageViewBackground(v);
 				}
 			}else if (v == iv3){
 				if(selectedIv != v){
-//					switchActivityInContent(UserCenterActivity.class);
+					switchActivityInContent(UserCenterActivity.class);
 					switchImageViewBackground(v);
 				}
 			}else if(v == iv4){
 				if(selectedIv != v){
-//					switchActivityInContent(SearchActivity.class);
+					switchActivityInContent(SearchActivity.class);
 					switchImageViewBackground(v);
 				}
 			}else if(v == iv5){
 				if(selectedIv != v){
-//					switchActivityInContent(MoreActivity.class);
+					switchActivityInContent(MoreActivity.class);
 					switchImageViewBackground(v);
 				}
 			}
