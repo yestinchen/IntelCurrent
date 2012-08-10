@@ -29,6 +29,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SplashActivity"
+            android:label="@string/title_activity_base"
+            >
+            
+        </activity>
+        <activity android:name=".GroupBlockActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".GroupAddActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".TimelineActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".WeiboShowActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".WeiboNewActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".infoCenterActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".UserCenterActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".UserShowActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".SearchActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".MoreActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".AboutActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".SettingsActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".LoginManagerActivity" android:label="@string/title_activity_base"/>
         <activity 
             android:name=".LoginActivity"
             android:label="@string/title_activity_base"
