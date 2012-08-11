@@ -1,6 +1,8 @@
 package com.kernel.intelcurrent.activity;
 
-public class UserCenterActivity extends BaseActivity implements Updateable{
+import android.app.Activity;
+
+public class UserCenterActivity extends Activity implements Updateable{
 
 	@Override
 	public void update(int type, Object param) {

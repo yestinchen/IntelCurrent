@@ -6,6 +6,7 @@ import com.kernel.intelcurrent.db.DataBaseHelper;
 import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.model.Group;
 import com.kernel.intelcurrent.model.User;
+import android.app.Activity;
 import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.LinearLayout;
 
-public class GroupBlockActivity extends BaseActivity{
+public class GroupBlockActivity extends Activity{
 
 	private static final String TAG = GroupBlockActivity.class.getSimpleName();
 	private ViewPager viewPager;
