@@ -114,7 +114,7 @@ public class TextToSpannable {
 				}
 				break;
 			case AT:
-				if(text.substring(start, start+1).matches("[^\u4e00-\u9fa5a-zA-Z0-9//-_]")){
+				if(text.substring(start, start+1).matches("[^\u4e00-\u9fa5a-zA-Z0-9-_]")){
 					state = Status.NORMAL;
 					buildAt(contentStart,start);
 				}else if(start+1 == end){
