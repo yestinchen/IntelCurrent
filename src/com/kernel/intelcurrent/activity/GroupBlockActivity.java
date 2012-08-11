@@ -24,8 +24,6 @@ public class GroupBlockActivity extends BaseActivity{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		DataBaseHelper helper = new DataBaseHelper(this);
-		helper.getReadableDatabase();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_group_block);
 		findViews();
