@@ -2,8 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="40dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:orientation="vertical"
-        android:background="#2784CE" >
+        android:background="@drawable/bg_common_title" >
     
     <TextView
         android:id="@+id/common_head_tv_title"
@@ -11,19 +13,25 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_centerInParent="true"
-        android:text="TITLE"
+        android:text="@string/app_name"
+        android:textColor="@color/weibo_title_white"
+        android:textAppearance="@android:style/TextAppearance.Large"
         />
     <ImageView
         android:id="@+id/common_head_iv_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="3dp"
         android:layout_alignParentLeft="true"
+        android:background="@drawable/bg_clickable"
         />
 
     <ImageView
         android:id="@+id/common_head_iv_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="3dp"
         android:layout_alignParentRight="true"
+        android:background="@drawable/bg_clickable"
         />
 </RelativeLayout>

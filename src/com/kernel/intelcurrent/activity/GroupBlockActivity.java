@@ -16,12 +16,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class GroupBlockActivity extends Activity{
+public class GroupBlockActivity extends Activity implements OnClickListener{
 
 	private static final String TAG = GroupBlockActivity.class.getSimpleName();
 	private ViewPager viewPager;
+	private ImageView leftImage,rightImage;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,28 @@ public class GroupBlockActivity extends Activity{
 
 	private void findViews(){
 		viewPager = (ViewPager)findViewById(R.id.layout_group_block_viewpager);
+		leftImage = (ImageView)findViewById(R.id.common_head_iv_left);
+		rightImage = (ImageView)findViewById(R.id.common_head_iv_right);
+		
+		leftImage.setImageResource(R.drawable.ic_title_new);
+		rightImage.setImageResource(R.drawable.ic_title_new_group);
 //		Log.d(TAG, viewPager.toString());
 	}
 	
 	private void setListeners(){
-		
+		leftImage.setOnClickListener(this);
+		rightImage.setOnClickListener(this);
 	}
+	
+	@Override
+	public void onClick(View v) {
+		if(v == leftImage){
+			
+		}else if(v == rightImage){
+			
+		}
+	}
+
 	
 	private void setAdapter(){
 		ArrayList<Group> groupList = DBModel.getInstance().getGroupList(this);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="weibo_title_blue">#005092</color>
-    
+    <color name="weibo_title_white">#ffffff</color>
 </resources>
