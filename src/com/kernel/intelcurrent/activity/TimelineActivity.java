@@ -16,12 +16,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-public class TimelineActivity extends Activity implements Updateable{
+/**显示timeline
+ * @author sheling*/
+public class TimelineActivity extends Activity implements Updateable,OnClickListener{
 
 	public static final int REQUEST_TYPE_INIT_TIMELINE = 1;
 	public static final int REQUEST_TYPE_REFRESH = 2;
@@ -29,6 +33,7 @@ public class TimelineActivity extends Activity implements Updateable{
 	
 	private static final String TAG = TimelineActivity.class.getSimpleName();
 	private PullToRefreshListView lv;
+	private ImageView leftImage,rightImage;
 	private Group group;
 	private LinkedList<Status> statuses = new LinkedList<Status>();
 	private int hasNext = -1;
@@ -102,12 +107,7 @@ public class TimelineActivity extends Activity implements Updateable{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK){
-			LinearLayout container=(LinearLayout)((ActivityGroup)getParent()).getWindow().findViewById(R.id.layout_main_layout_container);	
-			container.removeAllViews();
-	        Intent intent=new Intent(this,GroupBlockActivity.class);
-	        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	        Window subActivity=((ActivityGroup)this.getParent()).getLocalActivityManager().startActivity(GroupBlockActivity.class.getSimpleName(),intent);
-	        container.addView(subActivity.getDecorView());
+			backReturn();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -124,6 +124,11 @@ public class TimelineActivity extends Activity implements Updateable{
 	}
 	private void findViews(){
 		lv = (PullToRefreshListView)findViewById(R.id.activity_timeline_lv_main);
+		leftImage = (ImageView)findViewById(R.id.common_head_iv_left);
+		rightImage = (ImageView)findViewById(R.id.common_head_iv_right);
+		
+		leftImage.setImageResource(R.drawable.ic_title_back);
+		rightImage.setImageResource(R.drawable.ic_title_new);
 	}
 	
 	private void setListeners(){
@@ -141,6 +146,8 @@ public class TimelineActivity extends Activity implements Updateable{
 				mService.getTimeline(group, 1, statuses.getLast().timestamp, statuses.getLast().id);
 			}
 		});
+		rightImage.setOnClickListener(this);
+		leftImage.setOnClickListener(this);
 	}
 	
 	private void setAdapter(){
@@ -148,5 +155,23 @@ public class TimelineActivity extends Activity implements Updateable{
 			lv.setAdapter(new TimelineListAdapter(this, statuses));
 	}
 
-	
+	@Override
+	public void onClick(View v) {
+		if(v == leftImage){
+			backReturn();
+		}else if(v == rightImage){
+			
+		}
+	}
+
+
+	/**返回到上一个Activity*/
+	private void backReturn(){
+		LinearLayout container=(LinearLayout)((ActivityGroup)getParent()).getWindow().findViewById(R.id.layout_main_layout_container);	
+		container.removeAllViews();
+        Intent intent=new Intent(this,GroupBlockActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Window subActivity=((ActivityGroup)this.getParent()).getLocalActivityManager().startActivity(GroupBlockActivity.class.getSimpleName(),intent);
+        container.addView(subActivity.getDecorView());
+	}
 }

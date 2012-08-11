@@ -38,7 +38,7 @@
             android:textSize="@dimen/font_size_small"
             android:drawableLeft="@drawable/ic_platform_small_tencent"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/padding_small"
+            android:gravity="center"
             />
     </LinearLayout>
     
