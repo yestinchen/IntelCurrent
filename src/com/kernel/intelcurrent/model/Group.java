@@ -12,11 +12,9 @@ public class Group
      public String image;
      public String name;
      private String description;
-     public LinkedList<User> users;
+     public LinkedList<User> users = new LinkedList<User>();
      
-     public Group(){
-    	 
-     }
+     public Group(){}
      
      public Group(String name,String url,String ds)
      {
@@ -92,4 +90,12 @@ public class Group
     	 }
     	 return result;
      }
+
+	@Override
+	public String toString() {
+		return "Group [image=" + image + ", name=" + name + ", description="
+				+ description + ", users=" + users + "]";
+	}
+     
+     
 }

@@ -2,6 +2,8 @@ package com.kernel.intelcurrent.activity;
 
 import java.util.ArrayList;
 import com.kernel.intelcurrent.adapter.GroupBlockPagerAdapter;
+import com.kernel.intelcurrent.db.DataBaseHelper;
+import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.model.Group;
 import com.kernel.intelcurrent.model.User;
 import android.app.ActivityGroup;
@@ -22,10 +24,13 @@ public class GroupBlockActivity extends BaseActivity{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		DataBaseHelper helper = new DataBaseHelper(this);
+		helper.getReadableDatabase();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_group_block);
 		findViews();
 		setListeners();
+		setAdapter();
 	}
 
 	private void findViews(){
@@ -34,42 +39,12 @@ public class GroupBlockActivity extends BaseActivity{
 	}
 	
 	private void setListeners(){
-		ArrayList<Group> groupList  = new ArrayList<Group>();
-		Group group = new Group("生活",null, null);
-		User user = new User();
-		user.id = "5E8681F98139420CB194F0D1E4718370";
-		group.addUser(user);
-		user = new User();
-		user.id = "086FA8A117BCB9C8EBBC3FD4F2FD8376";
-		group.addUser(user);
-		user = new User();
-		user.id = "43F2B3CB5DA2213AFCDB76F1AC70C569";
-		group.addUser(user);
-		user = new User();
-		user.id = "428A900FCA135ACBF5811135E0DF1EE4";
-		group.addUser(user);
-		user = new User();
-		user.id = "89C271210B9B7861332B51E5264E946F";
-		group.addUser(user);
-		user.id = "8491A789BBA1A5B9435C643C8424FDF5";
-		group.addUser(user);
-		groupList.add(group);
-		group = new Group("财经",null, null);
-		user.id = "82AFF1BC839CA811C0C6B6093262A41E";
-		group.addUser(user);
-		user = new User();
-		user.id = "D4D61FE9B75C6D2909CE9D61DB03345E";
-		group.addUser(user);
-		user = new User();
-		user.id = "9D69D933C8F86DC167DC70DFBAA407CA";
-		group.addUser(user);
-		user = new User();
-		user.id = "6C37CAC0BCBAA5ABC1CFAA2F38A39E56";
-		group.addUser(user);
-		user = new User();
-		user.id = "89C271210B9B7861332B51E5264E946F";
-		group.addUser(user);
-		groupList.add(group);
+		
+	}
+	
+	private void setAdapter(){
+		ArrayList<Group> groupList = DBModel.getInstance().getGroupList(this);
+		Log.d(TAG, "get groups:"+groupList);
 		GroupBlockPagerAdapter adapter = new GroupBlockPagerAdapter(groupList, this,
 				new OnClickListener() {
 				@Override
