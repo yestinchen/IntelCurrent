@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-        android:background="@drawable/bg_common_bottom"
+    android:background="@drawable/bg_common_bottom"
     android:orientation="vertical" >
     
     <LinearLayout
@@ -17,10 +17,10 @@
             android:id="@+id/common_bottom_iv_1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1" 
+            android:layout_weight="1"
             android:src="@drawable/ic_bottom_group"
             android:padding="@dimen/bottom_ic_padding"
-        	android:background="@drawable/ic_tab_foucus_bg" 
+            android:background="@drawable/bg_clickable"
             />
         <ImageView
             android:id="@+id/common_bottom_iv_2"
@@ -29,6 +29,7 @@
             android:padding="@dimen/bottom_ic_padding"
             android:layout_weight="1" 
             android:src="@drawable/ic_bottom_notify"
+            android:background="@drawable/bg_clickable"
             />
         <ImageView
             android:id="@+id/common_bottom_iv_3"
@@ -37,6 +38,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1" 
             android:src="@drawable/ic_bottom_me"
+            android:background="@drawable/bg_clickable"
             />
         <ImageView
             android:id="@+id/common_bottom_iv_4"
@@ -45,6 +47,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1" 
             android:src="@drawable/ic_bottom_search"
+            android:background="@drawable/bg_clickable"
             />
         <ImageView
             android:id="@+id/common_bottom_iv_5"
@@ -53,6 +56,21 @@
             android:padding="@dimen/bottom_ic_padding"
             android:layout_weight="1" 
             android:src="@drawable/ic_bottom_more"
+            android:background="@drawable/bg_clickable"
             />
+    </LinearLayout>
+    <LinearLayout android:weightSum="5"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+    <ImageView
+        android:id="@+id/common_bottom_iv_focus"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:paddingBottom="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_tab_foucus_bg"
+        />
     </LinearLayout>
 </RelativeLayout>

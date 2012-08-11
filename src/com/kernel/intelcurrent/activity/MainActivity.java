@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 /**
@@ -21,7 +22,7 @@ public class MainActivity extends ActivityGroup implements Updateable{
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 	
-	private ImageView iv1,iv2,iv3,iv4,iv5,selectedIv;
+	private ImageView iv1,iv2,iv3,iv4,iv5,selectedIv,foucusIv;
 	private LinearLayout container;
 	boolean isBound = false;
 	private MainService mService;
@@ -63,6 +64,7 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		iv3 = (ImageView) findViewById(R.id.common_bottom_iv_3);
 		iv4 = (ImageView) findViewById(R.id.common_bottom_iv_4);
 		iv5 = (ImageView) findViewById(R.id.common_bottom_iv_5);
+		foucusIv = (ImageView)findViewById(R.id.common_bottom_iv_focus);
 		container = (LinearLayout)findViewById(R.id.layout_main_layout_container);
 		//底部默认选中的
 		selectedIv = iv1;
@@ -90,7 +92,11 @@ public class MainActivity extends ActivityGroup implements Updateable{
 	 * 更改下方tab的图标背景*/
 	private void switchImageViewBackground(View v){
 		selectedIv.setBackgroundColor(Color.parseColor("#00000000"));
-		v.setBackgroundResource(R.drawable.ic_tab_foucus_bg);
+//		v.setBackgroundResource(R.drawable.ic_tab_foucus_bg);
+		TranslateAnimation anim = new TranslateAnimation(selectedIv.getLeft(), v.getLeft(), selectedIv.getTop(), v.getTop());
+		anim.setDuration(250);
+		anim.setFillAfter(true);
+		foucusIv.startAnimation(anim);
 		selectedIv = (ImageView) v;
 	}
 	/**
