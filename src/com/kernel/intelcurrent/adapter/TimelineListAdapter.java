@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kernel.intelcurrent.activity.ImageViewerActivity;
 import com.kernel.intelcurrent.activity.R;
 import com.kernel.intelcurrent.model.Status;
 import com.kernel.intelcurrent.model.User;
@@ -143,10 +144,11 @@ public class TimelineListAdapter extends BaseAdapter {
 	class CellListener implements OnClickListener{
 		@Override
 		public void onClick(View v) {
+			//若是图片，添加监听后可以点击看大图
 			if(v instanceof UrlImageView){
-//				Intent intent = new Intent(context,ImageViewerActivity.class);
-//				intent.putExtra("url",v.getTag().toString());
-//				context.startActivity(intent);
+				Intent intent = new Intent(context,ImageViewerActivity.class);
+				intent.putExtra("url",v.getTag().toString());
+				context.startActivity(intent);
 			}
 		}
 		
