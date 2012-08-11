@@ -1,5 +1,6 @@
 ﻿package com.kernel.intelcurrent.model;
 
+import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
@@ -7,9 +8,13 @@ import java.util.ArrayList;
  * classname:Status.java
  * @author 许凌霄
  * */
-public class Status 
+public class Status implements Serializable
 {
-    private static final String TAG=Status.class.getSimpleName();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 35229260833621134L;
+	private static final String TAG=Status.class.getSimpleName();
     /**
      * 微博id
      * */
@@ -73,7 +78,8 @@ public class Status
 				+ user + ", reStatus=" + reStatus + ", platform=" + platform
 				+ "]";
 	}
-
+	
+	
 
     
     

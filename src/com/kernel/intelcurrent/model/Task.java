@@ -1,5 +1,6 @@
 ﻿package com.kernel.intelcurrent.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -8,8 +9,13 @@ import android.app.Activity;
  * classname:Task.java
  * @author 许凌霄
  * */
-public class Task 
+public class Task implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1216252757007394794L;
+
 	private static final String TAG=Task.class.getSimpleName();
 	
 	/*-------关于组的操作 @author sheling----*/

@@ -1,16 +1,22 @@
 ﻿package com.kernel.intelcurrent.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 /**
  * classname:Group.java
  * @author 许凌霄
  * */
-public class Group 
+public class Group implements Serializable
 {
-     private static final String TAG=Group.class.getSimpleName();
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5064825253786288366L;
+
+	private static final String TAG=Group.class.getSimpleName();
      
-     public String image;
      public String name;
+     public String image;
      private String description;
      public LinkedList<User> users = new LinkedList<User>();
      

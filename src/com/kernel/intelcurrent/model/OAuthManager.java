@@ -76,7 +76,7 @@ public class OAuthManager {
 		if(hasTencent){//判断是否登录了腾讯微博,若是,判断是否过期
 			String exiresIn = spf.getString(TENCENT_EXPIRES_IN, "0");
 			String startTime = spf.getString(TENCENT_ACCESS_TOKEN_START_TIME, "0");
-			if(Long.valueOf(exiresIn) + Long.valueOf(startTime) > System.currentTimeMillis()){
+			if(Long.valueOf(exiresIn)*1000 + Long.valueOf(startTime) > System.currentTimeMillis()){
 				result += RESULT_ONLY_TENCENT_AVALIABLE;
 			}
 			Log.d(TAG, "check tencent"+result);
@@ -84,7 +84,7 @@ public class OAuthManager {
 		if(hasSina){//判断是否登录了新浪微博,若是,判断是否过期
 			String exiresIn = spf.getString(SINA_EXPIRES_IN, "0");
 			String startTime = spf.getString(SINA_ACCESS_TOKEN_START_TIME, "0");
-			if(Long.valueOf(exiresIn) + Long.valueOf(startTime) > System.currentTimeMillis()){
+			if(Long.valueOf(exiresIn)*1000 + Long.valueOf(startTime) > System.currentTimeMillis()){
 				result += RESULT_ONLY_SINA_AVALIABLE;
 			}
 			Log.d(TAG, "check sina"+result);

@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import android.content.Context;
 import android.util.Log;
 
+import com.kernel.intelcurrent.modeladapter.TencentAdapter;
 import com.kernel.intelcurrent.service.MainService;
+import com.tencent.weibo.beans.OAuth;
 
 /**
  * classname:ICModel.java
@@ -20,6 +22,8 @@ public class ICModel
    private boolean sinaBound=false,
 		           tencentBound=false;
    private int sinaAccessToken,tencentAccessToken;
+   
+   private static int platformAvaliable = -1;
    
    private ICModel()
    {
@@ -47,13 +51,33 @@ public class ICModel
 	   switch(type)
 	   {
 	   //添加任务分类执行
+	   case Task.G_GET_GROUP_TIMELINE:
+		   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE
+		   	|| platformAvaliable == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
+			   TencentAdapter ta = new TencentAdapter(task);
+			   ta.start();
+			   break;
+		   }
+		   
 	   }
    }
    
    public int checkForThreadsNum(int type,Context context)
    {
-	   int result=1;
-	   //增加逻辑判断
+	   int result = 0;
+	   //由于两个平台同时申请的情况较少，所以把这些挑出来，较检，其他return 1
+	   if(type==Task.G_GET_GROUP_TIMELINE){
+		   //若从未较检过，去较检
+		   if(platformAvaliable == -1){
+			   platformAvaliable = OAuthManager.getInstance().oAuthCheck(context);
+		   }
+		   if(platformAvaliable == OAuthManager.RESULT_ONLY_SINA_AVALIABLE ||
+				   platformAvaliable == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
+			   result =  1;
+		   }else if (platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE){
+			   result =2;
+		   }
+	   }
 	   return result;
    }
    /**

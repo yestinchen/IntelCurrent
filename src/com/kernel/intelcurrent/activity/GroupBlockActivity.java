@@ -56,16 +56,17 @@ public class GroupBlockActivity extends Activity{
 		viewPager.setAdapter(adapter);
 	}
 	
+
 	private void startTimelineActivity(Group group){
-//		LinearLayout container=(LinearLayout)((ActivityGroup)getParent()).getWindow().findViewById(R.id.layout_main_layout_container);	
-//		container.removeAllViews();
-//        Intent intent=new Intent(this,TimelineActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("group", group);
-//        intent.putExtra("ext", bundle);
-//        Window subActivity=((ActivityGroup)this.getParent()).getLocalActivityManager().startActivity(TimelineActivity.class.getSimpleName(),intent);
-//        container.addView(subActivity.getDecorView());
+		LinearLayout container=(LinearLayout)((ActivityGroup)getParent()).getWindow().findViewById(R.id.layout_main_layout_container);	
+		container.removeAllViews();
+        Intent intent=new Intent(this,TimelineActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("group", group);
+        intent.putExtra("ext", bundle);
+        Window subActivity=((ActivityGroup)this.getParent()).getLocalActivityManager().startActivity(TimelineActivity.class.getSimpleName(),intent);
+        container.addView(subActivity.getDecorView());
 	}
 
 }

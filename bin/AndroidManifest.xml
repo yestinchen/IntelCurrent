@@ -16,6 +16,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <service android:name="com.kernel.intelcurrent.service.MainService"></service>
         <activity
             android:name=".BaseActivity"
             android:label="@string/title_activity_base" >   

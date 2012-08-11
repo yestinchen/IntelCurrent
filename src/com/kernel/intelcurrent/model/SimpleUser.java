@@ -1,10 +1,18 @@
 package com.kernel.intelcurrent.model;
+
+import java.io.Serializable;
+
 /**
  * classname:SimpleUser.java
  * 此类主要用户搜索时展现成用户列表
  * @author allenjin
  * */
-public class SimpleUser {
+public class SimpleUser implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2094871966792969300L;
 
 	/**
 	 * 用户名账号

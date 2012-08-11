@@ -1,8 +1,13 @@
 package com.kernel.intelcurrent.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ICArrayList {
+public class ICArrayList implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7173337308246024648L;
 	/**
 	 * 保存获取的结果并封装成list
 	 */

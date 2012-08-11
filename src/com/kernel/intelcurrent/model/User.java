@@ -1,12 +1,18 @@
 ﻿package com.kernel.intelcurrent.model;
 
+import java.io.Serializable;
+
 /**
  * classname:User.java
  * @author 许凌霄
  * */
-public class User 
+public class User implements Serializable
 {
-  private static final String TAG=User.class.getSimpleName();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3990550183984216423L;
+private static final String TAG=User.class.getSimpleName();
   public static final String PLATFORM_TENCENT = "腾讯微博";
   public static final String PLATFORM_SINA = "新浪微博";
   

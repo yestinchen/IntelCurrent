@@ -39,6 +39,9 @@ public class TencentAdapter extends ModelAdapter {
 	@Override
 	public void run() {
 		switch(task.type){
+		case Task.G_GET_GROUP_TIMELINE:
+			getOtherWeiboList();
+			break;
 		}
 		model.callBack(task);
 	}

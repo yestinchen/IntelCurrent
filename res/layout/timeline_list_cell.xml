@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <!--上方显示来源...转移到坐上侧头像布局-->
+    <LinearLayout
+        android:id="@+id/timeline_list_cell_layout_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        >
+    </LinearLayout>
+    
+    <!-- 中间左侧显示头像布局 -->
+    <LinearLayout
+        android:id="@+id/timeline_list_cell_layout_left_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/timeline_list_cell_layout_title"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        >
+        <com.kernel.intelcurrent.widget.UrlImageView
+            android:id="@+id/timeline_list_cell_urlimage_head"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_margin="@dimen/padding_small"
+            />
+        
+        <TextView
+            android:id="@+id/timeline_list_cell_tv_platform"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="腾讯微博"
+            android:textSize="@dimen/font_size_small"
+            android:drawableLeft="@drawable/ic_platform_small_tencent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/padding_small"
+            />
+    </LinearLayout>
+    
+    <!-- 中间右上侧显示本内容布局 -->
+    <RelativeLayout
+        android:id="@+id/timeline_list_cell_layout_right_tweet_content"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/timeline_list_cell_layout_left_head"
+        android:layout_below="@id/timeline_list_cell_layout_title"
+        android:paddingRight="@dimen/padding_medium"
+        >
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:id="@+id/timeline_list_cell_tv_head"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/weibo_title_blue"
+            android:textSize="@dimen/font_size_weib_name_size_normal"
+            android:textStyle="bold"
+            />
+        <TextView
+             android:layout_alignParentRight="true"
+            android:id="@+id/timeline_list_cell_tv_time"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="今天12:00"
+            android:drawableLeft="@drawable/ic_common_time_tip"
+            android:textSize="@dimen/font_size_small"
+            android:paddingTop="@dimen/padding_small"
+            />
+        
+        <com.kernel.intelcurrent.widget.WeiboTextView
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/timeline_list_cell_tv_head"
+            android:id="@+id/timeline_list_cell_tv_tweet_txt"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingBottom="@dimen/font_size_small"
+            android:textSize="@dimen/font_size_weibo_content_size_normal"
+            />
+        <com.kernel.intelcurrent.widget.UrlImageView
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/timeline_list_cell_tv_tweet_txt"
+            android:visibility="gone"
+            android:id="@+id/timeline_list_cell_urlimage_tweet_image"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
+	</RelativeLayout>
+    
+    <!-- 若有转发，中间右下侧显示转发的原微博布局 -->
+    <RelativeLayout
+        android:id="@+id/timeline_list_cell_layout_right_retweet_content"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/timeline_list_cell_layout_right_tweet_content"
+        android:layout_toRightOf="@id/timeline_list_cell_layout_left_head"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:paddingLeft="2dp"
+        android:paddingTop="@dimen/padding_medium"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/timeline_list_cell_tv_retweet_head"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="left" 
+            android:textColor="@color/weibo_title_blue"
+            android:textSize="@dimen/font_size_weib_name_size_small"
+            />
+            
+        <com.kernel.intelcurrent.widget.WeiboTextView
+             android:id="@+id/timeline_list_cell_tv_retweet_txt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeline_list_cell_tv_retweet_head"
+            android:gravity="left"
+            android:paddingBottom="@dimen/font_size_small"
+            android:textSize="@dimen/font_size_weibo_content_size_normal"
+            />
+        <com.kernel.intelcurrent.widget.UrlImageView
+            android:id="@+id/timeline_list_cell_urlimage_retweet_image"
+            android:layout_below="@id/timeline_list_cell_tv_retweet_txt"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+    
+    <!-- 添加转发旁边的竖线 -->
+    
+    <TextView
+        android:id="@+id/timeline_list_cell_tv_retweet_margin"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeline_list_cell_layout_right_tweet_content"
+        android:layout_toRightOf="@id/timeline_list_cell_layout_left_head"
+        android:layout_alignTop="@id/timeline_list_cell_layout_right_retweet_content"
+        android:layout_alignBottom="@id/timeline_list_cell_layout_right_retweet_content"
+        android:layout_marginLeft="@dimen/padding_medium"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:background="#8B8B8A" 
+        android:visibility="gone"
+        />
+        
+    <!-- 最下方显示按钮布局 -->
+    <RelativeLayout
+        android:id="@+id/timeline_list_cell_layout_extra_infos"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeline_list_cell_layout_right_retweet_content"
+        android:layout_toRightOf="@id/timeline_list_cell_layout_left_head"
+        android:padding="@dimen/font_size_small" 
+        >
+        <TextView
+            android:id="@+id/timeline_list_cell_tv_ccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" 
+            android:textSize="@dimen/font_size_small"
+            android:drawableLeft="@drawable/ic_toolbar_comment_icon_res"
+            />
+        <TextView
+            android:id="@+id/timeline_list_cell_tv_rcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/timeline_list_cell_tv_ccount"
+            android:textSize="@dimen/font_size_small"
+            android:drawableLeft="@drawable/ic_toolbar_forward_icon_res"
+            android:paddingRight="@dimen/padding_medium"
+            />
+        <TextView
+            android:id="@+id/timeline_list_cell_tv_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" 
+            android:textSize="@dimen/font_size_small"
+            />
+    </RelativeLayout>
+</RelativeLayout>

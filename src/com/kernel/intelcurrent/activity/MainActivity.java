@@ -53,6 +53,10 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		((Updateable)getCurrentActivity()).update(type, param);
 	}
 	
+	public MainService getService(){
+		return mService;
+	}
+	
 	private void findViews(){
 		iv1 = (ImageView) findViewById(R.id.common_bottom_iv_1);
 		iv2 = (ImageView) findViewById(R.id.common_bottom_iv_2);
@@ -132,6 +136,7 @@ public class MainActivity extends ActivityGroup implements Updateable{
 			mService = binder.getService();
 			binder.getService();
 			isBound = true;
+			mService.changeCurrentActivity(MainActivity.this);
 		}
 
 		public void onServiceDisconnected(ComponentName name){
