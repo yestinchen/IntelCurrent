@@ -42,6 +42,9 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.G_GET_GROUP_TIMELINE:
 			getOtherWeiboList();
 			break;
+		case Task.USER_INFO:
+			getUserInfo();
+			break;
 		}
 		model.callBack(task);
 	}

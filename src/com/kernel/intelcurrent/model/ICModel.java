@@ -48,19 +48,33 @@ public class ICModel
 	   int type=task.type;
 	   int total=checkForThreadsNum(type,context);
 	   task.total=total;
-	   switch(type)
-	   {
-	   //添加任务分类执行
-	   case Task.G_GET_GROUP_TIMELINE:
-		   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE
-		   	|| platformAvaliable == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
-			   TencentAdapter ta = new TencentAdapter(task);
-			   ta.start();
-			   break;
-		   }
-		   
+	   Log.v(TAG, "do task");
+	   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE
+	   	|| platformAvaliable == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
+		   Log.v(TAG, "new tencentadapter start");
+		   TencentAdapter ta=new TencentAdapter(task);
+		   ta.start();
 	   }
-   }
+//	   switch(type)
+//	   {
+//	   //添加任务分类执行
+//	   case Task.G_GET_GROUP_TIMELINE:
+//		   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE
+//		   	|| platformAvaliable == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
+//			   TencentAdapter ta = new TencentAdapter(task);
+//			   ta.start();		  
+//		   }
+//		   break;
+//	   case Task.USER_INFO:
+//		   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE
+//		   	|| platformAvaliable == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
+//			   Log.v(TAG, "new tencentadapter start");
+//			   TencentAdapter ta=new TencentAdapter(task);
+//			   ta.start();
+//		   }
+//		   break;
+//	   }
+    }
    
    public int checkForThreadsNum(int type,Context context)
    {

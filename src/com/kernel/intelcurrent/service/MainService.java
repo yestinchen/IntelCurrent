@@ -16,6 +16,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 /**
  * classname:MainService.java
  * @author 许凌霄
@@ -54,10 +55,10 @@ public class MainService extends Service
 	/**得到Timeline的信息
 	 * @author sheling*/
 	public void getTimeline(Group group,int pageflag, long pagetime,String lastid){
-		OAuthV2 oauth = (OAuthV2) OAuthManager.getInstance().
+		OAuthV2 tencent_oauth = (OAuthV2) OAuthManager.getInstance().
 			getOAuthKey(this, OAuthManager.TENCENT_PLATFORM).get(OAuthManager.TENCENT_WEIBO);
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("oauth", oauth);
+		map.put("oauth", tencent_oauth);
 		map.put("pageflag", pageflag);
 		map.put("pagetime", pagetime);
 		map.put("lastid", lastid);
@@ -72,6 +73,20 @@ public class MainService extends Service
 		model.doTask(t,this);
 	}
 	
+	/**
+	 * 获取用户的信息 //fopenids为0为用户自己（腾讯）
+	 * @author allenjin
+	 */
+	public void getUserInfo(String openids){
+		OAuthV2 tencent_oauth = (OAuthV2) OAuthManager.getInstance().
+				getOAuthKey(this, OAuthManager.TENCENT_PLATFORM).get(OAuthManager.TENCENT_WEIBO);
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("oauth", tencent_oauth);
+			map.put("openid", openids);
+			Task t=new Task(Task.USER_INFO,map,null);
+			model.doTask(t, this);
+			Log.v(TAG,"getuserinfo in service");
+	}
 	/*=======================操纵ICModel的方法结束=======================================*/
 	
 	/**
@@ -112,6 +127,9 @@ public class MainService extends Service
     		switch(msg.what)
     		{
     		case Task.G_GET_GROUP_TIMELINE:
+    			((Updateable)currentActivity).update(msg.what,msg.obj);
+    			break;
+    		case Task.USER_INFO:
     			((Updateable)currentActivity).update(msg.what,msg.obj);
     			break;
     		}

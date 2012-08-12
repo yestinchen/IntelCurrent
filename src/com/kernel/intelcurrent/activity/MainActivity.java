@@ -1,5 +1,7 @@
 package com.kernel.intelcurrent.activity;
 
+import com.kernel.intelcurrent.model.Task;
+import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.service.MainService;
 import com.kernel.intelcurrent.service.MainService.ICBinder;
 import android.app.ActivityGroup;
@@ -10,6 +12,7 @@ import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
@@ -26,6 +29,7 @@ public class MainActivity extends ActivityGroup implements Updateable{
 	private LinearLayout container;
 	boolean isBound = false;
 	private MainService mService;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -40,6 +44,7 @@ public class MainActivity extends ActivityGroup implements Updateable{
 	   super.onStart();
 	   Intent intent=new Intent(this,MainService.class);
 	   bindService(intent,connection, Context.BIND_AUTO_CREATE);
+
 	}
 	 
 	protected void onStop(){
@@ -52,8 +57,8 @@ public class MainActivity extends ActivityGroup implements Updateable{
 	public void update(int type, Object param){
 		//TODO 这里应该增加一些判断，确保正确的结果传递给正确的activity
 		((Updateable)getCurrentActivity()).update(type, param);
+		
 	}
-	
 	public MainService getService(){
 		return mService;
 	}
