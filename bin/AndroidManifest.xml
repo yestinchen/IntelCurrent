@@ -38,7 +38,7 @@
         <activity android:name=".GroupAddActivity" android:label="@string/title_activity_base"/>
         <activity android:name=".TimelineActivity" android:label="@string/title_activity_base"/>
         <activity android:name=".WeiboShowActivity" android:label="@string/title_activity_base"/>
-        <activity android:name=".WeiboNewActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".WeiboNewActivity" android:label="@string/title_activity_base" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".InfoCenterActivity" android:label="@string/title_activity_base"/>
         <activity android:name=".UserCenterActivity" android:label="@string/title_activity_base"/>
         <activity android:name=".UserShowActivity" android:label="@string/title_activity_base"/>

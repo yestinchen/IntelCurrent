@@ -96,7 +96,7 @@ public class MainActivity extends ActivityGroup implements Updateable{
 	/**
 	 * 更改下方tab的图标背景*/
 	private void switchImageViewBackground(View v){
-		selectedIv.setBackgroundColor(Color.parseColor("#00000000"));
+//		selectedIv.setBackgroundColor(Color.parseColor("#00000000"));
 //		v.setBackgroundResource(R.drawable.ic_tab_foucus_bg);
 		TranslateAnimation anim = new TranslateAnimation(selectedIv.getLeft(), v.getLeft(), selectedIv.getTop(), v.getTop());
 		anim.setDuration(250);

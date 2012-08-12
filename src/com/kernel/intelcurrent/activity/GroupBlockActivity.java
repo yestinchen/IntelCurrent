@@ -52,7 +52,8 @@ public class GroupBlockActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		if(v == leftImage){
-			
+			Intent intent = new Intent(this,WeiboNewActivity.class);
+			startActivity(intent);
 		}else if(v == rightImage){
 			
 		}
