@@ -18,6 +18,10 @@ public class Task implements Serializable
 
 	private static final String TAG=Task.class.getSimpleName();
 	
+	public static final int PLATFORM_SINA = 1;
+	public static final int PLATFORM_TENCENT = 2;
+	public static final int PLATFORM_ALL = 3;
+	
 	/*-------关于组的操作 @author sheling----*/
 	public static final int G_GET_GROUP_LIST = 0x000001;
 	public static final int G_ADD_GROUP = 0x000002;

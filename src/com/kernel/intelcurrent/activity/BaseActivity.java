@@ -11,7 +11,7 @@ import android.os.*;
 public abstract class BaseActivity extends Activity
 {
     private static final String TAG=BaseActivity.class.getSimpleName();
-    private MainService mService;
+    protected MainService mService;
     boolean isBound=false;
     
     protected void onCreate(Bundle savedInstanceState)

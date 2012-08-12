@@ -45,20 +45,39 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.USER_INFO:
 			getUserInfo();
 			break;
+		case Task.WEIBO_ADD:
+			addWeibo();
+			break;
+		case Task.WEIBO_COMMENTS_ADD:
+			addComment();
+			break;
+		case Task.WEIBO_REPOST:
+			repostWeibo();
+			break;
+		case Task.WEIBO_COMMENTS_RE:
+			replyWeibo();
+			break;
 		}
 		model.callBack(task);
 	}
 
 	/**添加一条不带图片的微博
-	 * Map参数：content：微博内容,clientip：客户端IP地址
+	 * Map参数：content：微博内容,clientip：客户端IP地址 imgurl:图片地址(如果有的话)
 	 * @author sheling*/
 	public String addWeibo(){
 		TAPI tapi = new TAPI();
 		Map<String, Object> map = task.param;
 		String response = null;
+		Log.d(TAG, "params: "+map.toString());
 		try {
-			response = tapi.add((OAuth)map.get("oauth"), "json",
-					map.get("content").toString(),map.get("clientip").toString());
+			if(map.get("imgurl") == null){
+				response = tapi.add((OAuth)map.get("oauth"), "json",
+						map.get("content").toString(),
+						map.get("clientip").toString());
+			}else{
+				response=tapi.addPic((OAuth)map.get("oauth"), "json",map.get("content").toString(),
+						map.get("clientip").toString(),map.get("imgurl").toString());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,25 +87,24 @@ public class TencentAdapter extends ModelAdapter {
 		return response;
 	}
 	
-	/**
-	 * 添加一条带图片的微博
-	 * Map参数:content:微博文本内容,clientip:客户端IP,imgurl:图片的存储路径
-	 * @author allenjin
-	 */
-	public void addpicWeibo(){
-		TAPI tapi=new TAPI();
-		Map<String,Object> map=task.param;
-		String response=null;
-		try{
-			response=tapi.addPic((OAuth)map.get("oauth"), "json",map.get("content").toString(),
-									map.get("clientip").toString(),map.get("imgurl").toString());
-			Log.v(TAG,response);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		task.result.add(response);
-		tapi.shutdownConnection();
-	}
+//	/**
+//	 * 添加一条带图片的微博
+//	 * Map参数:content:微博文本内容,clientip:客户端IP,imgurl:图片的存储路径
+//	 * @author allenjin
+//	 */
+//	public void addpicWeibo(){
+//		TAPI tapi=new TAPI();
+//		Map<String,Object> map=task.param;
+//		String response=null;
+//		try{
+//			
+//			Log.v(TAG,response);
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		task.result.add(response);
+//		tapi.shutdownConnection();
+//	}
 	
 	/**
 	 * 获取一条微博的详细信息,通过微博ID

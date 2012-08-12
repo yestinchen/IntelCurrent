@@ -55,10 +55,7 @@ public class MainService extends Service
 	/**得到Timeline的信息
 	 * @author sheling*/
 	public void getTimeline(Group group,int pageflag, long pagetime,String lastid){
-		OAuthV2 tencent_oauth = (OAuthV2) OAuthManager.getInstance().
-			getOAuthKey(this, OAuthManager.TENCENT_PLATFORM).get(OAuthManager.TENCENT_WEIBO);
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("oauth", tencent_oauth);
 		map.put("pageflag", pageflag);
 		map.put("pagetime", pagetime);
 		map.put("lastid", lastid);
@@ -78,14 +75,21 @@ public class MainService extends Service
 	 * @author allenjin
 	 */
 	public void getUserInfo(String openids){
-		OAuthV2 tencent_oauth = (OAuthV2) OAuthManager.getInstance().
-				getOAuthKey(this, OAuthManager.TENCENT_PLATFORM).get(OAuthManager.TENCENT_WEIBO);
 			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("oauth", tencent_oauth);
 			map.put("openid", openids);
 			Task t=new Task(Task.USER_INFO,map,null);
 			model.doTask(t, this);
 			Log.v(TAG,"getuserinfo in service");
+	}
+	
+	public void addWeibo(String content,String imgUrl,int platform){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("content", content);
+		map.put("imgurl", imgUrl);
+		map.put("platform", platform);
+		Task t = new Task(Task.WEIBO_ADD,map,null);
+		model.doTask(t, this);
+		Log.v(TAG, "add weibo"+content+"img"+imgUrl);
 	}
 	/*=======================操纵ICModel的方法结束=======================================*/
 	

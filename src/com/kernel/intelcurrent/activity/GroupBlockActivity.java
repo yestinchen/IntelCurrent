@@ -19,12 +19,17 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class GroupBlockActivity extends Activity implements OnClickListener{
+public class GroupBlockActivity extends Activity implements OnClickListener,Updateable{
 
 	private static final String TAG = GroupBlockActivity.class.getSimpleName();
 	private ViewPager viewPager;
 	private ImageView leftImage,rightImage;
 	
+	@Override
+	public void update(int type, Object param) {
+		//do nothing
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

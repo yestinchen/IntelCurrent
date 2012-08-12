@@ -131,13 +131,15 @@ public class OAuthManager {
 			oauth.setAccessToken(spf.getString(TENCENT_ACCESS_TOKEN, null));
 			oauth.setOpenid(spf.getString(TENCENT_OPEN_ID, null));
 			oauth.setOpenkey(spf.getString(TENCENT_OPEN_KEY, null));
-			oauth.setClientIP(getClientIP());
+//			oauth.setClientIP(getClientIP());
+			oauth.setExpiresIn(spf.getString(TENCENT_EXPIRES_IN,null));
 			result.put(TENCENT_WEIBO, oauth);
 			break;
 		case SINA_PLATFORM:
 			
 			break;
 		}
+
 		return result;
 	}
 	

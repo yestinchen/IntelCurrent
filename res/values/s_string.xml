@@ -6,6 +6,7 @@
     <string name="weibo_new_content_empty_tip">您尚未发表任何文字</string>
     <string name="weibo_new_content_long_tip">内容已超出字数限制</string>
     <string name="weibo_new_content_edittext_tip">说点什么吧!</string>
+    <string name="weibo_new_platform_none_tip">您尚未选择任何发布平台</string>
     <string-array name="weibo_new_pic_types">
         <item>拍照上传</item>
         <item>选择图片</item>

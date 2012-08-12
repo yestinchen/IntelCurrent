@@ -2,18 +2,13 @@ package com.kernel.intelcurrent.activity;
 
 import java.io.File;
 import java.io.IOException;
-
-import javax.crypto.spec.IvParameterSpec;
-
 import com.kernel.intelcurrent.adapter.ExpressionGridAdapter;
-import com.kernel.intelcurrent.model.User;
+import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.widget.ImageCheckBox;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -24,7 +19,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -36,10 +30,10 @@ import android.widget.Toast;
 /**
  * 新建微博，包括评论，转发
  * <br/>使用时intent放入"model"指定模式，int类型，默认为新建
- * <br/>"platform"指定平台,int,平台为User.PLATFORM_TENCENT_CODE 或 User.PLATFORM_SINA_CODE，或3(两个平台都有),-1都没
+ * <br/>"platform"指定平台,int,平台为Task.PLATFORM_ALL,Task.PLATFORM_SINA 或 Task.PLATFORM_TENCENT，或-1都没
  * <br/>"ext"放入其他如评论微博id或转播微博id,String
  * @author sheling*/
-public class WeiboNewActivity extends Activity implements View.OnClickListener{
+public class WeiboNewActivity extends BaseActivity implements View.OnClickListener,Updateable{
 
 	public static final int MODEL_NEW_WEIBO = 0;
 	public static final int MODEL_NEW_COMMENT = 1;
@@ -60,7 +54,13 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 	private int model,platform;
 	private boolean hasTencent,hasSina;
 	private String lastPhotoPath;//存储图片路径
-	
+
+	@Override
+	public void update(int type, Object param) {
+		//这个忽略各种返回的update。。。实际上它不需要刷新
+		Toast.makeText(this, "操作成功", Toast.LENGTH_SHORT).show();
+		finish();
+	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == RESULT_OK){
@@ -220,13 +220,13 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 		switch(model){
 		case MODEL_NEW_WEIBO:
 			titleTv.setText(R.string.weibo_new_new);
-			if(platform == 3){
+			if(platform == Task.PLATFORM_ALL){
 				atImage.setVisibility(View.GONE);
 				expressionImage.setVisibility(View.GONE);
 				hasTencent = hasSina = true;
 				tencentCheckBox.setChecked(true);
 				sinaCheckBox.setChecked(true);
-			}else if(platform == User.PLATFORM_SINA_CODE){
+			}else if(platform == Task.PLATFORM_SINA){
 				hasSina = true;
 				sinaCheckBox.setChecked(true);
 			}else {
@@ -253,19 +253,32 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 	 * @return true 满足 fasle 不满足*/
 	private boolean checkContentLength(){
 		float length = caculateLength(inputEditText.getText().toString());
+		if(platform == -1){
+			Toast.makeText(this,R.string.weibo_new_platform_none_tip, Toast.LENGTH_SHORT).show();
+			return false;
+		}
 		if(length < 140 && length >0)
 			return true;
 		else if(length == 0){
 			Toast.makeText(this,R.string.weibo_new_content_empty_tip, Toast.LENGTH_SHORT).show();
-		}else{
+		}else if(length > 140){
 			Toast.makeText(this,R.string.weibo_new_content_empty_tip, Toast.LENGTH_SHORT).show();
-		}
+		} 
 		return false;
 	}
 	
 	/**处理并发送微博*/
 	private void wrapAndSend(){
 		//TODO wrap and send weibo
+		switch(model){
+		case MODEL_NEW_WEIBO:
+			mService.addWeibo(inputEditText.getText().toString(), lastPhotoPath,platform);
+			break;
+		case MODEL_NEW_COMMENT:
+			break;
+		case MODEL_FORWORD:
+			break;
+		}
 	}
 	
 	/**弹出对话框选择图片或拍照*/
@@ -352,16 +365,17 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 	 * */
 	private void platformChanaged(){
 		if(hasSina && hasTencent){
-			platform = 3;
+			platform = Task.PLATFORM_ALL;
 		}else if(hasSina){
-			platform = User.PLATFORM_SINA_CODE;
+			platform = Task.PLATFORM_SINA;
 		}else if(hasTencent){
-			platform = User.PLATFORM_TENCENT_CODE;
+			platform = Task.PLATFORM_TENCENT;
 		}else {
 			platform = -1;
 		}
+		Log.d(TAG, "platform "+platform);
 		switch(platform){
-		case 3:
+		case Task.PLATFORM_ALL:
 			atImage.setVisibility(View.GONE);
 			expressionImage.setVisibility(View.GONE);
 			break;
@@ -379,7 +393,7 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 	private void showExpressions(){
 		switch(platform){
 		//根据平台添加需要显示的表情
-		case User.PLATFORM_TENCENT_CODE:
+		case Task.PLATFORM_TENCENT:
 			expressionsGv.setAdapter(new ExpressionGridAdapter(
 					this, ExpressionGridAdapter.MODEL_TENCENT_EXPRESSION,inputEditText));
 			break;
@@ -409,5 +423,6 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 		}
 		return length;
 	}
+
 	
 }
