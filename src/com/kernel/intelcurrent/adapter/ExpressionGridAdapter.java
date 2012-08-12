@@ -58,18 +58,18 @@ public class ExpressionGridAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		switch(model){
 		case MODEL_TENCENT_EXPRESSION:
-			EmotionPair emotion = expressionsMap.get(position);
 			if(convertView == null){
 				convertView = new ImageView(context);
-				final String emotionName = emotion.name;
-				convertView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						int start = inputET.getSelectionStart();
-						inputET.getText().insert(start, "/"+emotionName);
-					}
-				});
 			}
+			EmotionPair emotion = expressionsMap.get(position);
+			final String emotionName = emotion.name;
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					int start = inputET.getSelectionStart();
+					inputET.getText().insert(start, "/"+emotionName);
+				}
+			});
 			((ImageView)convertView).setImageResource(emotion.resid);
 		}
 		return convertView;
