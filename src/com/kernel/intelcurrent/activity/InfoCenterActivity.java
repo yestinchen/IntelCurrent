@@ -1,11 +1,16 @@
 package com.kernel.intelcurrent.activity;
 
+import com.kernel.intelcurrent.model.ICArrayList;
+import com.kernel.intelcurrent.model.Task;
+import com.kernel.intelcurrent.service.MainService;
+import com.kernel.intelcurrent.widget.PullToRefreshListView;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class InfoCenterActivity extends Activity implements Updateable{
@@ -15,14 +20,20 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	private static final int INFO_MSG_POSITION=2;
 	private int cur_tab_positon;
 	private Context context;
-	private LinearLayout show_layout;
+	private PullToRefreshListView showList;
+	private MainActivity activityGroup;
+	private MainService mService;
+	
+	private static final String TAG=InfoCenterActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		activityGroup = (MainActivity)getParent();
+		mService = activityGroup.getService();
 		setContentView(R.layout.activity_info);
+		init();
 		findViews();
-		getAtInfo();
 	}
 	private void findViews(){
 		context=InfoCenterActivity.this;
@@ -34,15 +45,14 @@ public class InfoCenterActivity extends Activity implements Updateable{
 		info_comments.setOnClickListener(new MyTabClickedListener());
 		info_msg=(TextView)findViewById(R.id.info_btn_msg);
 		info_msg.setOnClickListener(new MyTabClickedListener());
-		
-		show_layout=(LinearLayout)findViewById(R.id.info_show_layout);
 		cur_tab_positon=INFO_AT_POSITION;
+		showList=(PullToRefreshListView)findViewById(R.id.info_listview_main);
+		
 	}
 	public class MyTabClickedListener implements OnClickListener{
 
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			show_layout.removeAllViews();
 			switch(v.getId()){
 			case R.id.info_btn_at_me:		
 				if(cur_tab_positon!=INFO_AT_POSITION){
@@ -96,15 +106,16 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	 * 获取At的信息
 	 */
 	private void getAtInfo(){
-
-		
+		int type=0x20;
+		mService.getMentionWeiboList(type, 0, 0, "0");
 	}
 	
 	/**
 	 * 获取评论的信息
 	 */
 	private void getCommentsInfo(){
-
+		int type=0x40;
+		mService.getMentionWeiboList(type, 0, 0, "0");
 	}
 	
 	/**
@@ -116,7 +127,14 @@ public class InfoCenterActivity extends Activity implements Updateable{
 
 	@Override
 	public void update(int type, Object param) {
-
+		if(type != Task.MSG_COMMENTS_MENTIONS||type!=Task.MSG_PRIVATE_LIST)return;
+		if(((Task)param).result.size() == 0) return;
+		ICArrayList result;
+		result = (ICArrayList)((Task)param).result.get(0);
+		Log.v(TAG, result.toString());
 	}
-
+	private void init(){
+		getAtInfo();
+	}
+	
 }

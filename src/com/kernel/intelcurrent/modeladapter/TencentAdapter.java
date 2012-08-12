@@ -57,6 +57,8 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.WEIBO_COMMENTS_RE:
 			replyWeibo();
 			break;
+		case Task.MSG_COMMENTS_MENTIONS:
+			getMentionsWeiboList();
 		}
 		model.callBack(task);
 	}

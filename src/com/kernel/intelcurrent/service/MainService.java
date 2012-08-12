@@ -81,7 +81,21 @@ public class MainService extends Service
 			model.doTask(t, this);
 			Log.v(TAG,"getuserinfo in service");
 	}
-	
+	/**
+	 * 获取提及用户的微博列表（包括：at和评论）
+	 * @author allenjin
+	 * @param type:0x1 原创发表 0x2 转载 0x8 回复 0x10 空回 0x20 提及 0x40 点评，若为0则为全部获取
+	 */
+	public void getMentionWeiboList(int type,int pageflag, long pagetime,String lastid){
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("type", type);
+		map.put("pageflag", pageflag);
+		map.put("pagetime", pagetime);
+		map.put("lastid", lastid);
+		map.put("reqnum", 20);
+		Task t=new Task(Task.MSG_COMMENTS_MENTIONS,map,null);
+		model.doTask(t, this);
+	}
 	public void addWeibo(String content,String imgUrl,int platform){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("content", content);
