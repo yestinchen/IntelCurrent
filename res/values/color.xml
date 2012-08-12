@@ -4,4 +4,7 @@
     <color name="weibo_title_white">#ffffff</color>
     <color name="user_textcolor">#ffffff</color>
 	<color name="user_table_cell_color">#6B9ACE</color>
+	<color name="info_tab_textcolor">#ffffff</color>
+	<color name="info_tab_selected_color">#6B9ACE</color>
+	
 </resources>

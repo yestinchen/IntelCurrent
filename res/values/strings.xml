@@ -19,6 +19,12 @@
 	<string name="user_table_weibo">微博</string>
 	<string name="user_table_cell_value">0</string>
 	
+		<!-- InfoCenterActivity布局使用 -->
+	<string name="info_title">通知中心</string>
+	<string name="info_at_me">\@我</string>
+	<string name="info_comment_me">评论</string>
+	<string name="info_msg">私信</string>
+	
     <string name="weibo_new_new">发表微博</string>
     <string name="weibo_new_comment">评论微博</string>
     <string name="weibo_new_forword">转发微博</string>
