@@ -32,6 +32,7 @@ public class SplashActivity extends Activity {
 		String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/icfiles";
 		createDirIfNotExist(path);
 		path += "/img";
+		createDirIfNotExist(path+"/tmp");
 		createDirIfNotExist(path);
 		String path1 = path +"/sina";
 		createDirIfNotExist(path1);

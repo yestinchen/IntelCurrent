@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="weibo_new_remove_pic_confirm">确定舍弃该图片？</string>
+    <string name="btn_positive_txt">确定</string>
+    <string name="btn_negative_txt">取消</string>
+    <string name="weibo_new_content_empty_tip">您尚未发表任何文字</string>
+    <string name="weibo_new_content_long_tip">内容已超出字数限制</string>
+    <string name="weibo_new_content_edittext_tip">说点什么吧!</string>
+    <string-array name="weibo_new_pic_types">
+        <item>拍照上传</item>
+        <item>选择图片</item>
+    </string-array>
+</resources>
