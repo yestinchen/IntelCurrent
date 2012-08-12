@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <include layout="@layout/common_head"/>"
+    <include layout="@layout/common_head"/>
 	<EditText
 	    android:id="@+id/activity_weibo_new_edittext"
 	    android:layout_height="0dp"
@@ -12,13 +12,22 @@
 	    android:gravity="top"
 	    android:padding="@dimen/padding_small"
 	    android:background="@null"
+	    android:hint="@string/weibo_new_content_edittext_tip"
 	    />
 	<!-- 工具条上,输入框下的提示,比如还有多少字或者其他什么的 -->
 	<RelativeLayout
 	    android:id="@+id/activity_weibo_new_layout_tips" 
 	    android:layout_width="fill_parent"
-	    android:layout_height="20dp"
+	    android:layout_height="40dp"
 	    >
+	    <ImageView
+	        android:id="@+id/activity_weibo_new_iv_pic_tip"
+	        android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentLeft="true"
+	        android:paddingLeft="@dimen/padding_small"
+	        android:visibility="gone" 
+	        />
 	    <TextView
 	        android:id="@+id/activity_weibo_new_tv_num_tip"
 	        android:layout_alignParentRight="true"

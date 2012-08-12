@@ -1,15 +1,28 @@
 package com.kernel.intelcurrent.activity;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.crypto.spec.IvParameterSpec;
+
 import com.kernel.intelcurrent.adapter.ExpressionGridAdapter;
 import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.widget.ImageCheckBox;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +31,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 新建微博，包括评论，转发
@@ -31,7 +45,12 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 	public static final int MODEL_NEW_COMMENT = 1;
 	public static final int MODEL_FORWORD = 2;
 	
-	private ImageView picImage,atImage,topicImage,expressionImage,leftImage,rightImage;
+	private static final int ON_RESULT_TAKE_PHOTO = 1;
+	private static final int ON_RESULT_CHOOSE_PICTURE = 2;
+	private static final int ON_RESULT_CHOOSE_AT = 3;
+	private static final String TAG = WeiboNewActivity.class.getSimpleName();
+	
+	private ImageView picImage,atImage,topicImage,expressionImage,leftImage,rightImage,picTipImage;
 	private ImageCheckBox sinaCheckBox,tencentCheckBox;
 	private TextView numTips,titleTv;
 	private EditText inputEditText;
@@ -40,7 +59,57 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 	private float textLength;
 	private int model,platform;
 	private boolean hasTencent,hasSina;
+	private String lastPhotoPath;//存储图片路径
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == RESULT_OK){
+			switch(requestCode){
+			case ON_RESULT_TAKE_PHOTO:
+			case ON_RESULT_CHOOSE_PICTURE:
+				if(lastPhotoPath != null){
+					setPic(lastPhotoPath);
+				}
+				break;
+			case ON_RESULT_CHOOSE_AT:
+				break;
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	/**设置显示图片缩略图*/
+	private void setPic(String path){
+		/* There isn't enough memory to open up more than a couple camera photos */
+		/* So pre-scale the target bitmap into which the file is decoded */
+
+		/* Get the size of the image */
+		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+		bmOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(path, bmOptions);
+		int targetH = 60;
+
+		int photoW = bmOptions.outWidth;
+		int photoH = bmOptions.outHeight;
+		int targetW = photoW / (photoH/targetH);
+		
+		/* Figure out which way needs to be reduced less */
+		int scaleFactor = 1;
+		if ((targetW > 0) || (targetH > 0)) {
+			scaleFactor = Math.min(photoW/targetW, photoH/targetH);	
+		}
+
+		/* Set bitmap options to scale the image decode target */
+		bmOptions.inJustDecodeBounds = false;
+		bmOptions.inSampleSize = scaleFactor;
+		bmOptions.inPurgeable = true;
+
+		/* Decode the JPEG file into a Bitmap */
+		Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+		picTipImage.setImageBitmap(bitmap);
+		picTipImage.setVisibility(View.VISIBLE);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,20 +118,13 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 		setListeners();
 		initModel();
 	}
-	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		if(newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_NO){
-			removeExpressions();
-		}
-		super.onConfigurationChanged(newConfig);
-	}
 
 	private void findViews(){
 		titleTv = (TextView)findViewById(R.id.common_head_tv_title);
 		leftImage =(ImageView)findViewById(R.id.common_head_iv_left);
 		rightImage =(ImageView)findViewById(R.id.common_head_iv_right);
 		inputEditText = (EditText)findViewById(R.id.activity_weibo_new_edittext);
+		picTipImage = (ImageView)findViewById(R.id.activity_weibo_new_iv_pic_tip);
 		numTips = (TextView)findViewById(R.id.activity_weibo_new_tv_num_tip);
 		picImage = (ImageView) findViewById(R.id.activity_weibo_new_iv_pic);
 		atImage = (ImageView) findViewById(R.id.activity_weibo_new_iv_at);
@@ -105,6 +167,8 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 		
 		sinaCheckBox.setOnClickListener(this);
 		tencentCheckBox.setOnClickListener(this);
+		
+		picTipImage.setOnClickListener(this);
 	}
 
 
@@ -116,7 +180,7 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 			if(checkContentLength())
 				wrapAndSend();
 		}else if (v == picImage){
-			
+			chooseImageType();
 		}else if (v == topicImage){
 			//添加话题#号并置光标在两个#之间
 			int start = inputEditText.getSelectionStart();
@@ -142,6 +206,9 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 			tencentCheckBox.onClick(v);
 			hasTencent = !hasTencent;
 			platformChanaged();
+		}else if( v == picTipImage){
+			//提示删除图片
+			removePic();
 		}
 	}
 	
@@ -185,14 +252,99 @@ public class WeiboNewActivity extends Activity implements View.OnClickListener{
 	/**检查输入文字是否超出满足字数显示
 	 * @return true 满足 fasle 不满足*/
 	private boolean checkContentLength(){
-		if(caculateLength(inputEditText.getText().toString()) < 140)
+		float length = caculateLength(inputEditText.getText().toString());
+		if(length < 140 && length >0)
 			return true;
+		else if(length == 0){
+			Toast.makeText(this,R.string.weibo_new_content_empty_tip, Toast.LENGTH_SHORT).show();
+		}else{
+			Toast.makeText(this,R.string.weibo_new_content_empty_tip, Toast.LENGTH_SHORT).show();
+		}
 		return false;
 	}
 	
 	/**处理并发送微博*/
 	private void wrapAndSend(){
 		//TODO wrap and send weibo
+	}
+	
+	/**弹出对话框选择图片或拍照*/
+	private void chooseImageType(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setItems(R.array.weibo_new_pic_types, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(which == 0){
+					takePhoto();
+				}else if(which == 1){
+					choosePic();
+				}
+			}
+		}).show();
+	}
+	
+	/**拍照*/
+	private void takePhoto(){
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		File f;
+		try {
+			f = createImageFile();
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		startActivityForResult(intent, ON_RESULT_TAKE_PHOTO);
+	}
+	
+	/**选择图片*/
+	private void choosePic(){
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);  
+        intent.setType("image/*");  
+        intent.putExtra("crop", "true");  
+        File f;
+		try {
+			f = createImageFile();
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));  
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        intent.putExtra("outputFormat", "JPEG");  
+
+        startActivityForResult(intent,ON_RESULT_CHOOSE_PICTURE); 
+	}
+	
+	/**创建文件*/
+	private File createImageFile() throws IOException {
+	    // Create an image file name
+	    String imageFileName = System.currentTimeMillis()+"_";
+	    File dir = new File(Environment.getExternalStorageDirectory().toString() + "/icfiles/img/tmp");
+	    File image = File.createTempFile(imageFileName,".jpg",dir);
+	    Log.v(TAG, "image path:"+image.getAbsolutePath());
+	    lastPhotoPath = image.getAbsolutePath();
+	    return image;
+	}
+	
+	/**移除已经添加的图片*/
+	private void removePic(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.weibo_new_remove_pic_confirm)
+			.setPositiveButton(R.string.btn_positive_txt, new DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if(lastPhotoPath != null){
+						lastPhotoPath = null;
+						picTipImage.setImageBitmap(null);
+						picTipImage.setVisibility(View.GONE);
+					}
+					dialog.dismiss();
+				}
+			}).setNegativeButton(R.string.btn_negative_txt, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			}).show();
 	}
 	
 	/**平台更改变化调整布局
