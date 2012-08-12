@@ -1,6 +1,8 @@
 package com.kernel.intelcurrent.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.kernel.intelcurrent.activity.R;
 
@@ -12,11 +14,22 @@ import com.kernel.intelcurrent.activity.R;
  * */
 public class ICEmotions {
 
-	private ICEmotions(){};
-	
 	/**腾讯的表情集合*/
 	private static HashMap<String,Integer> tencentEmotions = new HashMap<String, Integer>();
+	/**用于新建微博页面的显示表情的较为清楚的表情集合*/
+	private static ArrayList<EmotionPair> tencentNewEmotions;
 	//静态初始化域(如果有更好的不需要静态的方法最好了)
+
+	private ICEmotions(){};
+	
+	private static class Holder{
+		private static ICEmotions emotions = new ICEmotions();
+	}
+	
+	public static ICEmotions getInstance(){
+		return Holder.emotions;
+	}
+	
 	static{
 		tencentEmotions.put("调皮",R.drawable.f000);
 		tencentEmotions.put("呲牙",R.drawable.f001);
@@ -124,6 +137,122 @@ public class ICEmotions {
 		tencentEmotions.put("乒乓",R.drawable.f103);
 		tencentEmotions.put("折磨",R.drawable.f104);
 	}
+	
+	/**添加腾讯表情*/
+	private void initTencentNewEmotions() {
+		tencentNewEmotions = new ArrayList<ICEmotions.EmotionPair>();
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h000,"调皮"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h001,"呲牙"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h002,"惊讶"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h003,"难过"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h004,"酷"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h005,"冷汗"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h006,"抓狂"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h007,"吐"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h008,"偷笑"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h009,"可爱"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h010,"白眼"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h011,"傲慢"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h012,"微笑"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h013,"撇嘴"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h014,"色"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h015,"发呆"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h016,"得意"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h017,"流泪"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h018,"害羞"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h019,"嘘"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h020,"困"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h021,"尴尬"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h022,"发怒"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h023,"打哭"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h024,"流汗"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h025,"再见"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h026,"敲打"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h027,"擦汗"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h028,"委屈"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h029,"疑问"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h030,"睡"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h031,"亲亲"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h032,"憨笑"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h033,"衰"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h034,"阴险"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h035,"奋斗"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h036,"右哼哼"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h037,"拥抱"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h038,"坏笑"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h039,"鄙视"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h040,"晕"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h041,"大兵"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h042,"可怜"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h043,"饥饿"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h044,"咒骂"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h045,"抠鼻"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h046,"鼓掌"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h047,"糗大了"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h048,"左哼哼"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h049,"哈欠"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h050,"快哭了"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h051,"吓"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h052,"比嘴"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h053,"惊恐"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h054,"示爱"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h055,"爱心"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h056,"心碎"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h057,"蛋糕"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h058,"闪电"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h059,"炸弹"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h060,"刀"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h061,"足球"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h062,"瓢虫"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h063,"便便"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h064,"咖啡"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h065,"饭"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h066,"猪头"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h067,"玫瑰"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h068,"凋谢"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h069,"月亮"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h070,"太阳"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h071,"礼物"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h072,"强"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h073,"弱"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h074,"握手"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h075,"胜利"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h076,"抱拳"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h077,"勾引"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h078,"拳头"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h079,"差劲"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h080,"爱你"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h081,"NO"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h082,"OK"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h083,"爱情"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h084,"飞吻"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h085,"跳跳"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h086,"发抖"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h087,"怄火"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h088,"转圈"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h089,"磕头"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h090,"回头"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h091,"跳绳"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h092,"挥手"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h093,"激动"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h094,"街舞"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h095,"献吻"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h096,"左太极"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h097,"右太极"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h098,"菜刀"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h099,"西瓜"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h100,"啤酒"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h101,"骷髅"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h102,"篮球"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h103,"乒乓"));
+		tencentNewEmotions.add(new EmotionPair(R.drawable.h104,"折磨"));
+
+	}
+	
+	public void clearTencentEmotions(){
+		tencentNewEmotions.clear();
+		tencentNewEmotions = null;
+	}
 	/**
 	 * 根据表情字符串返回表情资源id
 	 * @return -1 如果不存在该表情
@@ -131,5 +260,22 @@ public class ICEmotions {
 	public static int getTencentEmotion(String emotionStr){
 		if(!tencentEmotions.containsKey(emotionStr)) return -1;
 		else return tencentEmotions.get(emotionStr);
+	}
+	
+	/**返回初始化完毕 的高清腾讯表情集合HashMap*/
+	public List<EmotionPair> getTencentNewEmotions(){
+		if(tencentNewEmotions == null)
+			initTencentNewEmotions();
+		return tencentNewEmotions;
+	}
+	
+	/**定义表情中的表情对，包含资源id以及名称*/
+	public class EmotionPair{
+		public int resid;
+		public String name;
+		public EmotionPair(int resid,String name){
+			this.resid = resid;
+			this.name = name;
+		}
 	}
 }

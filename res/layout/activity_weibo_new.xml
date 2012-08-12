@@ -86,4 +86,45 @@
 	        />
 	    
 	</LinearLayout>
+	<!-- 下方表情布局 -->
+	<LinearLayout
+	    android:id="@+id/activity_weibo_new_layout_expressions"
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1.0"
+	    android:orientation="vertical"
+	    android:visibility="gone"
+	    >
+	     <!-- 图标表情或字符表情的选项卡 -->
+	     <!-- 
+	  	<LinearLayout
+	  	    android:id="@+id/activity_weibo_new_expressions_tab"
+	  	    android:layout_width="fill_parent"
+	  	    android:layout_height="wrap_content" 
+	  	    >
+	  	    <TextView
+	  	        android:id="@+id/activity_weibo_new_tv_expressions_icon"
+	  	        android:layout_height="wrap_content"
+	  	        android:layout_width="0dp"
+	  	        android:layout_weight="1.0" 
+	  	        />
+	  	    <TextView
+	  	        android:id="@+id/activity_weibo_new_tv_expressions_text"
+	  	        android:layout_height="wrap_content"
+	  	        android:layout_width="0dp"
+	  	        android:layout_weight="1.0" 
+	  	        />
+	  	</LinearLayout> 
+	  	 --> 
+	  	 <GridView
+	  	     android:id="@+id/activity_weibo_new_gv_expressions"
+	  	     android:layout_height="fill_parent"
+	  	     android:layout_width="fill_parent"
+	  	     android:numColumns="auto_fit"
+	  	     android:columnWidth="60dp"
+	  	     android:verticalSpacing="@dimen/padding_small"
+	  	     >
+	  	     
+	  	 </GridView>
+	</LinearLayout>
 </LinearLayout>

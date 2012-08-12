@@ -7,5 +7,8 @@
     <string name="tencent_weibo">登陆腾讯微博</string>
     <string name="sina_weibo">登陆新浪微博</string>
 
+    <string name="weibo_new_new">发表微博</string>
+    <string name="weibo_new_comment">评论微博</string>
+    <string name="weibo_new_forword">转发微博</string>
     
 </resources>

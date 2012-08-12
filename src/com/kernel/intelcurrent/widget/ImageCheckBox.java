@@ -53,5 +53,5 @@ public class ImageCheckBox extends ImageView implements OnClickListener{
 	public void onClick(View v) {
 		setChecked(!checked);
 	}
-
+	
 }
