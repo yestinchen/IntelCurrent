@@ -105,13 +105,6 @@ public class MainService extends Service
     }
     public void send(Task task)
     {
-//    	Activity target=task.target;
-//    	if(target!=currentActivity)
-//    	{
-//    		//记录任务被终止
-//    		//...
-//    		return;
-//    	}
     	Message msg=new Message();
     	msg.obj=task;
     	msg.what=task.type;
@@ -124,15 +117,7 @@ public class MainService extends Service
     {
     	public void handleMessage(Message msg)
     	{
-    		switch(msg.what)
-    		{
-    		case Task.G_GET_GROUP_TIMELINE:
-    			((Updateable)currentActivity).update(msg.what,msg.obj);
-    			break;
-    		case Task.USER_INFO:
-    			((Updateable)currentActivity).update(msg.what,msg.obj);
-    			break;
-    		}
+    		((Updateable)currentActivity).update(msg.what,msg.obj);
     	}
     };
 }

@@ -78,9 +78,9 @@ public class UserCenterActivity extends Activity implements Updateable{
 			//新浪用户头像添加
 		}
 		location_detail=(TextView)findViewById(R.id.user_location);
-		location_detail.setText(userinfo.location==""?userinfo.location:"无");
+		location_detail.setText(userinfo.location!=null?userinfo.location:"无");
 		words_detail=(TextView)findViewById(R.id.user_words);
-		words_detail.setText(userinfo.description);
+		words_detail.setText(userinfo.description!=null?userinfo.description:"无");
 		switcher_left=(ImageView)findViewById(R.id.user_switcher_left);
 		switcher_right=(ImageView)findViewById(R.id.user_switcher_right);
 		//粉丝，关注，微博，收藏信息
