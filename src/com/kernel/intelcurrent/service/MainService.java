@@ -157,6 +157,7 @@ public class MainService extends Service
 		model.doTask(t, this);
 	}
 	
+	/**添加一条微博*/
 	public void addWeibo(String content,String imgUrl,int platform){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("content", content);
@@ -165,6 +166,25 @@ public class MainService extends Service
 		Task t = new Task(Task.WEIBO_ADD,map,null);
 		model.doTask(t, this);
 		Log.v(TAG, "add weibo"+content+"img"+imgUrl);
+	}
+	
+	/**添加一条评论*/
+	public void addComment(String content,String reid,int platform){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("content", content);
+		map.put("reid", reid);
+		map.put("platform", platform);
+		Task t = new Task(Task.WEIBO_COMMENTS_ADD,map,null);
+		model.doTask(t, this);
+	}
+	
+	public void rePost(String content,String reid,int platform){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("content", content);
+		map.put("reid", reid);
+		map.put("platform", platform);
+		Task t = new Task(Task.WEIBO_REPOST,map,null);
+		model.doTask(t, this);
 	}
 	/*=======================操纵ICModel的方法结束=======================================*/
 	

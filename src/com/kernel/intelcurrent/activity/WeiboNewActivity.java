@@ -54,6 +54,7 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 	private int model,platform;
 	private boolean hasTencent,hasSina;
 	private String lastPhotoPath;//存储图片路径
+	String statusId;//非新建时对应的statusid
 
 	@Override
 	public void update(int type, Object param) {
@@ -217,6 +218,7 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		Intent intent = getIntent();
 		model = intent.getIntExtra("model", 0);
 		platform = intent.getIntExtra("platform", 3);
+		statusId = intent.getStringExtra("ext");
 		switch(model){
 		case MODEL_NEW_WEIBO:
 			titleTv.setText(R.string.weibo_new_new);
@@ -275,8 +277,10 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 			mService.addWeibo(inputEditText.getText().toString(), lastPhotoPath,platform);
 			break;
 		case MODEL_NEW_COMMENT:
+			mService.addComment(inputEditText.getText().toString(), statusId,platform);
 			break;
 		case MODEL_FORWORD:
+			mService.rePost(inputEditText.getText().toString(), statusId,platform);
 			break;
 		}
 	}

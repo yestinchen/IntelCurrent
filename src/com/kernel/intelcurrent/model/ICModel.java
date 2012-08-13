@@ -80,6 +80,8 @@ public class ICModel
 		   break;
 		//所有单平台任务
 	   case Task.WEIBO_ADD:
+	   case Task.WEIBO_COMMENTS_ADD:
+	   case Task.WEIBO_REPOST:
 		   task.total = 1;
 		   clientIp = OAuthManager.getInstance().getClientIP();
 		   Log.v(TAG, "client ip:"+clientIp);

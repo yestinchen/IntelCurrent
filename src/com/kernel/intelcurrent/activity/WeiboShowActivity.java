@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 
 import com.kernel.intelcurrent.model.SimpleUser;
 import com.kernel.intelcurrent.model.Status;
+import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.widget.UrlImageView;
 import com.kernel.intelcurrent.widget.WeiboTextView;
@@ -17,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class WeiboShowActivity extends Activity {
+public class WeiboShowActivity extends BaseActivity implements View.OnClickListener{
 
 	
 	private ImageView leftImage;
@@ -38,6 +39,7 @@ public class WeiboShowActivity extends Activity {
 		user = status.user;
 		findViews();
 		init();
+		setListeners();
 	}
 	
 	private void findViews(){
@@ -91,5 +93,41 @@ public class WeiboShowActivity extends Activity {
 			}
 		}
 	}
+	
+	private void setListeners(){
+		commentBtn.setOnClickListener(this);
+		forwordBtn.setOnClickListener(this);
+		moreBtn.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(v == commentBtn){
+			Intent intent = new Intent(this,WeiboNewActivity.class);
+			intent.putExtra("model", WeiboNewActivity.MODEL_NEW_COMMENT);
+			intent.putExtra("platform", Task.PLATFORM_TENCENT);
+			intent.putExtra("ext", status.id);
+			startActivity(intent);
+		}else if(v == forwordBtn){
+			Intent intent = new Intent(this,WeiboNewActivity.class);
+			intent.putExtra("model", WeiboNewActivity.MODEL_FORWORD);
+			intent.putExtra("platform", Task.PLATFORM_TENCENT);
+			intent.putExtra("ext", status.id);
+			startActivity(intent);
+		}else if(v == moreBtn){
+			
+		}
+	}
+
+	@Override
+	public void onConnectionFinished() {
+		
+	}
+
+	@Override
+	public void onConnectionDisConnected() {
+		
+	}
+
 
 }

@@ -160,7 +160,7 @@
         android:padding="@dimen/font_size_small" 
         >
         <TextView
-            android:id="@+id/timeline_list_cell_tv_ccount"
+            android:id="@+id/timeline_list_cell_tv_rcount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" 
@@ -168,10 +168,10 @@
             android:drawableLeft="@drawable/ic_toolbar_comment_icon_res"
             />
         <TextView
-            android:id="@+id/timeline_list_cell_tv_rcount"
+            android:id="@+id/timeline_list_cell_tv_ccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/timeline_list_cell_tv_ccount"
+            android:layout_toLeftOf="@id/timeline_list_cell_tv_rcount"
             android:textSize="@dimen/font_size_small"
             android:drawableLeft="@drawable/ic_toolbar_forward_icon_res"
             android:paddingRight="@dimen/padding_medium"
