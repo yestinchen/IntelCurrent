@@ -59,6 +59,7 @@ public class TencentAdapter extends ModelAdapter {
 			break;
 		case Task.MSG_COMMENTS_MENTIONS:
 			getMentionsWeiboList();
+			break;
 		}
 		model.callBack(task);
 	}
@@ -539,6 +540,7 @@ public class TencentAdapter extends ModelAdapter {
 			Log.v(TAG, response);
 			JSONObject data=new JSONObject(response).getJSONObject("data");
 			ICArrayList ica=new ICArrayList();
+			ica.hasNext=data.getInt("hasnext");
 			if(data.get("info") instanceof JSONArray){
 				JSONArray infolist=data.getJSONArray("info");
 				for(int i=0;i<infolist.length();i++){
@@ -618,6 +620,7 @@ public class TencentAdapter extends ModelAdapter {
 			Log.v(TAG, response);
 			JSONObject data=new JSONObject(response).getJSONObject("data");
 			ICArrayList ica=new ICArrayList();
+			ica.hasNext=data.getInt("hasnext");
 			if(data.get("info") instanceof JSONArray){
 				JSONArray infolist=data.getJSONArray("info");
 				for(int i=0;i<infolist.length();i++){

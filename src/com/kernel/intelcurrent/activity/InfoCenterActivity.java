@@ -1,9 +1,6 @@
 package com.kernel.intelcurrent.activity;
 
-import com.kernel.intelcurrent.model.ICArrayList;
-import com.kernel.intelcurrent.model.Task;
-import com.kernel.intelcurrent.service.MainService;
-import com.kernel.intelcurrent.widget.PullToRefreshListView;
+import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,19 +8,39 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.kernel.intelcurrent.adapter.TimelineListAdapter;
+import com.kernel.intelcurrent.model.ICArrayList;
+import com.kernel.intelcurrent.model.Status;
+import com.kernel.intelcurrent.model.Task;
+import com.kernel.intelcurrent.service.MainService;
+import com.kernel.intelcurrent.widget.PullToRefreshListView;
+import com.kernel.intelcurrent.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.kernel.intelcurrent.widget.PullToRefreshListView.OnRefreshListener;
 
 public class InfoCenterActivity extends Activity implements Updateable{
 	private TextView info_title,info_at_me,info_comments,info_msg; 
 	private static final int INFO_AT_POSITION=0;
 	private static final int INFO_COMMENTS_POSITION=1;
 	private static final int INFO_MSG_POSITION=2;
-	private int cur_tab_positon;
+	private int info_curPosition=INFO_AT_POSITION;
 	private Context context;
-	private PullToRefreshListView showList;
+	private PullToRefreshListView show_at_list,show_comment_list,show_msg_list;
+	private LinearLayout showlayout;
 	private MainActivity activityGroup;
 	private MainService mService;
 	
+	public static final int REQUEST_TYPE_INIT = 1;
+	public static final int REQUEST_TYPE_REFRESH = 2;
+	public static final int REQUEST_TYPE_PAGE_DOWN = 3;
+	public static final int REQUEST_TYPE_RESET=-1;
+	private LinkedList<Status> statuses = new LinkedList<Status>();
+	private int hasNext = -1;
+	private int state =REQUEST_TYPE_RESET;
+	private int type; //保存当前获取的提及微博列表的类型   0:为获取所有提及信息
 	private static final String TAG=InfoCenterActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +49,8 @@ public class InfoCenterActivity extends Activity implements Updateable{
 		activityGroup = (MainActivity)getParent();
 		mService = activityGroup.getService();
 		setContentView(R.layout.activity_info);
-		init();
 		findViews();
+		init();
 	}
 	private void findViews(){
 		context=InfoCenterActivity.this;
@@ -45,41 +62,59 @@ public class InfoCenterActivity extends Activity implements Updateable{
 		info_comments.setOnClickListener(new MyTabClickedListener());
 		info_msg=(TextView)findViewById(R.id.info_btn_msg);
 		info_msg.setOnClickListener(new MyTabClickedListener());
-		cur_tab_positon=INFO_AT_POSITION;
-		showList=(PullToRefreshListView)findViewById(R.id.info_listview_main);
-		
+		showlayout=(LinearLayout)findViewById(R.id.info_showlayout);
+	
 	}
-	public class MyTabClickedListener implements OnClickListener{
 
+	public class MyTabClickedListener implements OnClickListener{
+			
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+
 			switch(v.getId()){
 			case R.id.info_btn_at_me:		
-				if(cur_tab_positon!=INFO_AT_POSITION){
-				switchBG(cur_tab_positon);
+				if(info_curPosition!=INFO_AT_POSITION){
+					showlayout.removeAllViews();
+				switchBG(info_curPosition);
 				info_at_me.setBackgroundResource(R.drawable.ic_info_tab_selected);
 				info_at_me.setTextColor(context.getResources().getColor(R.color.info_tab_selected_color));
-				cur_tab_positon=INFO_AT_POSITION;
+				info_curPosition=INFO_AT_POSITION;
+				if(show_at_list==null){
+					getAtInfo();
+					}else{
+						showlayout.addView(show_at_list);
+					}
 				}
-				getAtInfo();
+				
 				break;
 			case R.id.info_btn_comments:
-				if(cur_tab_positon!=INFO_COMMENTS_POSITION){
-					switchBG(cur_tab_positon);
+				if(info_curPosition!=INFO_COMMENTS_POSITION){
+					showlayout.removeAllViews();
+					switchBG(info_curPosition);
 					info_comments.setBackgroundResource(R.drawable.ic_info_tab_selected);
 					info_comments.setTextColor(context.getResources().getColor(R.color.info_tab_selected_color));
-					cur_tab_positon=INFO_COMMENTS_POSITION;
-				}
-				getCommentsInfo();
+					info_curPosition=INFO_COMMENTS_POSITION;
+					if(show_comment_list==null){
+						getCommentsInfo();
+					}else{
+						showlayout.addView(show_comment_list);
+					}
+				}		
 				break;
 			case R.id.info_btn_msg:
-				if(cur_tab_positon!=INFO_MSG_POSITION){
-					switchBG(cur_tab_positon);
+				if(info_curPosition!=INFO_MSG_POSITION){
+					showlayout.removeAllViews();
+					switchBG(info_curPosition);
 					info_msg.setBackgroundResource(R.drawable.ic_info_tab_selected);
 					info_msg.setTextColor(context.getResources().getColor(R.color.info_tab_selected_color));
-					cur_tab_positon=INFO_MSG_POSITION;
-				}
-				getMsgInfo();
+					info_curPosition=INFO_MSG_POSITION;
+					if(show_msg_list==null){
+						getMsgInfo();
+					}else{
+						showlayout.addView(show_msg_list);
+					}
+					
+				}		
 				break;
 			}
 		}
@@ -106,32 +141,193 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	 * 获取At的信息
 	 */
 	private void getAtInfo(){
-		int type=0x20;
+		state=REQUEST_TYPE_INIT;
+		show_at_list=new PullToRefreshListView(this);
+		showlayout.addView(show_at_list);	
+		type=0;
 		mService.getMentionWeiboList(type, 0, 0, "0");
+		
+		show_at_list.setOnRefreshListener(new OnRefreshListener() {
+			
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				state=REQUEST_TYPE_REFRESH;
+				mService.getMentionWeiboList(type, 0, 0, "0");
+	
+			}
+		});
+		show_at_list.setOnLoadMoreListener(new OnLoadMoreListener() {
+			
+			@Override
+			public void onLoadMore() {
+				// TODO Auto-generated method stub
+				state=REQUEST_TYPE_PAGE_DOWN;
+					Log.v(TAG, "get more");
+					if(hasNext==1){
+						Toast.makeText(InfoCenterActivity.this, "没有更多内容，拉取完毕", Toast.LENGTH_SHORT).show();
+						return;
+					}
+				mService.getMentionWeiboList(type, 1, statuses.getLast().timestamp, statuses.getLast().id);
+				
+			}
+		});
+
 	}
 	
 	/**
 	 * 获取评论的信息
 	 */
 	private void getCommentsInfo(){
-		int type=0x40;
+		state=REQUEST_TYPE_INIT;
+		show_comment_list=new PullToRefreshListView(this);
+		showlayout.addView(show_comment_list);		
+		type=0x40;
 		mService.getMentionWeiboList(type, 0, 0, "0");
+		
+		show_comment_list.setOnRefreshListener(new OnRefreshListener() {
+			
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				state=REQUEST_TYPE_REFRESH;
+				mService.getMentionWeiboList(type, 0, 0, "0");
+	
+			}
+		});
+		show_comment_list.setOnLoadMoreListener(new OnLoadMoreListener() {
+			
+			@Override
+			public void onLoadMore() {
+				// TODO Auto-generated method stub
+				state=REQUEST_TYPE_PAGE_DOWN;
+					Log.v(TAG, "get more");
+				if(hasNext==1){
+					Toast.makeText(InfoCenterActivity.this, "没有更多内容，拉取完毕", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				mService.getMentionWeiboList(type, 1, statuses.getLast().timestamp, statuses.getLast().id);
+			}
+		});
+
 	}
 	
 	/**
 	 * 获取消息的信息
 	 */
 	private void getMsgInfo(){
-
+		state=REQUEST_TYPE_INIT;
+		show_msg_list=new PullToRefreshListView(this);
+		showlayout.addView(show_msg_list);
+		
+		show_msg_list.setOnRefreshListener(new OnRefreshListener() {
+			
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				state=REQUEST_TYPE_REFRESH;
+				mService.getMentionWeiboList(type, 0, 0, "0");
+	
+			}
+		});
+		show_msg_list.setOnLoadMoreListener(new OnLoadMoreListener() {
+			
+			@Override
+			public void onLoadMore() {
+				// TODO Auto-generated method stub
+				state=REQUEST_TYPE_PAGE_DOWN;
+					Log.v(TAG, "get more");
+				mService.getMentionWeiboList(type, 1, statuses.getLast().timestamp, statuses.getLast().id);
+			}
+		});
+		
 	}
 
 	@Override
 	public void update(int type, Object param) {
-		if(type != Task.MSG_COMMENTS_MENTIONS||type!=Task.MSG_PRIVATE_LIST)return;
+		if(type != Task.MSG_COMMENTS_MENTIONS&&type!=Task.MSG_PRIVATE_LIST)return;
 		if(((Task)param).result.size() == 0) return;
 		ICArrayList result;
-		result = (ICArrayList)((Task)param).result.get(0);
-		Log.v(TAG, result.toString());
+		LinkedList<Status> tmpList;
+		switch(state){
+		//初始化
+		case REQUEST_TYPE_INIT:
+			result = (ICArrayList)((Task)param).result.get(0);
+			hasNext = result.hasNext;
+			Log.v(TAG,result.toString());
+			for(Object status: result.list){
+				statuses.add((Status)status);
+			}
+			setAdapter();
+			break;
+		//刷新第一页
+		case REQUEST_TYPE_REFRESH:
+			tmpList = new LinkedList<Status>();
+			result = (ICArrayList)((Task)param).result.get(0);
+			hasNext = result.hasNext;
+			for(Object status: result.list){
+				//判断当前已有的最新一条记录与请求的刷新记录是否相同，相同则不读取之后的记录
+				if(!statuses.get(0).id.equals(((Status)status).id))
+						tmpList.add((Status)status);
+				else break;
+			}
+			statuses.addAll(0, tmpList);
+			switch(info_curPosition){
+				case INFO_AT_POSITION:
+					show_at_list.onRefreshComplete();
+					break;
+				case INFO_COMMENTS_POSITION:
+					show_comment_list.onRefreshComplete();
+					break;
+				case INFO_MSG_POSITION:
+					show_msg_list.onRefreshComplete();
+					break;			
+				}
+			Toast.makeText(this, tmpList.size() == 0? "没有最新消息":"刷新了"+tmpList.size()+"条微博", Toast.LENGTH_SHORT).show();
+			break;
+		//下翻页
+		case REQUEST_TYPE_PAGE_DOWN:
+			tmpList = new LinkedList<Status>();
+			result = (ICArrayList)((Task)param).result.get(0);
+			hasNext = result.hasNext;
+			for(Object status: result.list){
+				tmpList.add((Status)status);
+			}
+			statuses.addAll(statuses.size(), tmpList);
+			switch(info_curPosition){
+				case INFO_AT_POSITION:
+					show_at_list.onLoadMoreComplete();
+					break;
+				case INFO_COMMENTS_POSITION:
+					show_comment_list.onLoadMoreComplete();
+					break;
+				case INFO_MSG_POSITION:
+					show_msg_list.onLoadMoreComplete();
+					break;			
+			}
+			Toast.makeText(this, "又拉取了一页",Toast.LENGTH_SHORT).show();
+			break;
+		}
+		//清零标志位
+		state  = REQUEST_TYPE_RESET;
+	}
+	/**
+	 * 为3种消息添加不同适配器
+	 */
+	private void setAdapter() {
+		// TODO Auto-generated method stub
+		if(statuses.size() != 0){
+			switch(info_curPosition){
+				case INFO_AT_POSITION:
+					show_at_list.setAdapter(new TimelineListAdapter(this,statuses));
+					break;
+				case INFO_COMMENTS_POSITION:
+					show_comment_list.setAdapter(new TimelineListAdapter(this, statuses));
+					break;
+				case INFO_MSG_POSITION:
+					break;
+			}
+		}
 	}
 	private void init(){
 		getAtInfo();

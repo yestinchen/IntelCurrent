@@ -51,10 +51,9 @@
          android:gravity="center"
          />
  </LinearLayout>
-  <com.kernel.intelcurrent.widget.PullToRefreshListView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/info_listview_main"
-        android:fastScrollEnabled="true"
-        />
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:id="@+id/info_showlayout"
+	    ></LinearLayout>
 </LinearLayout>
