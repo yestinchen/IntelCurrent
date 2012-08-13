@@ -63,6 +63,7 @@ public class ICModel
 	   case Task.G_GET_GROUP_TIMELINE:
 	   case Task.USER_INFO:
 	   case Task.MSG_COMMENTS_MENTIONS:
+	   case Task.MSG_PRIVATE_LIST:
 		   total=checkForThreadsNum(type,context);
 		   task.total=total;
 		   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE

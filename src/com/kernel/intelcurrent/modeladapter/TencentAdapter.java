@@ -60,6 +60,9 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.MSG_COMMENTS_MENTIONS:
 			getMentionsWeiboList();
 			break;
+		case Task.MSG_PRIVATE_LIST:
+			getPrivateMsgList();
+			break;
 		}
 		model.callBack(task);
 	}

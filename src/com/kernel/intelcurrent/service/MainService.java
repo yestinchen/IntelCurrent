@@ -96,6 +96,19 @@ public class MainService extends Service
 		Task t=new Task(Task.MSG_COMMENTS_MENTIONS,map,null);
 		model.doTask(t, this);
 	}
+	/**
+	 * 获取私信内容
+	 * @author allenjin
+	 */
+	public void getPriMsgList(int pageflag, long pagetime,String lastid){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("pageflag", pageflag);
+		map.put("pagetime", pagetime);
+		map.put("lastid", lastid);
+		map.put("reqnum", 20);
+		Task t=new Task(Task.MSG_PRIVATE_LIST,map,null);
+		model.doTask(t, this);
+	}
 	public void addWeibo(String content,String imgUrl,int platform){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("content", content);

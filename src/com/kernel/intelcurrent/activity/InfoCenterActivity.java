@@ -107,8 +107,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 					info_msg.setTextColor(context.getResources().getColor(R.color.info_tab_selected_color));
 					info_curPosition=INFO_MSG_POSITION;
 					statuses.clear();
-					getMsgInfo();					
-					
+					getMsgInfo();									
 				}		
 				break;
 			}
@@ -159,7 +158,6 @@ public class InfoCenterActivity extends Activity implements Updateable{
 				// TODO Auto-generated method stub
 				state=REQUEST_TYPE_PAGE_DOWN;
 					Log.v(TAG, "get more");
-	
 				mService.getMentionWeiboList(type, 1, statuses.getLast().timestamp, statuses.getLast().id);
 				
 			}
@@ -206,15 +204,16 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	private void getMsgInfo(){
 		state=REQUEST_TYPE_INIT;
 		show_msg_list=new PullToRefreshListView(this);
-		showlayout.addView(show_msg_list);
-		
+		showlayout.addView(show_msg_list);	
+		Log.v(TAG, "pri msg");
+		mService.getPriMsgList(0, 0, "0");
 		show_msg_list.setOnRefreshListener(new OnRefreshListener() {
 			
 			@Override
 			public void onRefresh() {
 				// TODO Auto-generated method stub
 				state=REQUEST_TYPE_REFRESH;
-				mService.getMentionWeiboList(type, 0, 0, "0");
+				mService.getPriMsgList( 0, 0, "0");
 	
 			}
 		});
@@ -225,7 +224,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 				// TODO Auto-generated method stub
 				state=REQUEST_TYPE_PAGE_DOWN;
 					Log.v(TAG, "get more");
-				mService.getMentionWeiboList(type, 1, statuses.getLast().timestamp, statuses.getLast().id);
+					mService.getPriMsgList(1, statuses.getLast().timestamp, statuses.getLast().id);
 			}
 		});
 		
@@ -313,6 +312,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 					show_comment_list.setAdapter(new TimelineListAdapter(this, statuses));
 					break;
 				case INFO_MSG_POSITION:
+					show_msg_list.setAdapter(new TimelineListAdapter(this, statuses));
 					break;
 			}
 		}
