@@ -73,10 +73,10 @@ public class WeiboShowActivity extends Activity {
 		nameTv.setText(user.nick);
 		platformTv.setText(user.platform == User.PLATFORM_SINA_CODE ? User.PLATFORM_SINA:User.PLATFORM_TENCENT);
 		
-		contentIv.setText(status.text);
+		contentIv.setText(status.text,true);
 		if(status.reStatus!= null){
 			retweetLayout.setVisibility(View.VISIBLE);
-			retweetContentIv.setText(status.reStatus.text);
+			retweetContentIv.setText(status.reStatus.text,true);
 			retweetNameTv.setText(status.reStatus.user.nick);
 			retweetMargin.setVisibility(View.VISIBLE);
 			if(status.reStatus.image != null&& status.reStatus.image.size() > 0){

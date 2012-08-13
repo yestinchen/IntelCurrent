@@ -123,9 +123,11 @@ public class TextToSpannable {
 				}
 				break;
 			case URL:
-				if(text.startsWith(" ",start) || text.startsWith(":",start) || start+1 == end){
+				if(text.startsWith(" ",start) || text.startsWith(":",start)){
 					state = Status.NORMAL;
-					buildUrl(contentStart,start+1);
+					buildUrl(contentStart,start);
+				}else if(start+1 == end){
+					buildUrl(contentStart,end);
 				}
 				break;
 			case URL_HTML:
@@ -208,8 +210,8 @@ public class TextToSpannable {
 	}
 	/**根据起始位置渲染url*/
 	private void buildUrl(int start,int end){
-		spannableSB.setSpan(new URLSpan(text.substring(start,end-1)),
-				start-offset, end-1-offset, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannableSB.setSpan(new URLSpan(text.substring(start,end)),
+				start-offset, end-offset, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 	
 	private void buildHtmlUrl(int start,int end){

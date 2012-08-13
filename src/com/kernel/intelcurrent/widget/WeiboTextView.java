@@ -29,11 +29,26 @@ public class WeiboTextView extends TextView {
 		this.context = context;
 	}
 	
-	
+
+	/**设置内容文字
+	 * @param text 文字
+	 * @param <br>省略了构造参数isLinkAvaiable,默认false
+	 * 
+	 * */
 	public void setText(String text){
-		tts = new TextToSpannable(text, context);
+		setText(text,false);
+	}
+	
+	/**设置内容文字
+	 * @param text 文字
+	 *@param isLinkAvaiable 点击链接是否有效
+	 * */
+	public void setText(String text,boolean isLinkAvaiable){
+		tts = new TextToSpannable( text,context);
 		super.setText(tts.parse());
-		super.setMovementMethod(LinkMovementMethod.getInstance());
+		if(isLinkAvaiable){
+			super.setMovementMethod(LinkMovementMethod.getInstance());
+		}
 	}
 
 }
