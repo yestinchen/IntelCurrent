@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,12 +31,25 @@ public class UserCenterActivity extends Activity implements Updateable{
 	private TextView follow_btn,fans_btn,shoucang_btn,weibo_btn;
 	private TextView follow_counts,fans_counts,shoucang_counts,weibo_counts;
 	private ImageView user_sex,switcher_left,switcher_right,user_platform;
-	private UrlImageView user_touxiang;
+	private ImageView user_touxiang;
 	
 	private User userinfo=null;
 	private MainActivity activityGroup;
 	private MainService mService;
-	
+	private Handler handler=new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			switch(msg.what){
+			case 2:
+			String localimgpath=(String) msg.obj;
+			user_touxiang.setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(localimgpath)));
+			}
+		}
+		
+	};
 	private static final String TAG=UserCenterActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +74,14 @@ public class UserCenterActivity extends Activity implements Updateable{
 		user_sex=(ImageView)findViewById(R.id.user_sex);
 		if(userinfo.gender==1)user_sex.setBackgroundResource(R.drawable.ic_user_sex_male);
 		else if(userinfo.gender==2)user_sex.setBackgroundResource(R.drawable.ic_user_sex_female);
-		user_touxiang=(UrlImageView)findViewById(R.id.user_touxiang);
+		user_touxiang=(ImageView)findViewById(R.id.user_touxiang);
 		user_platform=(ImageView)findViewById(R.id.user_platform_logo);
 		
 		if(userinfo.platform==User.PLATFORM_TENCENT_CODE){
 			user_platform.setBackgroundResource(R.drawable.ic_user_tencent_logo);
 		try {
-			user_touxiang.bindUrl(userinfo.head,UrlImageView.PLAT_FORM_TENCENT ,UrlImageView.LARGE_HEAD);
+			UrlImageView urlimg=new UrlImageView(this);
+			urlimg.bindUrl(userinfo.head,UrlImageView.PLAT_FORM_TENCENT ,UrlImageView.LARGE_HEAD,handler);
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

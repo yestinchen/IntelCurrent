@@ -37,7 +37,10 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	public static final int REQUEST_TYPE_REFRESH = 2;
 	public static final int REQUEST_TYPE_PAGE_DOWN = 3;
 	public static final int REQUEST_TYPE_RESET=-1;
-	private LinkedList<Status> statuses = new LinkedList<Status>();
+	private LinkedList<Status> statuses=new LinkedList<Status>();
+	private LinkedList<Status> at_statuses;
+	private LinkedList<Status> comment_statuses;
+	private LinkedList<Status> msg_statuses;
 	private int hasNext = -1;
 	private int state =REQUEST_TYPE_RESET;
 	private int type; //保存当前获取的提及微博列表的类型   0:为获取所有提及信息
@@ -79,11 +82,9 @@ public class InfoCenterActivity extends Activity implements Updateable{
 				info_at_me.setBackgroundResource(R.drawable.ic_info_tab_selected);
 				info_at_me.setTextColor(context.getResources().getColor(R.color.info_tab_selected_color));
 				info_curPosition=INFO_AT_POSITION;
-				if(show_at_list==null){
-					getAtInfo();
-					}else{
-						showlayout.addView(show_at_list);
-					}
+				statuses.clear();
+				getAtInfo();
+					
 				}
 				
 				break;
@@ -94,11 +95,8 @@ public class InfoCenterActivity extends Activity implements Updateable{
 					info_comments.setBackgroundResource(R.drawable.ic_info_tab_selected);
 					info_comments.setTextColor(context.getResources().getColor(R.color.info_tab_selected_color));
 					info_curPosition=INFO_COMMENTS_POSITION;
-					if(show_comment_list==null){
-						getCommentsInfo();
-					}else{
-						showlayout.addView(show_comment_list);
-					}
+					statuses.clear();
+					getCommentsInfo();
 				}		
 				break;
 			case R.id.info_btn_msg:
@@ -108,11 +106,8 @@ public class InfoCenterActivity extends Activity implements Updateable{
 					info_msg.setBackgroundResource(R.drawable.ic_info_tab_selected);
 					info_msg.setTextColor(context.getResources().getColor(R.color.info_tab_selected_color));
 					info_curPosition=INFO_MSG_POSITION;
-					if(show_msg_list==null){
-						getMsgInfo();
-					}else{
-						showlayout.addView(show_msg_list);
-					}
+					statuses.clear();
+					getMsgInfo();					
 					
 				}		
 				break;
@@ -144,7 +139,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 		state=REQUEST_TYPE_INIT;
 		show_at_list=new PullToRefreshListView(this);
 		showlayout.addView(show_at_list);	
-		type=0;
+		type=0x1|0x2|0x10|0x20;
 		mService.getMentionWeiboList(type, 0, 0, "0");
 		
 		show_at_list.setOnRefreshListener(new OnRefreshListener() {
@@ -164,10 +159,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 				// TODO Auto-generated method stub
 				state=REQUEST_TYPE_PAGE_DOWN;
 					Log.v(TAG, "get more");
-					if(hasNext==1){
-						Toast.makeText(InfoCenterActivity.this, "没有更多内容，拉取完毕", Toast.LENGTH_SHORT).show();
-						return;
-					}
+	
 				mService.getMentionWeiboList(type, 1, statuses.getLast().timestamp, statuses.getLast().id);
 				
 			}
@@ -182,7 +174,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 		state=REQUEST_TYPE_INIT;
 		show_comment_list=new PullToRefreshListView(this);
 		showlayout.addView(show_comment_list);		
-		type=0x40;
+		type=0x8|0x40;
 		mService.getMentionWeiboList(type, 0, 0, "0");
 		
 		show_comment_list.setOnRefreshListener(new OnRefreshListener() {
@@ -202,10 +194,6 @@ public class InfoCenterActivity extends Activity implements Updateable{
 				// TODO Auto-generated method stub
 				state=REQUEST_TYPE_PAGE_DOWN;
 					Log.v(TAG, "get more");
-				if(hasNext==1){
-					Toast.makeText(InfoCenterActivity.this, "没有更多内容，拉取完毕", Toast.LENGTH_SHORT).show();
-					return;
-				}
 				mService.getMentionWeiboList(type, 1, statuses.getLast().timestamp, statuses.getLast().id);
 			}
 		});

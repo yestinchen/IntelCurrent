@@ -33,7 +33,7 @@
 	            android:layout_marginTop="10dp"
 	            android:background="@drawable/ic_user_touxiang_bg"
 	            >
-	        <com.kernel.intelcurrent.widget.UrlImageView 
+	        <ImageView
 	            android:id="@+id/user_touxiang"
 	            android:layout_width="100dp"
 	            android:layout_height="100dp"
