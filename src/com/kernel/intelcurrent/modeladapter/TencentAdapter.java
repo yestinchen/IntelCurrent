@@ -75,6 +75,9 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.USER_WEIBO_LIST:
 			getUserWeiboList();
 			break;
+		case Task.WEIBO_COMMENTS_BY_ID:
+			getCommentList();
+			break;
 			
 		}
 		model.callBack(task);

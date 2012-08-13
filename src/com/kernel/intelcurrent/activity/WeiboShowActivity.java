@@ -2,7 +2,10 @@ package com.kernel.intelcurrent.activity;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 
+import com.kernel.intelcurrent.model.Comment;
+import com.kernel.intelcurrent.model.ICArrayList;
 import com.kernel.intelcurrent.model.SimpleUser;
 import com.kernel.intelcurrent.model.Status;
 import com.kernel.intelcurrent.model.Task;
@@ -13,13 +16,15 @@ import com.kernel.intelcurrent.widget.WeiboTextView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class WeiboShowActivity extends BaseActivity implements View.OnClickListener{
+public class WeiboShowActivity extends BaseActivity implements View.OnClickListener,Updateable{
 
+	private static final String TAG = WeiboShowActivity.class.getSimpleName();
 	
 	private ImageView leftImage;
 	private TextView titleTv,platformTv,nameTv,retweetNameTv,commentBtn,forwordBtn,moreBtn,retweetMargin;
@@ -30,6 +35,22 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	private Status status;
 	private SimpleUser user;
 	
+	private int hasNext;
+	private ArrayList<Comment> comments;
+
+	@Override
+	public void update(int type, Object param) {
+		Log.d(TAG, "task"+param);
+		if(type != Task.WEIBO_COMMENTS_BY_ID)return;
+		if(((Task)param).result.size() == 0) return;
+		ICArrayList result =(ICArrayList) ((Task)param).result.get(0);
+		comments = new ArrayList<Comment>();
+		for(Object comment: result.list){
+			comments.add((Comment)comment);
+		}
+		Log.d(TAG, "comments"+comments);
+		
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +61,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		findViews();
 		init();
 		setListeners();
+//		setAdapter();
 	}
 	
 	private void findViews(){
@@ -121,13 +143,16 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 
 	@Override
 	public void onConnectionFinished() {
-		
+//		if(user.platform == User.PLATFORM_TENCENT_CODE){
+			mService.getCommentList(status.id,0,0,"0",Task.PLATFORM_TENCENT);	
+//		}
 	}
 
 	@Override
 	public void onConnectionDisConnected() {
 		
 	}
+
 
 
 }

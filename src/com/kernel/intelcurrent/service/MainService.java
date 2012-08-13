@@ -178,12 +178,29 @@ public class MainService extends Service
 		model.doTask(t, this);
 	}
 	
+	/**转发一条微博*/
 	public void rePost(String content,String reid,int platform){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("content", content);
 		map.put("reid", reid);
 		map.put("platform", platform);
 		Task t = new Task(Task.WEIBO_REPOST,map,null);
+		model.doTask(t, this);
+	}
+	
+	/**获取评论列表
+	 * 
+	 *@param lastid  1-100为0，之后填上一个的id*/
+	public void getCommentList(String rootid,int pageflag,long pagetime,String lastid,int platform){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("flag", 1);
+		map.put("rootid", rootid);
+		map.put("pageflag", pageflag);
+		map.put("pagetime", pagetime);
+		map.put("reqnum", 10);
+		map.put("twitterid", lastid);
+		map.put("platform",platform);
+		Task t = new Task(Task.WEIBO_COMMENTS_BY_ID,map,null);
 		model.doTask(t, this);
 	}
 	/*=======================操纵ICModel的方法结束=======================================*/

@@ -98,4 +98,10 @@ public class Task implements Serializable
     	param=p;
     	this.target=target;
     }
+	@Override
+	public String toString() {
+		return "Task [type=" + type + ", total=" + total + ", current="
+				+ current + ", target=" + target + ", result=" + result
+				+ ", param=" + param + "]";
+	}
 }
