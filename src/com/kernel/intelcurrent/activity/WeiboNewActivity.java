@@ -423,6 +423,16 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		}
 		return length;
 	}
+	@Override
+	public void onConnectionFinished() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onConnectionDisConnected() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 }

@@ -8,4 +8,16 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		
 	}
 
+	@Override
+	public void onConnectionFinished() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onConnectionDisConnected() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

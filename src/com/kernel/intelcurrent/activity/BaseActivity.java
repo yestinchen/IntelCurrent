@@ -49,13 +49,16 @@ public abstract class BaseActivity extends Activity
 			mService=binder.getService();
 			isBound=true;
 			mService.changeCurrentActivity(BaseActivity.this);	
-			
+			onConnectionFinished();		
 		}
 
 		public void onServiceDisconnected(ComponentName name) 
 		{
 			isBound = false;
+			onConnectionDisConnected();
 		}
     	
     };
+    public abstract void onConnectionFinished();
+    public abstract void onConnectionDisConnected();
 }

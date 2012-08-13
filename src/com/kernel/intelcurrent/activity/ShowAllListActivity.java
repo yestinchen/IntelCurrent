@@ -23,7 +23,7 @@ import com.kernel.intelcurrent.widget.PullToRefreshListView;
 import com.kernel.intelcurrent.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.kernel.intelcurrent.widget.PullToRefreshListView.OnRefreshListener;
 
-public class ShowAllListActivity extends Activity implements Updateable{
+public class ShowAllListActivity extends BaseActivity implements Updateable{
 	public static final int SHOW_ME_FANS_LIST=0;
 	public static final int SHOW_ME_SHOUCANG_LIST=1;
 	public static final int SHOW_ME_FOLLOW_LIST=2;
@@ -37,8 +37,6 @@ public class ShowAllListActivity extends Activity implements Updateable{
 	private PullToRefreshListView show_list;
 	private LinkedList<Status> statuses=new LinkedList<Status>();
 	private static final String TAG=ShowAllListActivity.class.getSimpleName();
-	protected MainService mService;
-	boolean isBound=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -48,22 +46,6 @@ public class ShowAllListActivity extends Activity implements Updateable{
 		setListener();
 		
 	}
-	
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-	   	   super.onStart();
-	   	   Intent intent=new Intent(this,MainService.class);
-	   	   bindService(intent,connection, Context.BIND_AUTO_CREATE);
-
-	}
-    protected void onStop()
-	{
-	   super.onStop();
-	   unbindService(connection);
-	   isBound=false;
-	}
-
 
 	private void findViews(){
 		head_left=(ImageView)findViewById(R.id.common_head_iv_left);
@@ -106,28 +88,6 @@ public class ShowAllListActivity extends Activity implements Updateable{
 		if(((Task)param).result.size() == 0) return;	
 		Log.v(TAG,((Task)param).result.toString());
 	}
-	   /**
-     * inner class:ServiceConnection
-     * */
-    private ServiceConnection connection= new ServiceConnection()
-    {
-
-		public void onServiceConnected(ComponentName className, IBinder service)
-		{
-			ICBinder binder=(ICBinder)service;
-			mService=binder.getService();
-			isBound=true;
-			mService.changeCurrentActivity(ShowAllListActivity.this);	
-			init();
-			
-		}
-
-		public void onServiceDisconnected(ComponentName name) 
-		{
-			isBound = false;
-		}
-    	
-    };
 	private void init(){
 	   	   if(mService!=null){
 	   		   Log.v(TAG,"mService is not null");
@@ -167,5 +127,17 @@ public class ShowAllListActivity extends Activity implements Updateable{
 			default :
 				break;
 		}
+	}
+
+	@Override
+	public void onConnectionFinished() {
+		// TODO Auto-generated method stub
+		init();
+	}
+
+	@Override
+	public void onConnectionDisConnected() {
+		// TODO Auto-generated method stub
+		
 	}
 }
