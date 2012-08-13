@@ -64,6 +64,10 @@ public class ICModel
 	   case Task.USER_INFO:
 	   case Task.MSG_COMMENTS_MENTIONS:
 	   case Task.MSG_PRIVATE_LIST:
+	   case Task.USER_FANS_LIST:
+	   case Task.USER_FAV_LIST:
+	   case Task.USER_FRIENDS_LIST:
+	   case Task.USER_WEIBO_LIST:
 		   total=checkForThreadsNum(type,context);
 		   task.total=total;
 		   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE

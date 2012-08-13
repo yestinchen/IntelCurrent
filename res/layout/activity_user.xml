@@ -168,7 +168,7 @@
 		    android:gravity="center"
 		    android:text="@string/user_table_follows"
 		    android:layout_marginLeft="@dimen/user_table_margin_left"
-		    android:background="@drawable/ic_user_table_cell"
+		    android:background="@drawable/ic_user_table_cell_bg"
 		    />
 		<TextView 
 		    android:id="@+id/user_tab_fans"
@@ -180,7 +180,7 @@
 		    android:textColor="@color/user_table_cell_color"
 		    android:text="@string/user_table_fans"
 		    android:layout_marginLeft="@dimen/user_table_margin_left"
-		    android:background="@drawable/ic_user_table_cell"
+		    android:background="@drawable/ic_user_table_cell_bg"
 		    />
 		<TextView 
 		    android:id="@+id/user_tab_shoucang"
@@ -192,7 +192,7 @@
 		    android:textColor="@color/user_table_cell_color"
 		    android:text="@string/user_table_shoucang"
 		    android:layout_marginLeft="@dimen/user_table_margin_left"
-		    android:background="@drawable/ic_user_table_cell"
+		    android:background="@drawable/ic_user_table_cell_bg"
 		    />
 		<TextView 
 		    android:id="@+id/user_tab_weibo"
@@ -204,7 +204,7 @@
 		    android:textColor="@color/user_table_cell_color"
 		    android:text="@string/user_table_weibo"
 		    android:layout_marginLeft="@dimen/user_table_margin_left"
-		    android:background="@drawable/ic_user_table_cell"
+		    android:background="@drawable/ic_user_table_cell_bg"
 		    />
 		</LinearLayout>
 		<LinearLayout 

@@ -47,6 +47,8 @@
         <activity android:name=".AboutActivity" android:label="@string/title_activity_base"/>
         <activity android:name=".SettingsActivity" android:label="@string/title_activity_base"/>
         <activity android:name=".LoginManagerActivity" android:label="@string/title_activity_base"/>
+        <activity android:name=".OtherUserInfoActivity" android:label="@string/title_activity_base"></activity>
+        <activity android:name=".ShowAllListActivity" android:label="@string/title_activity_base"></activity>
         <activity android:name=".ImageViewerActivity" android:label="@string/title_activity_base"></activity>
         <activity 
             android:name=".LoginActivity"

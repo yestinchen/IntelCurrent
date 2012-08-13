@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
@@ -127,22 +129,27 @@ public class UserCenterActivity extends Activity implements Updateable{
 		
 	}
 	private class UserOnclickListener implements OnClickListener{
-
+			
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+				int tab_type=-1;
 			switch(v.getId()){
 			case R.id.user_tab_fans:
+				tab_type=ShowAllListActivity.SHOW_ME_FANS_LIST;
 				//显示粉丝列表
 				break;
 			case R.id.user_tab_follows:
+				tab_type=ShowAllListActivity.SHOW_ME_FOLLOW_LIST;
 				//显示关注列表
 				break;
 			case R.id.user_tab_shoucang:
+				tab_type=ShowAllListActivity.SHOW_ME_SHOUCANG_LIST;
 				//显示收藏微博列表
 				break;
 			case R.id.user_tab_weibo:
 				//显示发布微博列表
+				tab_type=ShowAllListActivity.SHOW_ME_WEIBO_LIST;
 				break;
 			case R.id.user_switcher_left:
 				//切换平台
@@ -150,6 +157,11 @@ public class UserCenterActivity extends Activity implements Updateable{
 			case R.id.user_switcher_right:
 				//切换平台
 				break;
+			}
+			if(tab_type!=-1){
+				Intent intent=new Intent(UserCenterActivity.this,ShowAllListActivity.class);
+				intent.putExtra("show_list_type", tab_type);
+				startActivity(intent);
 			}
 		}
 		

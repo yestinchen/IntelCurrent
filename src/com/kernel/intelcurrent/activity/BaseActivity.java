@@ -4,6 +4,7 @@ import com.kernel.intelcurrent.service.MainService.ICBinder;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.util.Log;
 /**
  * classname:BaseActivity.java
  * @author 许凌霄
@@ -24,6 +25,10 @@ public abstract class BaseActivity extends Activity
    	   super.onStart();
    	   Intent intent=new Intent(this,MainService.class);
    	   bindService(intent,connection, Context.BIND_AUTO_CREATE);
+   	   Log.v(TAG, "mService bind");
+   	   if(mService!=null){
+   		   Log.v(TAG,"mService is not null");
+   	   }
    	}
     protected void onStop()
 	{
@@ -43,7 +48,8 @@ public abstract class BaseActivity extends Activity
 			ICBinder binder=(ICBinder)service;
 			mService=binder.getService();
 			isBound=true;
-			mService.changeCurrentActivity(BaseActivity.this);			
+			mService.changeCurrentActivity(BaseActivity.this);	
+			
 		}
 
 		public void onServiceDisconnected(ComponentName name) 

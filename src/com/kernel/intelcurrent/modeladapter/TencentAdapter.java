@@ -63,6 +63,19 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.MSG_PRIVATE_LIST:
 			getPrivateMsgList();
 			break;
+		case Task.USER_FANS_LIST:
+			getUserList(1);
+			break;
+		case Task.USER_FAV_LIST:
+			getFavWeiboList();
+			break;
+		case Task.USER_FRIENDS_LIST:
+			getUserList(2);
+			break;
+		case Task.USER_WEIBO_LIST:
+			getUserWeiboList();
+			break;
+			
 		}
 		model.callBack(task);
 	}

@@ -109,6 +109,54 @@ public class MainService extends Service
 		Task t=new Task(Task.MSG_PRIVATE_LIST,map,null);
 		model.doTask(t, this);
 	}
+	/**
+	 * 获取用户自己的粉丝列表
+	 * @param startindex 填当前获取的为第几页 第一页为:1;
+	 */
+	public void getUserFansList(int startindex){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("reqnum", 20);
+		map.put("startindex",20*(startindex-1));
+		Task t=new Task(Task.USER_FANS_LIST,map,null);
+		model.doTask(t, this);
+	}
+	/**
+	 * 获取用户自己的收听列表
+	 * @param startindex 填当前获取的为第几页 第一页为:1;
+	 */
+	public void getUserFriendsList(int startindex){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("reqnum", 20);
+		map.put("startindex",20*(startindex-1));
+		Task t=new Task(Task.USER_FRIENDS_LIST,map,null);
+		model.doTask(t, this);
+	}
+	/**
+	 * 获取用户的收藏列表
+	 * @author allenjin
+	 */
+	public void getUserShoucangList(int pageflag, long pagetime,String lastid){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("pageflag", pageflag);
+		map.put("pagetime", pagetime);
+		map.put("lastid", lastid);
+		map.put("reqnum", 20);
+		Task t=new Task(Task.USER_FAV_LIST,map,null);
+		model.doTask(t, this);
+	}
+	/**
+	 * 获取用户自己发表的微博列表
+	 */
+	public void getUserWeiboList(int pageflag, long pagetime,String lastid){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("pageflag", pageflag);
+		map.put("pagetime", pagetime);
+		map.put("lastid", lastid);
+		map.put("reqnum", 20);
+		Task t=new Task(Task.USER_WEIBO_LIST,map,null);
+		model.doTask(t, this);
+	}
+	
 	public void addWeibo(String content,String imgUrl,int platform){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("content", content);

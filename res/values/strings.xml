@@ -10,21 +10,32 @@
         <!-- UserCenterActivity布局专用 -->
     <string name="user_title">个人中心</string>
 	<string name="user_location">所在地</string>
-	<string name="user_location_text">空</string>
-	<string name="user_words">关于</string>
-	<string name="user_words_text">hello,大家好!</string>
+	<string name="user_location_text">无</string>
+	<string name="user_words">简介</string>
+	<string name="user_words_text">无</string>
 	<string name="user_table_follows">关注</string>
 	<string name="user_table_fans">粉丝</string>
 	<string name="user_table_shoucang">收藏</string>
 	<string name="user_table_weibo">微博</string>
 	<string name="user_table_cell_value">0</string>
-	
+	<string name="user_follow_add">收听</string>
+	<string name="user_follow_cancle">取消收听</string>
 		<!-- InfoCenterActivity布局使用 -->
 	<string name="info_title">通知中心</string>
 	<string name="info_at_me">\@我</string>
 	<string name="info_comment_me">评论</string>
 	<string name="info_msg">私信</string>
 	
+		<!-- ShowAllListActivity布局专用 -->
+	<string name="showlist_me_fans">我的听众</string>
+	<string name="showlist_me_weibo">我的广播</string>
+	<string name="showlist_me_shoucang">我的收藏</string>
+	<string name="showlist_me_follow">我的收听</string>
+	<string name="showlist_other_fans">的听众</string>
+	<string name="showlist_other_follow">的收听</string>
+	<string name="showlist_other_weibo">的广播</string>
+	<string name="showlist_back">返回</string>
+		
     <string name="weibo_new_new">发表微博</string>
     <string name="weibo_new_comment">评论微博</string>
     <string name="weibo_new_forword">转发微博</string>
