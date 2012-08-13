@@ -11,4 +11,8 @@
         <item>拍照上传</item>
         <item>选择图片</item>
     </string-array>
+    
+    <string name="weibo_show_btn_comment">评论</string>
+    <string name="weibo_show_btn_retweet">转发</string>
+    <string name="weibo_show_btn_more">更多</string>
 </resources>

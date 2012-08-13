@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.kernel.intelcurrent.activity.ImageViewerActivity;
 import com.kernel.intelcurrent.activity.R;
+import com.kernel.intelcurrent.activity.WeiboShowActivity;
 import com.kernel.intelcurrent.model.Status;
 import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.widget.UrlImageView;
@@ -72,6 +73,7 @@ public class TimelineListAdapter extends BaseAdapter {
 			holder.rCountTv = (TextView)convertView.findViewById(R.id.timeline_list_cell_tv_rcount);
 			holder.retweetLineView = (TextView)convertView.findViewById(R.id.timeline_list_cell_tv_retweet_margin);
 			holder.sourceTv = (TextView)convertView.findViewById(R.id.timeline_list_cell_tv_source);
+			holder.containerLayout = (RelativeLayout)convertView.findViewById(R.id.timeline_list_cell_layout_container);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
@@ -94,7 +96,7 @@ public class TimelineListAdapter extends BaseAdapter {
 		holder.rCountTv.setText(String.valueOf(status.rCount));
 		holder.sourceTv.setText("来自:"+status.source);
 		
-		CellListener l = null;
+		CellListener l = new CellListener(status);
 		try {
 			holder.headIv.bindUrl(status.user.head,UrlImageView.PLAT_FORM_TENCENT,UrlImageView.LARGE_HEAD);
 			if(status.image.size() != 0){
@@ -102,7 +104,6 @@ public class TimelineListAdapter extends BaseAdapter {
 				String url = status.image.get(0);
 				holder.tweetIv.bindUrl(url,UrlImageView.PLAT_FORM_TENCENT,UrlImageView.SMALL_IMAGE);	
 				holder.tweetIv.setTag( url);
-				l = new CellListener();
 				holder.tweetIv.setOnClickListener(l);
 			}
 		} catch (MalformedURLException e) {
@@ -122,7 +123,6 @@ public class TimelineListAdapter extends BaseAdapter {
 					String url = reStatus.image.get(0);
 					holder.retweetIv.bindUrl(url,UrlImageView.PLAT_FORM_TENCENT,UrlImageView.SMALL_IMAGE);
 					holder.retweetIv.setTag(url);
-					if(l == null) l = new CellListener();
 					holder.retweetIv.setOnClickListener(l);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
@@ -131,6 +131,12 @@ public class TimelineListAdapter extends BaseAdapter {
 				}
 			}
 		}
+		//所有元素加监听
+		holder.headIv.setOnClickListener(l);
+		holder.headNameTv.setOnClickListener(l);
+		holder.retweetContentTv.setOnClickListener(l);
+		holder.contentTv.setOnClickListener(l);
+		holder.containerLayout.setOnClickListener(l);
 		return convertView;
 	}
 
@@ -138,16 +144,24 @@ public class TimelineListAdapter extends BaseAdapter {
 		TextView platformTv,headNameTv,retweetNameTv,timeTv,cCountTv,rCountTv,retweetLineView,sourceTv;
 		WeiboTextView contentTv,retweetContentTv;
 		UrlImageView headIv,tweetIv,retweetIv;
-		RelativeLayout retweetLayout;
+		RelativeLayout retweetLayout,containerLayout;
 	}
 	
 	class CellListener implements OnClickListener{
+		Status status;
+		public CellListener(Status status){
+			this.status = status;
+		}
 		@Override
 		public void onClick(View v) {
 			//若是图片，添加监听后可以点击看大图
 			if(v instanceof UrlImageView){
 				Intent intent = new Intent(context,ImageViewerActivity.class);
 				intent.putExtra("url",v.getTag().toString());
+				context.startActivity(intent);
+			}else {
+				Intent intent = new Intent(context,WeiboShowActivity.class);
+				intent.putExtra("status", status);
 				context.startActivity(intent);
 			}
 		}
