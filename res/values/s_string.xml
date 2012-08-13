@@ -15,4 +15,15 @@
     <string name="weibo_show_btn_comment">评论</string>
     <string name="weibo_show_btn_retweet">转发</string>
     <string name="weibo_show_btn_more">更多</string>
+    
+    <string name="more_title">更多</string>
+    
+    <string name="more_group_draft">草稿箱</string>
+    <string name="more_group_order_center">订阅中心</string>
+    <string name="more_group_push_center">推送中心</string>
+    <string name="more_group_shake">摇摇看</string>
+    <string name="more_group_settings">设置</string>
+    <string name="more_group_skin">换肤</string>
+    <string name="more_group_about">关于</string>
+    <string name="more_group_account">帐号管理</string>
 </resources>
