@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <include layout="@layout/common_head"/>
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        >
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    >
+		   <com.kernel.intelcurrent.widget.NoScrollListView
+		       android:id="@+id/activity_more_lv_1"
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:padding="@dimen/padding_small"
+		       android:layout_margin="@dimen/padding_small"
+		       />
+		   <com.kernel.intelcurrent.widget.NoScrollListView
+		       android:id="@+id/activity_more_lv_2"
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:padding="@dimen/padding_small"
+		       android:layout_margin="@dimen/padding_small"
+		       />
+		   <com.kernel.intelcurrent.widget.NoScrollListView
+		       android:id="@+id/activity_more_lv_3"
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:padding="@dimen/padding_small"
+		       android:layout_margin="@dimen/padding_small"
+		       />
+		</LinearLayout>        
+    </ScrollView>
+
+</LinearLayout>
