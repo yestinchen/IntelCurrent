@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+import com.kernel.intelcurrent.adapter.CommentListAdapter;
 import com.kernel.intelcurrent.model.Comment;
 import com.kernel.intelcurrent.model.ICArrayList;
 import com.kernel.intelcurrent.model.SimpleUser;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,13 +33,15 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	private UrlImageView headIv,picIv,retweetPicIv;
 	private WeiboTextView contentIv,retweetContentIv;
 	private RelativeLayout retweetLayout;
+	private ListView commentsLv;
 	
 	private Status status;
 	private SimpleUser user;
 	
 	private int hasNext;
-	private ArrayList<Comment> comments;
-
+	private ArrayList<Comment> comments = new ArrayList<Comment>();
+	private CommentListAdapter listAdapter;
+	
 	@Override
 	public void update(int type, Object param) {
 		Log.d(TAG, "task"+param);
@@ -48,6 +52,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		for(Object comment: result.list){
 			comments.add((Comment)comment);
 		}
+		setAdapter();
 		Log.d(TAG, "comments"+comments);
 		
 	}
@@ -61,7 +66,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		findViews();
 		init();
 		setListeners();
-//		setAdapter();
+		setAdapter();
 	}
 	
 	private void findViews(){
@@ -80,6 +85,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		retweetNameTv = (TextView)findViewById(R.id.activity_weibo_show_tv_retweet_head);
 		
 		retweetMargin = (TextView)findViewById(R.id.activity_weibo_show_tv_retweet_margin);
+		commentsLv = (ListView)findViewById(R.id.activity_weibo_show_lv_comments);
 	}
 	
 	private void init(){
@@ -141,6 +147,11 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		}
 	}
 
+	private void setAdapter(){
+		listAdapter = new CommentListAdapter(this, comments);
+		commentsLv.setAdapter(listAdapter);
+	}
+	
 	@Override
 	public void onConnectionFinished() {
 //		if(user.platform == User.PLATFORM_TENCENT_CODE){

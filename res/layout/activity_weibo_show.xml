@@ -201,19 +201,23 @@
             />
     </RelativeLayout>
     </LinearLayout>
-    <ListView
+    <com.kernel.intelcurrent.widget.NoScrollListView
         android:id="@+id/activity_weibo_show_lv_comments"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
         />
+    <!-- 
     <TextView
         android:id="@+id/activity_weibo_show_tv_load_more"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
+        android:text="@string/common_load_more"
         android:gravity="center"
         android:textAppearance="@android:style/TextAppearance.Large" 
-        />
+        /> -->
     </LinearLayout>
+    
+	
     </ScrollView>
 </LinearLayout>

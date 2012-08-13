@@ -36,7 +36,7 @@ public class NoScrollListView extends ListView {
 	private void init(){
 		setVerticalScrollBarEnabled(false);
 		setHorizontalScrollBarEnabled(false);
-		setBackgroundResource(R.drawable.more_group_bg);
+//		setBackgroundResource(R.drawable.more_group_bg);
 	}
 
 	@Override 
