@@ -177,7 +177,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 			
 		}else{
 			other_at_btn.setText("@她");
-			sex_img=this.getResources().getDrawable(R.drawable.ic_user_sex_male);
+			sex_img=this.getResources().getDrawable(R.drawable.ic_user_sex_female);
 			sex_img.setBounds(0,0,40,40);
 		}
 		other_name.setCompoundDrawables(null, null,sex_img , null);

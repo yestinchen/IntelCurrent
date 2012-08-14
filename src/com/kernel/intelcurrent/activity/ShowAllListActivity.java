@@ -26,7 +26,7 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 	public static final int REQUEST_TYPE_INIT =8;
 	public static final int REQUEST_TYPE_MORE =9;
 	private int state=REQUEST_TYPE_RESET;
-
+	private int init_type=1;
 	private int startindex=1;
 	private int show_list_type;
 	private ImageView head_left;
@@ -44,6 +44,7 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 		setListener();
 		
 	}
+
 
 	private void findViews(){
 		head_left=(ImageView)findViewById(R.id.common_head_iv_left);
@@ -281,7 +282,10 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 	@Override
 	public void onConnectionFinished() {
 		// TODO Auto-generated method stub
-		init();
+		if(init_type==1){
+			init();
+			init_type=-1;
+		}
 	}
 
 	@Override
