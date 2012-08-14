@@ -43,6 +43,7 @@ public class TencentAdapter extends ModelAdapter {
 			getOtherWeiboList();
 			break;
 		case Task.USER_INFO:
+		case Task.USER_OTHER_INFO:
 			getUserInfo();
 			break;
 		case Task.WEIBO_ADD:
@@ -58,6 +59,7 @@ public class TencentAdapter extends ModelAdapter {
 			replyWeibo();
 			break;
 		case Task.MSG_COMMENTS_MENTIONS:
+		case Task.MSG_COMMENTS_ME_LIST:
 			getMentionsWeiboList();
 			break;
 		case Task.MSG_PRIVATE_LIST:
@@ -78,7 +80,12 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.WEIBO_COMMENTS_BY_ID:
 			getCommentList();
 			break;
-			
+		case Task.USER_FREINDS_DEL:
+			delFriend();
+			break;
+		case Task.USER_FRIENDS_ADD:
+			addFriend();
+			break;
 		}
 		model.callBack(task);
 	}
@@ -296,7 +303,7 @@ public class TencentAdapter extends ModelAdapter {
 		}
 		task.result.add(me);
 		Log.v(TAG, "get User Info:"+response);
-		Log.v(TAG, "get User object:"+me.toString());
+		//Log.v(TAG, "get User object:"+me.toString());
 	}
 
 	
@@ -331,6 +338,7 @@ public class TencentAdapter extends ModelAdapter {
 				obj = rawArrays.getJSONObject(i);
 				User user = new User();
 				user.id = obj.getString("openid");
+				user.name=obj.getString("name");
 				user.nick = obj.getString("nick");
 				String province = obj.getString("province_code");
 				if(province!=null && !province.equals("")) user.province = Integer.valueOf(province);

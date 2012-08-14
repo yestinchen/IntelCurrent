@@ -4,14 +4,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_base">BaseActivity</string>
-    <string name="tencent_weibo">登陆腾讯微博</string>
-    <string name="sina_weibo">登陆新浪微博</string>
+    <string name="tencent_weibo">腾讯微博</string>
+    <string name="sina_weibo">新浪微博</string>
 
         <!-- UserCenterActivity布局专用 -->
     <string name="user_title">个人中心</string>
-	<string name="user_location">所在地</string>
+	<string name="user_location">所在地:</string>
 	<string name="user_location_text">无</string>
-	<string name="user_words">简介</string>
+	<string name="user_words">简介:</string>
 	<string name="user_words_text">无</string>
 	<string name="user_table_follows">关注</string>
 	<string name="user_table_fans">粉丝</string>

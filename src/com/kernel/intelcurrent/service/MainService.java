@@ -74,9 +74,9 @@ public class MainService extends Service
 	 * 获取用户的信息 //fopenids为0为用户自己（腾讯）
 	 * @author allenjin
 	 */
-	public void getUserInfo(String openids){
+	public void getUserInfo(String openid){
 			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("openid", openids);
+			map.put("openid", openid);
 			Task t=new Task(Task.USER_INFO,map,null);
 			model.doTask(t, this);
 			Log.v(TAG,"getuserinfo in service");
@@ -93,7 +93,12 @@ public class MainService extends Service
 		map.put("pagetime", pagetime);
 		map.put("lastid", lastid);
 		map.put("reqnum", 20);
-		Task t=new Task(Task.MSG_COMMENTS_MENTIONS,map,null);
+		Task t;
+		if(type==(0x8|0x40)){
+			t=new Task(Task.MSG_COMMENTS_ME_LIST,map,null);//评论
+		}else{
+			t=new Task(Task.MSG_COMMENTS_MENTIONS,map,null);
+		}
 		model.doTask(t, this);
 	}
 	/**
@@ -146,6 +151,7 @@ public class MainService extends Service
 	}
 	/**
 	 * 获取用户自己发表的微博列表
+	 * @author allenjin
 	 */
 	public void getUserWeiboList(int pageflag, long pagetime,String lastid){
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -156,7 +162,40 @@ public class MainService extends Service
 		Task t=new Task(Task.USER_WEIBO_LIST,map,null);
 		model.doTask(t, this);
 	}
-	
+	/**
+	 * 取消收听用户
+	 * @param name 用户名
+	 * @author allenjin
+	 */
+	public void delFriend(String name){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("name", name);
+		Task t=new Task(Task.USER_FREINDS_DEL,map,null);
+		model.doTask(t, this);
+	}
+	/**
+	 * 收听用户
+	 * @param name 用户名
+	 * @author allenjin
+	 */
+	public void addFriend(String name){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("name", name);
+		Task t=new Task(Task.USER_FRIENDS_ADD,map,null);
+		model.doTask(t, this);
+	}
+	/**
+	 * 获取其他用户信息
+	 * @param openid 其他用户的openid
+	 * @author allenjin
+	 */
+	public void getOtherUserInfo(String openid){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("openid", openid);
+		Task t=new Task(Task.USER_OTHER_INFO,map,null);
+		model.doTask(t, this);
+		Log.v(TAG,"getuserinfo in service");
+	}
 	/**添加一条微博*/
 	public void addWeibo(String content,String imgUrl,int platform){
 		HashMap<String,Object> map = new HashMap<String,Object>();

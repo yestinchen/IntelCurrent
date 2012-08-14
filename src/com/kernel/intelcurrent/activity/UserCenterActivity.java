@@ -136,20 +136,20 @@ public class UserCenterActivity extends Activity implements Updateable{
 				int tab_type=-1;
 			switch(v.getId()){
 			case R.id.user_tab_fans:
-				tab_type=ShowAllListActivity.SHOW_ME_FANS_LIST;
+				tab_type=Task.USER_FANS_LIST;
 				//显示粉丝列表
 				break;
 			case R.id.user_tab_follows:
-				tab_type=ShowAllListActivity.SHOW_ME_FOLLOW_LIST;
+				tab_type=Task.USER_FRIENDS_LIST;
 				//显示关注列表
 				break;
 			case R.id.user_tab_shoucang:
-				tab_type=ShowAllListActivity.SHOW_ME_SHOUCANG_LIST;
+				tab_type=Task.USER_FAV_LIST;
 				//显示收藏微博列表
 				break;
 			case R.id.user_tab_weibo:
 				//显示发布微博列表
-				tab_type=ShowAllListActivity.SHOW_ME_WEIBO_LIST;
+				tab_type=Task.USER_WEIBO_LIST;
 				break;
 			case R.id.user_switcher_left:
 				//切换平台

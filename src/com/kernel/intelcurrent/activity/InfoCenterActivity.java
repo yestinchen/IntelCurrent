@@ -27,6 +27,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	private static final int INFO_COMMENTS_POSITION=1;
 	private static final int INFO_MSG_POSITION=2;
 	private int info_curPosition=INFO_AT_POSITION;
+	private int cur_type;
 	private Context context;
 	private PullToRefreshListView show_at_list,show_comment_list,show_msg_list;
 	private LinearLayout showlayout;
@@ -136,6 +137,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	 */
 	private void getAtInfo(){
 		state=REQUEST_TYPE_INIT;
+		cur_type=Task.MSG_COMMENTS_MENTIONS;
 		show_at_list=new PullToRefreshListView(this);
 		showlayout.addView(show_at_list);	
 		type=0x1|0x2|0x10|0x20;
@@ -170,9 +172,10 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	 */
 	private void getCommentsInfo(){
 		state=REQUEST_TYPE_INIT;
+		cur_type=Task.MSG_COMMENTS_ME_LIST;
 		show_comment_list=new PullToRefreshListView(this);
 		showlayout.addView(show_comment_list);		
-		type=0x8|0x40;
+		type=0x8|0x40;//如果改动，service也要改动，
 		mService.getMentionWeiboList(type, 0, 0, "0");
 		
 		show_comment_list.setOnRefreshListener(new OnRefreshListener() {
@@ -203,6 +206,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	 */
 	private void getMsgInfo(){
 		state=REQUEST_TYPE_INIT;
+		cur_type=Task.MSG_PRIVATE_LIST;
 		show_msg_list=new PullToRefreshListView(this);
 		showlayout.addView(show_msg_list);	
 		Log.v(TAG, "pri msg");
@@ -232,7 +236,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 
 	@Override
 	public void update(int type, Object param) {
-		if(type != Task.MSG_COMMENTS_MENTIONS&&type!=Task.MSG_PRIVATE_LIST)return;
+		if(type != cur_type)return;
 		if(((Task)param).result.size() == 0) return;
 		ICArrayList result;
 		LinkedList<Status> tmpList;

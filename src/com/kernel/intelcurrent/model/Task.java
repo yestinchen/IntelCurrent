@@ -57,6 +57,7 @@ public class Task implements Serializable
 	public static final int USER_OTHER_FANS_LIST=0x000029;
 	public static final int USER_OTHER_FRIENDS_LIST=0x00002A;
 	public static final int USER_OTHER_WEIBO_LIST=0x00002B;
+	public static final int USER_OTHER_INFO=0x00002C;
 	/*-----关于消息的操作-----*/
 	public static final int MSG_COMMENTS_MENTIONS = 0x000031;
 	public static final int MSG_COMMENTS_ME_LIST = 0x000032;
