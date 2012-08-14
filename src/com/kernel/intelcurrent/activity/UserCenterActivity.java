@@ -48,6 +48,7 @@ public class UserCenterActivity extends Activity implements Updateable{
 			case 2:
 			String localimgpath=(String) msg.obj;
 			user_touxiang.setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(localimgpath)));
+			break;
 			}
 		}
 		

@@ -132,8 +132,8 @@ public class UserFriendListAdapter extends BaseAdapter {
 			}else{
 				Toast.makeText(context, user.nick, Toast.LENGTH_SHORT).show();
 				Intent intent=new Intent(context,OtherUserInfoActivity.class);
-				intent.putExtra("user_info_type",OtherUserInfoActivity.OTHER_USER_INFO_ONE);
-				intent.putExtra("user", user);
+				intent.putExtra("user_openid",user.id);
+				intent.putExtra("user_nick", user.nick);
 				context.startActivity(intent);
 				
 			}

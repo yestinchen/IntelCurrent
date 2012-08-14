@@ -49,6 +49,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 			case 2:
 				String localimgpath=(String) msg.obj;
 				other_head.setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeFile(localimgpath)));
+				break;
 			}
 		}
 		
@@ -58,14 +59,14 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_other_user_info);
-		findViews();
 		intent=getIntent();
-		info_type=intent.getIntExtra("user_info_type", -1);
-		if(info_type==OTHER_USER_INFO_ONE){
-			userinfo=(User)intent.getSerializableExtra("user");
-			initOne();
-			setListener();
-		}
+		findViews();		
+//		info_type=intent.getIntExtra("user_info_type", -1);
+//		if(info_type==OTHER_USER_INFO_ONE){
+//			userinfo=(User)intent.getSerializableExtra("user");
+//			initOne();
+//			setListener();
+//		}
 	}
 	private void findViews(){
 		other_title=(TextView)findViewById(R.id.common_head_tv_title);
@@ -119,15 +120,36 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 			// TODO Auto-generated method stub
 			switch(v.getId()){
 			case R.id.other_user_follow_btn:
+				Log.v(TAG, user.toString());
 				follow(v,user.name);
 				break;
 			case R.id.other_user_at_btn:
 				break;
 			case R.id.other_user_fans_layout:
+				Log.v(TAG, user.toString());
+				Intent intent1 =new Intent(OtherUserInfoActivity.this,ShowAllListActivity.class);
+				intent1.putExtra("show_list_type", Task.USER_OTHER_FANS_LIST);
+				intent1.putExtra("other_name", user.name);
+				intent1.putExtra("other_nick", user.nick);
+				Log.v(TAG, user.name);
+				startActivity(intent1);
 				break;
 			case R.id.other_user_follow_layout:
+				Intent intent2 =new Intent(OtherUserInfoActivity.this,ShowAllListActivity.class);
+				intent2.putExtra("show_list_type",Task.USER_OTHER_FRIENDS_LIST);
+				intent2.putExtra("other_name", user.name);
+				intent2.putExtra("other_nick", user.nick);
+				Log.v(TAG, user.name);
+				startActivity(intent2);
 				break;
 			case R.id.other_user_weibo_layout:
+				Intent intent3 =new Intent(OtherUserInfoActivity.this,ShowAllListActivity.class);
+				intent3.putExtra("show_list_type", Task.USER_OTHER_WEIBO_LIST);
+				intent3.putExtra("other_openid", user.id);
+				intent3.putExtra("other_name", user.name);
+				intent3.putExtra("other_nick", user.nick);
+				Log.v(TAG, user.name+user.id);
+				startActivity(intent3);
 				break;
 			}
 		}
@@ -142,12 +164,22 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		userinfo=(User)task.result.get(0);	
 		if(userinfo!=null){
 			Log.v(TAG,"username:"+userinfo.nick+"userhead:"+userinfo.head+"userlocation:"+userinfo.location);
+			initOne();
+			setListener();
 		}
 	}
 
 	@Override
 	public void onConnectionFinished() {
 		// TODO Auto-generated method stub
+		if(intent!=null){
+			String openid=intent.getStringExtra("user_openid");
+			String name=intent.getStringExtra("user_nick");
+			other_title.setText(name);
+			Log.v(TAG, openid);
+			mService.getOtherUserInfo(openid);
+		}
+
 	}
 
 	@Override
@@ -167,7 +199,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		other_title.setText(userinfo.nick);
+		//other_title.setText(userinfo.nick);
 		other_name.setText(userinfo.nick);
 		Drawable sex_img;
 		if(userinfo.gender==1){
@@ -201,12 +233,9 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		other_platform.setCompoundDrawables(platform_img, null, null, null);
 		other_words.setText(userinfo.description!=null?userinfo.description:"无");
 		
-		//other_weibo_nums.setText(userinfo.statusnum);
+		other_weibo_nums.setText(userinfo.statusnum+"");
 		other_fans_nums.setText(userinfo.fansnum+"");
 		other_follow_nums.setText(userinfo.idolnum+"");
-	}
-	public void initTwo(){
-		
 	}
 	private void follow(View v,final String name){
 		AlertDialog.Builder builder=new AlertDialog.Builder(this);

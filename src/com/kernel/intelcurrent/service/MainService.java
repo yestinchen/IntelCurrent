@@ -163,6 +163,47 @@ public class MainService extends Service
 		model.doTask(t, this);
 	}
 	/**
+	 * 获取其他用户的听众列表
+	 * @param name	用户名
+	 * @param startindex	填当前获取的为第几页 第一页为:1;
+	 */
+	public void getOtherFansList(String name,int startindex){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("reqnum", 20);
+		map.put("name", name);
+		map.put("startindex",20*(startindex-1));
+		Task t=new Task(Task.USER_OTHER_FANS_LIST,map,null);
+		model.doTask(t, this);
+	}
+	/**
+	 * 获取其他用户的收听列表
+	 * @param name 用户名
+	 * @param startindex	填当前获取的为第几页 第一页为:1;
+	 */
+	public void getOtherFollowList(String name,int startindex){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("reqnum", 20);
+		map.put("startindex",20*(startindex-1));
+		map.put("name", name);
+		Task t=new Task(Task.USER_OTHER_FRIENDS_LIST,map,null);
+		model.doTask(t, this);
+	}
+	/**
+	 * 获取其他用户发表的微博列表
+	 * @param fopenids 其他用户的openid
+	 * @author allenjin
+	 */
+	public void getOtherWeiboList(String fopenids,int pageflag, long pagetime,String lastid){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("pageflag", pageflag);
+		map.put("pagetime", pagetime);
+		map.put("fopenids", fopenids);
+		map.put("lastid", lastid);
+		map.put("reqnum", 20);
+		Task t=new Task(Task.USER_OTHER_WEIBO_LIST,map,null);
+		model.doTask(t, this);
+	}
+	/**
 	 * 取消收听用户
 	 * @param name 用户名
 	 * @author allenjin

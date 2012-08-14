@@ -102,10 +102,11 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 		if(((Task)param).result.size() == 0) return;	
 		Log.v(TAG,((Task)param).result.toString());
 		switch(type){
-			case Task.USER_FAV_LIST:
+			case Task.USER_FAV_LIST:			
 				showShoucangList(param);
 				break;
 			case Task.USER_WEIBO_LIST:
+			case Task.USER_OTHER_WEIBO_LIST:
 				showUserWeiboList(param);
 				break;
 			case Task.USER_FANS_LIST:
@@ -114,10 +115,40 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 			case Task.USER_FRIENDS_LIST:
 				showUserFriendsList(param);
 				break;
+			case Task.USER_OTHER_FANS_LIST:
+			case Task.USER_OTHER_FRIENDS_LIST:
+				showOtherFList(param);
 		}
 
 	}
-	
+	//处理获取的其他听众和收听列表
+	private void showOtherFList(Object param){
+		ICArrayList result;
+		LinkedList<User> tmpList;
+		int hasNext;
+		switch(state){
+		case REQUEST_TYPE_INIT:
+			result=(ICArrayList) ((Task)param).result.get(0);
+			hasNext=result.hasNext;
+			for(Object user: result.list){
+				users.add((User)user);
+			}
+			if(users.size()!=0)
+			show_list.setAdapter(new UserFriendListAdapter(mService,this, users));
+			break;
+		case REQUEST_TYPE_MORE:
+			tmpList=new LinkedList<User>();
+			result=(ICArrayList) ((Task)param).result.get(0);
+			for(Object user: result.list){
+				tmpList.add((User)user);
+			}
+			users.addAll(users.size(),tmpList);
+			show_list.onLoadMoreComplete();
+			break;
+			
+		}
+		state  = REQUEST_TYPE_RESET;
+	}
 	//处理获取的听众列表
 	@SuppressWarnings("unchecked")
 	private void showUserFansList(Object param){
@@ -245,9 +276,12 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 	   		   return;
 	   	   }
 		Intent intent=getIntent();
+		if(intent==null)return;
 		show_list_type=intent.getIntExtra("show_list_type", -1);
 		Log.v(TAG, show_list_type+"");
 		String other_name=intent.getStringExtra("other_name");
+		String other_nick=intent.getStringExtra("other_nick");
+		String other_openid=intent.getStringExtra("other_openid");
 		switch(show_list_type){
 			case Task.USER_FANS_LIST:
 				head_title.setText(R.string.showlist_me_fans);
@@ -266,13 +300,16 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				mService.getUserWeiboList(0, 0, "0");
 				break;
 			case Task.USER_OTHER_FANS_LIST:
-				head_title.setText(other_name+R.string.showlist_other_fans);
+				head_title.setText(other_nick+getResources().getString(R.string.showlist_other_fans));
+				mService.getOtherFansList(other_name, startindex);
 				break;
 			case Task.USER_OTHER_FRIENDS_LIST:
-				head_title.setText(other_name+R.string.showlist_other_follow);
+				head_title.setText(other_nick+getResources().getString(R.string.showlist_other_follow));
+				mService.getOtherFollowList(other_name, startindex);
 				break;
 			case Task.USER_OTHER_WEIBO_LIST:
-				head_title.setText(other_name+R.string.showlist_other_weibo);
+				head_title.setText(other_nick+getResources().getString(R.string.showlist_other_weibo));
+				mService.getOtherWeiboList(other_openid, 0, 0, "0");
 				break;
 			default :
 				break;

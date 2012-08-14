@@ -1,14 +1,12 @@
 package com.kernel.intelcurrent.modeladapter;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.raw;
 import android.util.Log;
 
 import com.kernel.intelcurrent.model.Comment;
@@ -86,6 +84,13 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.USER_FRIENDS_ADD:
 			addFriend();
 			break;
+		case Task.USER_OTHER_FANS_LIST:
+			getOtherFanList();
+			break;
+		case Task.USER_OTHER_FRIENDS_LIST:
+			getOtherIdolList();
+		case Task.USER_OTHER_WEIBO_LIST:
+			getOtherWeiboList();
 		}
 		model.callBack(task);
 	}
@@ -275,13 +280,14 @@ public class TencentAdapter extends ModelAdapter {
 			infoObj = rawObj.getJSONObject("data");
 			me = new User();
 			me.id = infoObj.getString("openid");
+			me.name=infoObj.getString("name");
 			me.nick = infoObj.getString("nick");
 			String province = infoObj.getString("province_code");
 			if(province!=null && !province.equals("")) me.province = Integer.valueOf(province);
 			String city = infoObj.getString("city_code");
 			if(city !=null && !city.equals("")) me.city = Integer.valueOf(city);
 			me.location = infoObj.getString("location");
-//			me.description = infoObj.getString("");
+			me.description = infoObj.getString("introduction");
 			me.homepage = infoObj.getString("homepage");
 			me.head = infoObj.getString("head");
 			me.gender = infoObj.getInt("sex");
@@ -391,11 +397,12 @@ public class TencentAdapter extends ModelAdapter {
 				JSONArray infolist=data.getJSONArray("info");
 				for(int i=0;i<infolist.length();i++){
 					JSONObject job=infolist.getJSONObject(i);
-					SimpleUser user=new SimpleUser();
+					User user=new User();
 					user.head=job.getString("head");
 					user.id=job.getString("openid");
 					user.name=job.getString("name");
 					user.nick=job.getString("nick");
+					user.location=job.getString("location");
 					user.platform=User.PLATFORM_TENCENT_CODE;
 					user.fansnum=job.getInt("fansnum");
 					ica.list.add(user);
@@ -432,12 +439,13 @@ public class TencentAdapter extends ModelAdapter {
 				JSONArray infolist=data.getJSONArray("info");
 				for(int i=0;i<infolist.length();i++){
 					JSONObject job=infolist.getJSONObject(i);
-					SimpleUser user=new SimpleUser();
+					User user=new User();
 					user.head=job.getString("head");
 					user.id=job.getString("openid");
 					user.name=job.getString("name");
 					user.nick=job.getString("nick");
 					user.platform=User.PLATFORM_TENCENT_CODE;
+					user.location=job.getString("location");
 					user.fansnum=job.getInt("fansnum");
 					ica.list.add(user);
 					Log.v("第"+i+"个关注：", user.toString());
