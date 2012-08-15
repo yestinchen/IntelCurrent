@@ -71,6 +71,7 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 
 	@Override
 	public void update(int type, Object param) {
+		if(type != Task.WEIBO_ADD && type != Task.WEIBO_COMMENTS_ADD && type != Task.WEIBO_REPOST) return;
 		//这个忽略各种返回的update。。。实际上它不需要刷新
 		Toast.makeText(this, "操作成功", Toast.LENGTH_SHORT).show();
 		finish();

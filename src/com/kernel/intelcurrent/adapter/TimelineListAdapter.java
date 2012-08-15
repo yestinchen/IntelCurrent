@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kernel.intelcurrent.activity.ImageViewerActivity;
+import com.kernel.intelcurrent.activity.OtherUserInfoActivity;
 import com.kernel.intelcurrent.activity.R;
 import com.kernel.intelcurrent.activity.WeiboShowActivity;
 import com.kernel.intelcurrent.model.Status;
@@ -86,7 +87,7 @@ public class TimelineListAdapter extends BaseAdapter {
 			holder.retweetIv.reset();
 			holder.headIv.reset();
 		}
-		Status status = statuses.get(position);
+		final Status status = statuses.get(position);
 		Log.v(TAG, status.toString());
 		holder.platformTv.setText(status.platform == User.PLATFORM_TENCENT_CODE ? User.PLATFORM_TENCENT: User.PLATFORM_SINA);
 		holder.headNameTv.setText(status.user.nick);
@@ -132,10 +133,15 @@ public class TimelineListAdapter extends BaseAdapter {
 			}
 		}
 		//所有元素加监听
-		holder.headIv.setOnClickListener(l);
-		holder.headNameTv.setOnClickListener(l);
-		holder.retweetContentTv.setOnClickListener(l);
-		holder.contentTv.setOnClickListener(l);
+		holder.headIv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context,OtherUserInfoActivity.class);
+				intent.putExtra("user_openid", status.user.id);
+				intent.putExtra("user_nick", status.user.nick);
+				context.startActivity(intent);
+			}
+		});
 		holder.containerLayout.setOnClickListener(l);
 		return convertView;
 	}
@@ -154,8 +160,8 @@ public class TimelineListAdapter extends BaseAdapter {
 		}
 		@Override
 		public void onClick(View v) {
-			//若是图片，添加监听后可以点击看大图
 			if(v instanceof UrlImageView){
+				//若是图片，添加监听后可以点击看大图
 				Intent intent = new Intent(context,ImageViewerActivity.class);
 				intent.putExtra("url",v.getTag().toString());
 				context.startActivity(intent);

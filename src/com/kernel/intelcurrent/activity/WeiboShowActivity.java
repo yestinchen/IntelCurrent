@@ -132,6 +132,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 			if(status.image != null && status.image.size() > 0){
 				picIv.bindUrl(status.image.get(0), UrlImageView.PLAT_FORM_TENCENT, UrlImageView.SMALL_IMAGE);
 				picIv.setVisibility(View.VISIBLE);
+				picIv.setTag(status.image.get(0));
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -152,6 +153,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 				try {
 					retweetPicIv.bindUrl(status.reStatus.image.get(0), UrlImageView.PLAT_FORM_TENCENT, UrlImageView.SMALL_IMAGE);
 					retweetPicIv.setVisibility(View.VISIBLE);
+					retweetPicIv.setTag(status.reStatus.image.get(0));
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -162,6 +164,11 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	}
 	
 	private void setListeners(){
+		nameTv.setOnClickListener(this);
+		headIv.setOnClickListener(this);
+		retweetNameTv.setOnClickListener(this);
+		picIv.setOnClickListener(this);
+		retweetPicIv.setOnClickListener(this);
 		leftImage.setOnClickListener(this);
 		commentBtn.setOnClickListener(this);
 		forwordBtn.setOnClickListener(this);
@@ -198,6 +205,20 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 			}
 		}else if(v == leftImage){
 			finish();
+		}else if(v == picIv || v == retweetPicIv){
+			Intent intent = new Intent(this,ImageViewerActivity.class);
+			intent.putExtra("url",v.getTag().toString());
+			this.startActivity(intent);
+		}else if(v == headIv || v == nameTv){
+			Intent intent = new Intent(this,OtherUserInfoActivity.class);
+			intent.putExtra("user_openid", status.user.id);
+			intent.putExtra("user_nick", status.user.nick);
+			startActivity(intent);
+		}else if(v == retweetNameTv){
+			Intent intent = new Intent(this,OtherUserInfoActivity.class);
+			intent.putExtra("user_openid", status.reStatus.user.id);
+			intent.putExtra("user_nick", status.reStatus.user.nick);
+			startActivity(intent);
 		}
 	}
 
