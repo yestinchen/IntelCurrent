@@ -160,7 +160,8 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 		if(v == leftImage){
 			backReturn();
 		}else if(v == rightImage){
-			
+			Intent intent = new Intent(this,WeiboNewActivity.class);
+			startActivity(intent);
 		}
 	}
 

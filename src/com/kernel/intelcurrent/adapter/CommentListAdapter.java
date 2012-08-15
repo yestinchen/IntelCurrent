@@ -54,7 +54,7 @@ public class CommentListAdapter extends BaseAdapter{
 		Comment comment = comments.get(position);
 		holder.nameTv.setText(comment.nick);
 		holder.timeTv.setText(QStrOperate.getTimeState(comment.timestamp+""));
-		holder.content.setText(comment.text,true);
+		holder.content.setText(comment.text);
 		return convertView;
 	}
 

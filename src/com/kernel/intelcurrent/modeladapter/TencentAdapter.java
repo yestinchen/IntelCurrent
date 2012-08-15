@@ -487,8 +487,10 @@ public class TencentAdapter extends ModelAdapter {
 				Comment comment=new Comment();
 				JSONObject infoobject=info.getJSONObject(i);
 				comment.id=infoobject.getString("id");
+				comment.openid = infoobject.getString("openid");
 				comment.nick=infoobject.getString("nick");
 				comment.text=infoobject.getString("origtext");
+				comment.name = infoobject.getString("name");
 				comment.timestamp=Integer.parseInt(infoobject.getString("timestamp"));
 				ica.list.add(comment);
 			  }	

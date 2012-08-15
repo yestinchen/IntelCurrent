@@ -14,17 +14,24 @@ import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.widget.UrlImageView;
 import com.kernel.intelcurrent.widget.WeiboTextView;
+import com.tencent.weibo.utils.QStrOperate;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
-public class WeiboShowActivity extends BaseActivity implements View.OnClickListener,Updateable{
+public class WeiboShowActivity extends BaseActivity implements View.OnClickListener,Updateable,OnItemClickListener{
 
 	private static final String TAG = WeiboShowActivity.class.getSimpleName();
 	
@@ -32,7 +39,8 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	private static final int REQUEST_LOAD_MORE = 2;
 	
 	private ImageView leftImage;
-	private TextView titleTv,platformTv,nameTv,retweetNameTv,commentBtn,forwordBtn,moreBtn,retweetMargin,loadMoreTv;
+	private TextView titleTv,platformTv,nameTv,retweetNameTv,timeTv,
+				commentBtn,forwordBtn,moreBtn,retweetMargin,loadMoreTv;
 	private UrlImageView headIv,picIv,retweetPicIv;
 	private WeiboTextView contentIv,retweetContentIv;
 	private RelativeLayout retweetLayout;
@@ -99,6 +107,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		headView = mInflater.inflate(R.layout.activity_weibo_show_head, null);
 		footView = mInflater.inflate(R.layout.common_foot_load_more, null);
 		
+		timeTv = (TextView)headView.findViewById(R.id.activity_weibo_show_tv_time);
 		contentIv = (WeiboTextView)headView.findViewById(R.id.activity_weibo_show_tv_tweet_txt);
 		picIv = (UrlImageView)headView.findViewById(R.id.activity_weibo_show_urlimage_tweet_image);
 		retweetLayout = (RelativeLayout)headView.findViewById(R.id.activity_weibo_show_layout_right_retweet_content);
@@ -129,6 +138,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		timeTv.setText(QStrOperate.getTimeState(status.timestamp+""));
 		nameTv.setText(user.nick);
 		platformTv.setText(user.platform == User.PLATFORM_SINA_CODE ? User.PLATFORM_SINA:User.PLATFORM_TENCENT);
 		
@@ -157,6 +167,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		forwordBtn.setOnClickListener(this);
 		moreBtn.setOnClickListener(this);
 		loadMoreTv.setOnClickListener(this);
+		commentsLv.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -190,6 +201,60 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		}
 	}
 
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		final int pos = position;
+		final Comment comment = (Comment) listAdapter.getItem(pos-1);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.weibo_show_comment_menu_title)
+			.setItems(R.array.weibo_show_comment_menu, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch(which){
+				case 0:
+					Log.d(TAG, "start..."+pos);
+					//去掉headview的1
+					Intent intent = new Intent(WeiboShowActivity.this,WeiboNewActivity.class);
+					intent.putExtra("model", WeiboNewActivity.MODEL_NEW_COMMENT);
+					intent.putExtra("ext", status.id);
+					if(status.platform == User.PLATFORM_SINA_CODE){
+						intent.putExtra("platform",Task.PLATFORM_SINA);
+					}else if(status.platform == User.PLATFORM_TENCENT_CODE){
+						intent.putExtra("platform",Task.PLATFORM_TENCENT);
+					}
+					intent.putExtra("cursor", WeiboNewActivity.CURSOR_BEGEIN);
+					intent.putExtra("text", " || @"+comment.name+": "+comment.text);
+					startActivity(intent);
+					break;
+				case 1:
+					Intent it = new Intent(WeiboShowActivity.this,WeiboNewActivity.class);
+					it.putExtra("model", WeiboNewActivity.MODEL_FORWORD);
+					it.putExtra("ext", status.id);
+					if(status.platform == User.PLATFORM_SINA_CODE){
+						it.putExtra("platform",Task.PLATFORM_SINA);
+					}else if(status.platform == User.PLATFORM_TENCENT_CODE){
+						it.putExtra("platform",Task.PLATFORM_TENCENT);
+					}
+					it.putExtra("cursor", WeiboNewActivity.CURSOR_BEGEIN);
+					it.putExtra("text", " || @"+comment.name+": "+comment.text);
+					startActivity(it);
+					break;
+				case 2:
+					Intent inten = new Intent(WeiboShowActivity.this,OtherUserInfoActivity.class);
+					inten.putExtra("user_openid", comment.openid);
+					inten.putExtra("user_nick", comment.nick);
+					startActivity(inten);
+					//查看此人资料
+					break;
+				case 3:
+					dialog.dismiss();
+					break;
+				}
+			}
+		}).show();
+	}
+	
 	private void setAdapter(){
 		listAdapter = new CommentListAdapter(this, comments);
 		commentsLv.setAdapter(listAdapter);

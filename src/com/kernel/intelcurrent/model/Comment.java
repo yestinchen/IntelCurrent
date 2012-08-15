@@ -12,6 +12,9 @@ public class Comment {
      * */
 	public String id;
 	
+	/**评论者name*/
+	public String name;
+	
 	 /**
      * 评论者openid
      * */

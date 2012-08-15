@@ -32,12 +32,21 @@ import android.widget.Toast;
  * <br/>使用时intent放入"model"指定模式，int类型，默认为新建
  * <br/>"platform"指定平台,int,平台为Task.PLATFORM_ALL,Task.PLATFORM_SINA 或 Task.PLATFORM_TENCENT，或-1都没
  * <br/>"ext"放入其他如评论微博id或转播微博id,String
+ * <br/>"text"加入预置文字
+ * <br/>"cursor"指定光标显示位置,CURSOR_BEGEIN 或 CURSOR_END
  * @author sheling*/
 public class WeiboNewActivity extends BaseActivity implements View.OnClickListener,Updateable{
 
+	/**用于model的模式*/
 	public static final int MODEL_NEW_WEIBO = 0;
+	/**用于model的模式*/
 	public static final int MODEL_NEW_COMMENT = 1;
+	/**用于model的模式*/
 	public static final int MODEL_FORWORD = 2;
+	/**用于cursor*/
+	public static final int CURSOR_BEGEIN = 1;
+	/**用于cursor*/
+	public static final int CURSOR_END = 0;
 	
 	private static final int ON_RESULT_TAKE_PHOTO = 1;
 	private static final int ON_RESULT_CHOOSE_PICTURE = 2;
@@ -54,6 +63,8 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 	private int model,platform;
 	private boolean hasTencent,hasSina;
 	private String lastPhotoPath;//存储图片路径
+	private int cursorPosition;
+	private String text;
 	String statusId;//非新建时对应的statusid
 
 	@Override
@@ -219,6 +230,8 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		model = intent.getIntExtra("model", 0);
 		platform = intent.getIntExtra("platform", 3);
 		statusId = intent.getStringExtra("ext");
+		text = intent.getStringExtra("text");
+		cursorPosition = intent.getIntExtra("cursor", 0);
 		switch(model){
 		case MODEL_NEW_WEIBO:
 			titleTv.setText(R.string.weibo_new_new);
@@ -249,6 +262,11 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 			titleTv.setText(R.string.weibo_new_forword);
 			break;
 		}
+		if(text != null){
+			inputEditText.setText(text);
+		}
+		if(cursorPosition == CURSOR_BEGEIN)
+			inputEditText.setSelection(0);
 	}
 	
 	/**检查输入文字是否超出满足字数显示

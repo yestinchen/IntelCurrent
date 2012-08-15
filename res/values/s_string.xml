@@ -30,4 +30,11 @@
     <string name="common_load_more">加载更多</string>
     <string name="common_loading">加载中&#8230;</string>
     <string name="weibo_show_title">查看微博</string>
+    <string name="weibo_show_comment_menu_title">选择操作</string>
+    <string-array name="weibo_show_comment_menu">
+        <item>评论</item>
+        <item>转发</item>
+        <item>查看资料</item>
+        <item>取消</item>
+    </string-array>
 </resources>
