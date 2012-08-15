@@ -18,7 +18,7 @@ public class Group implements Serializable
      public String name;
      public String image;
      private String description;
-     public LinkedList<User> users = new LinkedList<User>();
+     public LinkedList<SimpleUser> users = new LinkedList<SimpleUser>();
      
      public Group(){}
      
@@ -27,7 +27,7 @@ public class Group implements Serializable
     	 this.name=name;
     	 image=url;
     	 description=ds;
-    	 users=new LinkedList<User>();
+    	 users=new LinkedList<SimpleUser>();
      }
      
      public void setName(String s)
@@ -59,7 +59,7 @@ public class Group implements Serializable
     	 return image;
      }
      
-     public void addUser(User user)
+     public void addUser(SimpleUser user)
      {
     	 if(hasUser(user.id)==-1)
     	 {

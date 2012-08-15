@@ -2,22 +2,27 @@ package com.kernel.intelcurrent.activity;
 
 import java.util.ArrayList;
 import com.kernel.intelcurrent.adapter.GroupBlockPagerAdapter;
-import com.kernel.intelcurrent.db.DataBaseHelper;
 import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.model.Group;
-import com.kernel.intelcurrent.model.User;
+import com.kernel.intelcurrent.model.SimpleUser;
 import android.app.Activity;
 import android.app.ActivityGroup;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class GroupBlockActivity extends Activity implements OnClickListener,Updateable{
 
@@ -60,22 +65,100 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 			Intent intent = new Intent(this,WeiboNewActivity.class);
 			startActivity(intent);
 		}else if(v == rightImage){
-			
+			newGroup();
 		}
 	}
-
+	/**
+	 * 新建分组对话框
+	 */
+	private void newGroup(){
+		
+		final EditText input=new EditText(this);
+		input.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		input.setHint("输入组名");
+		input.setSingleLine();
+		input.setGravity(Gravity.CENTER_VERTICAL);
+		AlertDialog.Builder builder=new AlertDialog.Builder(this);
+		builder.setTitle("新建组").setCancelable(false).setView(input).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+				if(input.getText()==null||input.getText().toString().equals("")){
+					Toast.makeText(GroupBlockActivity.this, "输入不能为空", Toast.LENGTH_SHORT).show();
+				}else{
+						String gname=input.getText().toString();
+					if(DBModel.getInstance().GoupIsExists(GroupBlockActivity.this, gname.hashCode())){
+						Toast.makeText(GroupBlockActivity.this, "对不起,组名已存在！", Toast.LENGTH_SHORT).show();
+					}else{
+						Toast.makeText(GroupBlockActivity.this, "添加组"+gname, Toast.LENGTH_SHORT).show();
+						Group group=new Group(gname,null,null);
+						DBModel.getInstance().addGroup(GroupBlockActivity.this, group);
+						setAdapter();
+					}
+				}
+			}
+		}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.cancel();
+				dialog.dismiss();
+			}
+		}).show();
 	
+	}
+	
+	/**
+	 * 删除组的对话框
+	 * @param group
+	 */
+	private void delGroup(final Group group){
+		AlertDialog.Builder builder=new AlertDialog.Builder(GroupBlockActivity.this);
+		builder.setMessage("确定删除该分组吗?").setCancelable(false).setPositiveButton("确定",new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+					DBModel.getInstance().delGroup(GroupBlockActivity.this, group);
+					setAdapter();
+					Toast.makeText(GroupBlockActivity.this, "删除分组"+group.name, Toast.LENGTH_SHORT).show();
+			}
+		}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.cancel();
+				dialog.dismiss();
+			}
+		}).show();
+	}
 	private void setAdapter(){
-		ArrayList<Group> groupList = DBModel.getInstance().getGroupList(this);
+		ArrayList<Group> groupList = DBModel.getInstance().getAllGroups(this);
 		Log.d(TAG, "get groups:"+groupList);
 		GroupBlockPagerAdapter adapter = new GroupBlockPagerAdapter(groupList, this,
 				new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					Group group = (Group)v.getTag();
+					ArrayList<SimpleUser> users=DBModel.getInstance().getUsersByGname(GroupBlockActivity.this,group.name);
 					Log.d(TAG, group.toString());
+					group.users.addAll(users);
 					startTimelineActivity(group);
 				}
+			},new OnLongClickListener() {
+				
+						
+						@Override
+						public boolean onLongClick(View v) {
+							// TODO Auto-generated method stub
+							delGroup((Group)v.getTag());
+							return false;			
+				}
+						
 			});
 		viewPager.setAdapter(adapter);
 	}

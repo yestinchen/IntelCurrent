@@ -1,6 +1,7 @@
 package com.kernel.intelcurrent.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.kernel.intelcurrent.db.DataBaseHelper;
-import com.weibo.net.Weibo;
 
 
 /**
@@ -28,7 +28,6 @@ public class DBModel {
 	public static DBModel getInstance(){
 		return Holder.model;
 	}
-	
 	/**
 	 * 添加组
 	 * */
@@ -39,11 +38,129 @@ public class DBModel {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String key = group.getName().hashCode()+"";
 		db.execSQL(sql1, new String[]{key,group.getName()});
-		for(User user:group.users){
-			db.execSQL(sql2, new String[]{key,user.id,user.platform+""});
+		if(group.users.size()!=0){
+			for(SimpleUser user:group.users){
+				db.execSQL(sql2, new String[]{key,user.id,user.platform+""});
+			}
 		}
 		db.close();
 		helper.close();
+	}
+	/**
+	 * 删除某一个分组
+	 * @param context
+	 * @param group
+	 */
+	public void delGroup(Context context,Group group){
+		String sql1="delete from t_ginfo where gid="+group.name.hashCode();
+		String sql2="delete from t_group where gid="+group.name.hashCode();
+		DataBaseHelper helper = new DataBaseHelper(context);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.execSQL(sql1);
+		db.execSQL(sql2);
+		db.close();
+		helper.close();
+	}
+	/**
+	 * 判断某用户是否已经在某个组中
+	 * @param context
+	 * @param gid	组id
+	 * @param user_id	用户openid
+	 * @return	存在返回true,否则false;
+	 */
+	public boolean UserIsExists(Context context,int gid,String user_id){
+		boolean flag =false;
+		String sql="select userid from t_ginfo where gid="+gid+"and userid="+user_id;
+		DataBaseHelper helper=new DataBaseHelper(context);
+		SQLiteDatabase db=helper.getReadableDatabase();
+		Cursor cursor=db.rawQuery(sql,null);
+		while(cursor.moveToNext()){
+			if(cursor.getString(cursor.getColumnIndex("userid"))!=null){
+				flag=true;
+			}
+		}
+		cursor.deactivate();
+		cursor.close();
+		db.close();
+		helper.close();
+		return flag;
+	}
+	/**
+	 * 批量添加用户到组
+	 * @param gid 组的id
+	 * @param users 用户的openid和platform(腾讯为1)
+	 */
+	public void addUsers(Context context,int gid,LinkedList<SimpleUser> users){
+		String sql = "insert into t_ginfo values("+gid+",?,?)";
+		DataBaseHelper helper=new DataBaseHelper(context);
+		SQLiteDatabase db=helper.getWritableDatabase();
+		if(users.size()!=0){
+			for(SimpleUser user:users){
+				db.execSQL(sql, new String[]{user.id,user.platform+""});
+			}
+		}
+		db.close();
+		helper.close();
+	}
+	/**
+	 * 根据组id判断组是否已经存在，存在返回true,不存在返回false;
+	 */
+	public boolean GoupIsExists(Context context,int gid){
+			boolean flag=false;
+			String sql="select gname from t_group where gid=?";
+			DataBaseHelper helper=new DataBaseHelper(context);
+			SQLiteDatabase db=helper.getReadableDatabase();
+			Cursor cursor=db.rawQuery(sql, new String[]{gid+""});
+			while(cursor.moveToNext()){
+				if(cursor.getString(cursor.getColumnIndex("gname"))!=null){
+					flag=true;
+				}
+			}
+			cursor.deactivate();
+			cursor.close();
+			db.close();
+			helper.close();
+			return flag;
+	}
+	public ArrayList<SimpleUser> getUsersByGname(Context context,String gname){
+		ArrayList<SimpleUser> users=new ArrayList<SimpleUser>();
+			String sql="select userid,platform from t_ginfo where gid="+gname.hashCode();
+			DataBaseHelper helper=new DataBaseHelper(context);
+			SQLiteDatabase db=helper.getReadableDatabase();
+			Cursor cursor=db.rawQuery(sql, null);
+			while(cursor.moveToNext()){
+				SimpleUser user=new SimpleUser();
+				user.id = cursor.getString(cursor.getColumnIndex("userid"));
+				user.platform = cursor.getInt(cursor.getColumnIndex("platform"));
+				users.add(user);
+			}
+			cursor.deactivate();
+			cursor.close();
+			db.close();
+			helper.close();
+		return users;
+	}
+	/**
+	 * 获取所有的组的组名
+	 * @param context
+	 * @return
+	 */
+	public ArrayList<Group> getAllGroups(Context context){
+			String sql="select gname from t_group";
+			DataBaseHelper helper=new DataBaseHelper(context);
+			SQLiteDatabase db=helper.getReadableDatabase();
+			Cursor cursor=db.rawQuery(sql, null);
+			ArrayList<Group> groups=new ArrayList<Group>();
+			while(cursor.moveToNext()){
+				Group group=new Group();
+				group.setName(cursor.getString(cursor.getColumnIndex("gname")));
+				groups.add(group);
+			}
+			cursor.deactivate();
+			cursor.close();
+			db.close();
+			helper.close();
+			return groups;
 	}
 	/**
 	 * 获取组列表
@@ -69,7 +186,7 @@ public class DBModel {
 				group.setName(cursor.getString(cursor.getColumnIndex("gname")));
 			}
 			Log.v(TAG, "group:"+group);
-			User user = new User();
+			SimpleUser user = new SimpleUser();
 			user.id = cursor.getString(cursor.getColumnIndex("userid"));
 			user.platform = cursor.getInt(cursor.getColumnIndex("platform"));
 			group.addUser(user);
@@ -81,6 +198,7 @@ public class DBModel {
 		helper.close();
 		return groups;
 	}
+
 	
 	public ArrayList<WeiboDraftEntryDAO> getAllDrafts(Context context){
 		String sql = "select content,type,created,statusid,platform from t_wb_draft ";

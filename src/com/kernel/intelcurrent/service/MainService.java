@@ -1,22 +1,20 @@
 ﻿package com.kernel.intelcurrent.service;
 import java.util.HashMap;
-import java.util.Map;
 
-import com.kernel.intelcurrent.activity.Updateable;
-import com.kernel.intelcurrent.model.Group;
-import com.kernel.intelcurrent.model.ICModel;
-import com.kernel.intelcurrent.model.OAuthManager;
-import com.kernel.intelcurrent.model.Task;
-import com.kernel.intelcurrent.model.User;
-import com.tencent.weibo.oauthv2.OAuthV2;
-
-import android.app.*;
+import android.app.Activity;
+import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+
+import com.kernel.intelcurrent.activity.Updateable;
+import com.kernel.intelcurrent.model.Group;
+import com.kernel.intelcurrent.model.ICModel;
+import com.kernel.intelcurrent.model.SimpleUser;
+import com.kernel.intelcurrent.model.Task;
 /**
  * classname:MainService.java
  * @author 许凌霄
@@ -62,7 +60,7 @@ public class MainService extends Service
 		map.put("reqnum", 25);
 		
 		StringBuilder openids = new StringBuilder();
-		for(User user:group.users){
+		for(SimpleUser user:group.users){
 			openids.append(user.id).append("_");
 		}
 		map.put("fopenids", openids.toString());

@@ -2,9 +2,6 @@ package com.kernel.intelcurrent.adapter;
 
 import java.util.ArrayList;
 
-import com.kernel.intelcurrent.activity.R;
-import com.kernel.intelcurrent.model.Group;
-import com.kernel.intelcurrent.widget.GroupBlock;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,6 +9,10 @@ import android.support.v4.view.ViewPager.LayoutParams;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import com.kernel.intelcurrent.activity.R;
+import com.kernel.intelcurrent.model.Group;
+import com.kernel.intelcurrent.widget.GroupBlock;
 
 /**
  * groupblock的滑页adapter类
@@ -24,10 +25,12 @@ public class GroupBlockPagerAdapter extends PagerAdapter {
 	private ArrayList<View> views = new ArrayList<View>();;
 	private GroupBlock blocks[];
 	private OnClickListener listener;
+	private OnLongClickListener longlistener;
 	
-	public GroupBlockPagerAdapter(ArrayList<Group> groupList,Context context,OnClickListener listener){
+	public GroupBlockPagerAdapter(ArrayList<Group> groupList,Context context,OnClickListener listener,OnLongClickListener longlistener){
 		this.groupList = groupList;
 		this.listener = listener;
+		this.longlistener=longlistener;
 		mInflater = LayoutInflater.from(context);
 		groupNum = groupList.size();
 		pageSize = 9;
@@ -70,6 +73,7 @@ public class GroupBlockPagerAdapter extends PagerAdapter {
 			tmp.setText(groupList.get(i).getName());
 			tmp.setTag(groupList.get(i));
 			tmp.setOnClickListener(listener);
+			tmp.setOnLongClickListener(longlistener);
 		}
 		for(;i % pageSize != 0;i++){
 			blocks[i % pageSize].setVisibility(View.INVISIBLE);

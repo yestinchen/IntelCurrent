@@ -119,8 +119,10 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 		group = (Group) bundle.getSerializable("group");
 
 		state = 1;
-		mService.getTimeline(group, 0, 0, "0");
-		Log.d(TAG, "myservice:"+mService);
+		if(group.users.size()!=0){
+			mService.getTimeline(group, 0, 0, "0");
+			Log.d(TAG, "myservice:"+mService);
+		}
 	}
 	private void findViews(){
 		lv = (PullToRefreshListView)findViewById(R.id.activity_timeline_lv_main);
