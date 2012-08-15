@@ -28,4 +28,6 @@
     <string name="more_group_account">帐号管理</string>
     
     <string name="common_load_more">加载更多</string>
+    <string name="common_loading">加载中&#8230;</string>
+    <string name="weibo_show_title">查看微博</string>
 </resources>

@@ -3,6 +3,7 @@ package com.kernel.intelcurrent.activity;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.kernel.intelcurrent.adapter.CommentListAdapter;
 import com.kernel.intelcurrent.model.Comment;
@@ -13,11 +14,10 @@ import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.widget.UrlImageView;
 import com.kernel.intelcurrent.widget.WeiboTextView;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,8 +28,11 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 
 	private static final String TAG = WeiboShowActivity.class.getSimpleName();
 	
+	private static final int REQUEST_FIRST = 1;
+	private static final int REQUEST_LOAD_MORE = 2;
+	
 	private ImageView leftImage;
-	private TextView titleTv,platformTv,nameTv,retweetNameTv,commentBtn,forwordBtn,moreBtn,retweetMargin;
+	private TextView titleTv,platformTv,nameTv,retweetNameTv,commentBtn,forwordBtn,moreBtn,retweetMargin,loadMoreTv;
 	private UrlImageView headIv,picIv,retweetPicIv;
 	private WeiboTextView contentIv,retweetContentIv;
 	private RelativeLayout retweetLayout;
@@ -39,8 +42,11 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	private SimpleUser user;
 	
 	private int hasNext;
-	private ArrayList<Comment> comments = new ArrayList<Comment>();
+	private LinkedList<Comment> comments = new LinkedList<Comment>();
 	private CommentListAdapter listAdapter;
+	private LayoutInflater mInflater;
+	private View headView,footView;//listview上方的头视图
+	private int request = -1;
 	
 	@Override
 	public void update(int type, Object param) {
@@ -48,11 +54,21 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		if(type != Task.WEIBO_COMMENTS_BY_ID)return;
 		if(((Task)param).result.size() == 0) return;
 		ICArrayList result =(ICArrayList) ((Task)param).result.get(0);
-		comments = new ArrayList<Comment>();
-		for(Object comment: result.list){
-			comments.add((Comment)comment);
+		if(request == REQUEST_FIRST){
+			for(Object comment: result.list){
+				comments.add((Comment)comment);
+			}
+			setAdapter();
+		}else if(request == REQUEST_LOAD_MORE){
+			ArrayList<Comment> news = new ArrayList<Comment>();
+			for(Object comment: result.list){
+				news.add((Comment)comment);
+			}
+			comments.addAll(comments.size(),news);
+			listAdapter.notifyDataSetChanged();
+			loadMoreTv.setText(getResources().getString(R.string.common_load_more));
 		}
-		setAdapter();
+		request = -1;
 		Log.d(TAG, "comments"+comments);
 		
 	}
@@ -71,21 +87,34 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	
 	private void findViews(){
 		leftImage = (ImageView)findViewById(R.id.common_head_iv_left);
+		titleTv = (TextView)findViewById(R.id.common_head_tv_title);
 		headIv = (UrlImageView)findViewById(R.id.activity_weibo_show_iv_head);
 		nameTv = (TextView)findViewById(R.id.activity_weibo_show_tv_name);
 		platformTv = (TextView)findViewById(R.id.activity_weibo_show_tv_platform);
 		commentBtn = (TextView)findViewById(R.id.activity_weibo_show_tv_btn_1);
 		forwordBtn = (TextView)findViewById(R.id.activity_weibo_show_tv_btn_2);
 		moreBtn = (TextView)findViewById(R.id.activity_weibo_show_tv_btn_3);
-		contentIv = (WeiboTextView)findViewById(R.id.activity_weibo_show_tv_tweet_txt);
-		picIv = (UrlImageView)findViewById(R.id.activity_weibo_show_urlimage_tweet_image);
-		retweetLayout = (RelativeLayout)findViewById(R.id.activity_weibo_show_layout_right_retweet_content);
-		retweetContentIv = (WeiboTextView)findViewById(R.id.activity_weibo_show_tv_retweet_txt);
-		retweetPicIv = (UrlImageView)findViewById(R.id.activity_weibo_show_urlimage_retweet_image);
-		retweetNameTv = (TextView)findViewById(R.id.activity_weibo_show_tv_retweet_head);
 		
-		retweetMargin = (TextView)findViewById(R.id.activity_weibo_show_tv_retweet_margin);
+		mInflater = LayoutInflater.from(this);
+		headView = mInflater.inflate(R.layout.activity_weibo_show_head, null);
+		footView = mInflater.inflate(R.layout.common_foot_load_more, null);
+		
+		contentIv = (WeiboTextView)headView.findViewById(R.id.activity_weibo_show_tv_tweet_txt);
+		picIv = (UrlImageView)headView.findViewById(R.id.activity_weibo_show_urlimage_tweet_image);
+		retweetLayout = (RelativeLayout)headView.findViewById(R.id.activity_weibo_show_layout_right_retweet_content);
+		retweetContentIv = (WeiboTextView)headView.findViewById(R.id.activity_weibo_show_tv_retweet_txt);
+		retweetPicIv = (UrlImageView)headView.findViewById(R.id.activity_weibo_show_urlimage_retweet_image);
+		retweetNameTv = (TextView)headView.findViewById(R.id.activity_weibo_show_tv_retweet_head);
+		
+		retweetMargin = (TextView)headView.findViewById(R.id.activity_weibo_show_tv_retweet_margin);
 		commentsLv = (ListView)findViewById(R.id.activity_weibo_show_lv_comments);
+		commentsLv.addHeaderView(headView);
+		
+		loadMoreTv = (TextView)footView.findViewById(R.id.common_foot_load_more_tv);
+		commentsLv.addFooterView(loadMoreTv,null,true);
+		
+		leftImage.setImageResource(R.drawable.ic_title_back);
+		titleTv.setText(R.string.weibo_show_title);
 	}
 	
 	private void init(){
@@ -123,9 +152,11 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	}
 	
 	private void setListeners(){
+		leftImage.setOnClickListener(this);
 		commentBtn.setOnClickListener(this);
 		forwordBtn.setOnClickListener(this);
 		moreBtn.setOnClickListener(this);
+		loadMoreTv.setOnClickListener(this);
 	}
 
 	@Override
@@ -144,6 +175,18 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 			startActivity(intent);
 		}else if(v == moreBtn){
 			
+		}else if(v == loadMoreTv){
+			//当前无其他请求再去加载更多
+			if(request == -1){
+				request = REQUEST_LOAD_MORE;
+				Comment lastComment = comments.get(comments.size() -1);
+				mService.getCommentList(status.id, 1, 
+						lastComment.timestamp,comments.size() > 100
+						? lastComment.id : "0", Task.PLATFORM_TENCENT);
+				loadMoreTv.setText(getResources().getString(R.string.common_loading));
+			}
+		}else if(v == leftImage){
+			finish();
 		}
 	}
 
@@ -155,6 +198,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	@Override
 	public void onConnectionFinished() {
 //		if(user.platform == User.PLATFORM_TENCENT_CODE){
+			request = REQUEST_FIRST;
 			mService.getCommentList(status.id,0,0,"0",Task.PLATFORM_TENCENT);	
 //		}
 	}

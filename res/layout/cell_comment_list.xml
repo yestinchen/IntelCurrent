@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/padding_medium"
     android:orientation="vertical" >
     
     <LinearLayout
@@ -28,6 +29,7 @@
     </LinearLayout>
     
     <com.kernel.intelcurrent.widget.WeiboTextView
+            android:textSize="16sp"
             android:id="@+id/cell_comment_list_tv_content"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

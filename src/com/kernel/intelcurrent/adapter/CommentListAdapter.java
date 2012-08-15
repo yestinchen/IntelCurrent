@@ -1,12 +1,10 @@
 package com.kernel.intelcurrent.adapter;
 
-import java.util.ArrayList;
-
+import java.util.List;
 import com.kernel.intelcurrent.activity.R;
 import com.kernel.intelcurrent.model.Comment;
 import com.kernel.intelcurrent.widget.WeiboTextView;
 import com.tencent.weibo.utils.QStrOperate;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +15,9 @@ import android.widget.TextView;
 public class CommentListAdapter extends BaseAdapter{
 
 	private LayoutInflater mInflater;
-	private ArrayList<Comment> comments;
+	private List<Comment> comments;
 	
-	public CommentListAdapter(Context context,ArrayList<Comment> list){
+	public CommentListAdapter(Context context,List<Comment> list){
 		mInflater = LayoutInflater.from(context);
 		comments = list;
 	}

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -39,6 +41,7 @@ public class NoScrollListView extends ListView {
 //		setBackgroundResource(R.drawable.more_group_bg);
 	}
 
+
 	@Override 
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) { 
 
@@ -65,17 +68,17 @@ public class NoScrollListView extends ListView {
 		} 
 		for (int i = 0; i < adapterCount; i++) { // listAdapter.getCount()返回数据项的数目 
 			View listItem = null; 
-		if (childCount > 0) // 只有childCount 存在时候才使用已有的子件直接计算 
-		{ 
+			if (childCount > 0) // 只有childCount 存在时候才使用已有的子件直接计算 
+			{ 
 	
-			if (footCount > 0 && i >= adapterCount - footCount) {// 获取listItem 
-				// footer部分 
-				listItem = getChildAt((i - adapterCount) + childCount); 
-			} else if (i >= childCount - footCount) 
-				listItem = getChildAt(i + headCount + footCount); // 在listView内foothead的子项index都是前面的 
-			else 
-				listItem = getChildAt(i); 
-			} 
+				if (footCount > 0 && i >= adapterCount - footCount) {// 获取listItem 
+					// footer部分 
+					listItem = getChildAt((i - adapterCount) + childCount); 
+				} else if (i >= childCount - footCount) 
+					listItem = getChildAt(i + headCount + footCount); // 在listView内foothead的子项index都是前面的 
+				else 
+					listItem = getChildAt(i); 
+				} 
 			height = 0; 
 			if (listItem == null) { 
 				listItem = listAdapter.getView(i, null, this); 
@@ -105,6 +108,8 @@ public class NoScrollListView extends ListView {
 		// // params.height最后得到整个ListView完整显示需要的高度 
 	
 		setMeasuredDimension(getMeasuredWidth(), totalHeight); 
-
-	} 
+	}
+	
+	
+	
 }
