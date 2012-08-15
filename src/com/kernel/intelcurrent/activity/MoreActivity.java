@@ -1,6 +1,8 @@
 package com.kernel.intelcurrent.activity;
 
+import com.kernel.intelcurrent.adapter.DraftListAdapter;
 import com.kernel.intelcurrent.adapter.ViewListAdapter;
+import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.widget.MoreListCell;
 import com.kernel.intelcurrent.widget.NoScrollListView;
 import android.app.Activity;
@@ -24,9 +26,14 @@ public class MoreActivity extends Activity implements Updateable{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_more);
 		findViews();
-		setAdapter();
 	}
 	
+	@Override
+	protected void onResume() {
+		setAdapter();
+		super.onResume();
+	}
+
 	private void findViews(){
 		titleTv = (TextView)findViewById(R.id.common_head_tv_title);
 		
@@ -39,7 +46,9 @@ public class MoreActivity extends Activity implements Updateable{
 	
 	private void setAdapter(){
 		views1 = new MoreListCell[4];
-		views1[0] = new MoreListCell(this, R.string.more_group_draft,1,null);
+		views1[0] = new MoreListCell(this, R.string.more_group_draft
+				,DBModel.getInstance().getAllDrafts(this).size(),
+				new Intent(this,WeiboDraftsListActivity.class));
 		views1[1] = new MoreListCell(this, R.string.more_group_order_center,0,null);
 		views1[2] = new MoreListCell(this, R.string.more_group_push_center,0,
 				new Intent(this,PushCenterActivity.class));

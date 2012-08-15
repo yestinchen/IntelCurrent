@@ -47,4 +47,17 @@
     <string name="push_center_group_push_noti">推送提示</string>
     <string name="push_center_push_shake">震动</string>
     <string name="push_center_push_music">响铃</string>
+    
+    <string name="delete">删除</string>
+   	<string name="weibo_type_new">发表</string>
+   	<string name="weibo_type_comment">评论</string>
+   	<string name="weibo_type_repost">转发</string>
+   	
+   	<string name="message_store_draft">是否存入草稿?</string>
+   	<string name="btn_store_draft_ok">存入</string>
+   	<string name="btn_store_draft_cancel">舍弃</string>
+   	
+   	<string-array name="weibo_draft_list_menu">
+   	    <item>删除</item>
+   	</string-array>
 </resources>

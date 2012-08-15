@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.kernel.intelcurrent.db.DataBaseHelper;
+import com.weibo.net.Weibo;
 
 
 /**
@@ -81,4 +82,42 @@ public class DBModel {
 		return groups;
 	}
 	
+	public ArrayList<WeiboDraftEntryDAO> getAllDrafts(Context context){
+		String sql = "select content,type,created,statusid,platform from t_wb_draft ";
+		DataBaseHelper helper = new DataBaseHelper(context);
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+		ArrayList<WeiboDraftEntryDAO> drafts = new ArrayList<WeiboDraftEntryDAO>();
+		while(cursor.moveToNext()){
+			WeiboDraftEntryDAO draft = new WeiboDraftEntryDAO();
+			draft.content = cursor.getString(cursor.getColumnIndex("content"));
+			draft.type = cursor.getInt(cursor.getColumnIndex("type"));
+			draft.created = cursor.getLong(cursor.getColumnIndex("created"));
+			draft.statusid = cursor.getString(cursor.getColumnIndex("statusid"));
+			draft.platform = cursor.getInt(cursor.getColumnIndex("platform"));
+			drafts.add(draft);
+		}
+		cursor.deactivate();
+		db.close();
+		helper.close();
+		return drafts;
+	}
+	
+	public void removeDraft(Context context,long timestamp){
+		String sql = "delete from t_wb_draft where created = ?";
+		DataBaseHelper helper = new DataBaseHelper(context);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.execSQL(sql, new String[]{timestamp+""});
+		db.close();
+		helper.close();
+	}
+	
+	public void addDraft(Context context,WeiboDraftEntryDAO draft){
+		String sql = "insert into t_wb_draft values(?,?,?,?,?,?)";
+		DataBaseHelper helper = new DataBaseHelper(context);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.execSQL(sql, new String[]{draft.userid,draft.content,draft.type+"",draft.created+"",draft.statusid,draft.platform+""});
+		db.close();
+		helper.close();
+	}
 }

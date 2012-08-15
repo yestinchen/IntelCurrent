@@ -51,6 +51,7 @@
         <activity android:name=".ShowAllListActivity" android:label="@string/title_activity_base"></activity>
         <activity android:name=".ImageViewerActivity" android:label="@string/title_activity_base"></activity>
         <activity android:name=".PushCenterActivity" android:label="@string/title_activity_base"></activity>
+        <activity android:name=".WeiboDraftsListActivity" android:label="@string/title_activity_base"></activity>
         <activity 
             android:name=".LoginActivity"
             android:label="@string/title_activity_base"

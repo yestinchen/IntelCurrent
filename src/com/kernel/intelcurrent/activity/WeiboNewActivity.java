@@ -3,7 +3,9 @@ package com.kernel.intelcurrent.activity;
 import java.io.File;
 import java.io.IOException;
 import com.kernel.intelcurrent.adapter.ExpressionGridAdapter;
+import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.model.Task;
+import com.kernel.intelcurrent.model.WeiboDraftEntryDAO;
 import com.kernel.intelcurrent.widget.ImageCheckBox;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -131,6 +133,14 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		initModel();
 	}
 
+	@Override
+	public void onBackPressed() {
+		if(inputEditText.getText().toString().length() != 0){
+			backWarn();
+		}else{
+			super.onBackPressed();
+		}
+	}
 	private void findViews(){
 		titleTv = (TextView)findViewById(R.id.common_head_tv_title);
 		leftImage =(ImageView)findViewById(R.id.common_head_iv_left);
@@ -187,7 +197,11 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 	@Override
 	public void onClick(View v) {
 		if(v == leftImage){
-			finish();
+			if(inputEditText.getText().toString().length() != 0){
+				backWarn();
+			}else{
+				finish();
+			}
 		}else if(v == rightImage){
 			if(checkContentLength())
 				wrapAndSend();
@@ -267,6 +281,32 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		}
 		if(cursorPosition == CURSOR_BEGEIN)
 			inputEditText.setSelection(0);
+	}
+	
+	/**提醒是否要存入草稿*/
+	private void backWarn(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.message_store_draft)
+			.setPositiveButton(R.string.btn_store_draft_ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					WeiboDraftEntryDAO draft = new WeiboDraftEntryDAO();
+					draft.userid = "1";
+					draft.type = model;
+					draft.platform = platform;
+					draft.statusid = statusId;
+					draft.content = inputEditText.getText().toString();
+					draft.created = System.currentTimeMillis();
+					DBModel.getInstance().addDraft(WeiboNewActivity.this, draft);
+					WeiboNewActivity.this.finish();
+				}
+			}).setNegativeButton(R.string.btn_store_draft_cancel, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					WeiboNewActivity.this.finish();
+				}
+			}).show();
 	}
 	
 	/**检查输入文字是否超出满足字数显示
