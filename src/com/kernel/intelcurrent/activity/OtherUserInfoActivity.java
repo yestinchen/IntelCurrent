@@ -27,7 +27,6 @@ import com.kernel.intelcurrent.widget.UrlImageView;
 public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 	public static final int OTHER_USER_INFO_ONE=1;
 	public static final int OTHER_USER_INFO_TWO=2;
-	private int info_type;
 	private Intent intent;
 	private User userinfo=null;
 	private static final String TAG=OtherUserInfoActivity.class.getSimpleName();
@@ -61,12 +60,6 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		setContentView(R.layout.activity_other_user_info);
 		intent=getIntent();
 		findViews();		
-//		info_type=intent.getIntExtra("user_info_type", -1);
-//		if(info_type==OTHER_USER_INFO_ONE){
-//			userinfo=(User)intent.getSerializableExtra("user");
-//			initOne();
-//			setListener();
-//		}
 	}
 	private void findViews(){
 		other_title=(TextView)findViewById(R.id.common_head_tv_title);
