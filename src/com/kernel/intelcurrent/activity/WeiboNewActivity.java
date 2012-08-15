@@ -236,6 +236,9 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		}else if( v == picTipImage){
 			//提示删除图片
 			removePic();
+		}else if( v == atImage){
+			Intent intent = new Intent(this,AtUserActivity.class);
+			startActivityForResult(intent, ON_RESULT_CHOOSE_AT);
 		}
 	}
 	

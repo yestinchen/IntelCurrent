@@ -281,6 +281,16 @@ public class MainService extends Service
 		Task t = new Task(Task.WEIBO_COMMENTS_BY_ID,map,null);
 		model.doTask(t, this);
 	}
+	
+	public void searchAtUser(String keyword,int page,int platform){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("keyword", keyword);
+		map.put("pagesize", 15);
+		map.put("page", page);
+		map.put("platform", platform);
+		Task t = new Task(Task.WEIBO_ADD_AT,map,null);
+		model.doTask(t, this);
+	}
 	/*=======================操纵ICModel的方法结束=======================================*/
 	
 	/**

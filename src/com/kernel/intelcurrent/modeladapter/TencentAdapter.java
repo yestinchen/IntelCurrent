@@ -89,8 +89,13 @@ public class TencentAdapter extends ModelAdapter {
 			break;
 		case Task.USER_OTHER_FRIENDS_LIST:
 			getOtherIdolList();
+			break;
 		case Task.USER_OTHER_WEIBO_LIST:
 			getOtherWeiboList();
+			break;
+		case Task.WEIBO_ADD_AT:
+			searchUser();
+			break;
 		}
 		model.callBack(task);
 	}
@@ -826,11 +831,11 @@ public class TencentAdapter extends ModelAdapter {
 				}
 			}
 			Log.v(TAG,response);
+			task.result.add(list);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		sapi.shutdownConnection();
-		task.result.add(response);
 	}
 	
 	/**

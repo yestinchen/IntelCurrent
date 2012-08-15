@@ -90,6 +90,7 @@ public class ICModel
 	   case Task.WEIBO_COMMENTS_ADD:
 	   case Task.WEIBO_REPOST:
 	   case Task.WEIBO_COMMENTS_BY_ID:
+	   case Task.WEIBO_ADD_AT:
 		   task.total = 1;
 		   clientIp = OAuthManager.getInstance().getClientIP();
 		   Log.v(TAG, "client ip:"+clientIp);

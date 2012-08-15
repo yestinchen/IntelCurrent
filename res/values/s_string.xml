@@ -60,4 +60,6 @@
    	<string-array name="weibo_draft_list_menu">
    	    <item>删除</item>
    	</string-array>
+   	
+   	<string name="activity_at_net_tip">去联网搜索>></string>
 </resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+   
+    <include layout="@layout/common_head"/>
+    
+    <EditText
+        android:id="@+id/activity_at_et"
+        android:hint="想提到谁"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small"
+        android:layout_margin="@dimen/padding_tiny"
+        android:background="@null"
+        />
+    
+    <ListView 
+        android:id="@+id/activity_at_lv"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        />
+
+    <TextView
+        android:id="@+id/activity_at_tv"
+        android:padding="@dimen/padding_large"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/activity_at_net_tip"
+        android:gravity="center"
+        />
+</LinearLayout>
