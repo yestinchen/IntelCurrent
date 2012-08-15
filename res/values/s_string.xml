@@ -21,7 +21,7 @@
     <string name="more_group_draft">草稿箱</string>
     <string name="more_group_order_center">订阅中心</string>
     <string name="more_group_push_center">推送中心</string>
-    <string name="more_group_shake">摇摇看</string>
+    <string name="more_group_shake">翻翻看</string>
     <string name="more_group_settings">设置</string>
     <string name="more_group_skin">换肤</string>
     <string name="more_group_about">关于</string>
@@ -37,4 +37,14 @@
         <item>查看资料</item>
         <item>取消</item>
     </string-array>
+    <string name="push_center_enable">推送开启</string>
+    <string name="push_center_time_field">仅在(8:00&#8211;21:00)推送</string>
+    <string name="push_center_group_push_type">推送种类</string>
+    <string name="push_center_push_type_sixin">私信</string>
+    <string name="push_center_push_type_pinglun">评论</string>
+    <string name="push_center_push_type_tiji">微博提及(@)</string>
+    <string name="push_center_push_type_tingzhong">新粉丝</string>
+    <string name="push_center_group_push_noti">推送提示</string>
+    <string name="push_center_push_shake">震动</string>
+    <string name="push_center_push_music">响铃</string>
 </resources>

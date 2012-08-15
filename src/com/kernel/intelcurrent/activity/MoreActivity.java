@@ -1,19 +1,17 @@
 package com.kernel.intelcurrent.activity;
 
-import java.util.ArrayList;
-
-import com.kernel.intelcurrent.adapter.MoreListAdapter;
-import com.kernel.intelcurrent.adapter.MoreListAdapter.MoreListEntry;
+import com.kernel.intelcurrent.adapter.ViewListAdapter;
+import com.kernel.intelcurrent.widget.MoreListCell;
 import com.kernel.intelcurrent.widget.NoScrollListView;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class MoreActivity extends Activity implements Updateable{
 
 	private NoScrollListView lv1,lv2,lv3;
-	private MoreListAdapter adapter1,adapter2,adapter3;
+	private MoreListCell[] views1,views2,views3;
 	private TextView titleTv;
 	
 	@Override
@@ -40,26 +38,23 @@ public class MoreActivity extends Activity implements Updateable{
 	}
 	
 	private void setAdapter(){
-		ArrayList<MoreListAdapter.MoreListEntry> list = new ArrayList<MoreListAdapter.MoreListEntry>();
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_draft),1));
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_order_center),0));
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_push_center),0));
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_shake),0));
-		adapter1 = new MoreListAdapter(this, list);
+		views1 = new MoreListCell[4];
+		views1[0] = new MoreListCell(this, R.string.more_group_draft,1,null);
+		views1[1] = new MoreListCell(this, R.string.more_group_order_center,0,null);
+		views1[2] = new MoreListCell(this, R.string.more_group_push_center,0,
+				new Intent(this,PushCenterActivity.class));
+		views1[3] = new MoreListCell(this, R.string.more_group_shake,0,null);
+
+		views2 = new MoreListCell[3];
+		views2[0] = new MoreListCell(this, R.string.more_group_settings,0,null);
+		views2[1] = new MoreListCell(this, R.string.more_group_skin,0,null);
+		views2[2] = new MoreListCell(this, R.string.more_group_about,0,null);
 		
-		list = new ArrayList<MoreListAdapter.MoreListEntry>();
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_settings),0));
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_skin),0));
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_about),0));
-		adapter2 = new MoreListAdapter(this, list);
-		
-		list = new ArrayList<MoreListAdapter.MoreListEntry>();
-		list.add(new MoreListEntry(getResources().getString(R.string.more_group_account),0));
-		adapter3 = new MoreListAdapter(this, list);
-		
-		lv1.setAdapter(adapter1);
-		lv2.setAdapter(adapter2);
-		lv3.setAdapter(adapter3);
+		views3 = new MoreListCell[1];
+		views3[0] = new MoreListCell(this,R.string.more_group_account,0 ,null);
+		lv1.setAdapter(new ViewListAdapter(views1));
+		lv2.setAdapter(new ViewListAdapter(views2));
+		lv3.setAdapter(new ViewListAdapter(views3));
 		
 	}
 

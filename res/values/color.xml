@@ -9,4 +9,7 @@
 	<color name="info_tab_selected_color">#6B9ACE</color>
 	
 	<color name="white">#ffffff</color>
+	
+	<color name="list_cell_alpha">#00000000</color>
+	<color name="list_cell_pressed">#aa98BFE9</color>
 </resources>
