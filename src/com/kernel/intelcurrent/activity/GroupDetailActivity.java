@@ -38,9 +38,12 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		Intent intent=getIntent();
 		Bundle bundle=intent.getBundleExtra("bundle");
 		group=(Group) bundle.get("group");
+		Log.v(TAG, "组员数："+group.users.size());
 		findViews();
 		setListener();
 	}
+	
+
 	private void findViews(){
 		group_title=(TextView)findViewById(R.id.common_head_tv_title);
 		group_title.setText(group.name);
@@ -136,6 +139,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 			gadapter.notifyDataSetChanged();
 		}
 		request = -1;
+		
 	}
 	private void setAdapter() {
 		gadapter=new GroupUserListAdapter(this, users,group);

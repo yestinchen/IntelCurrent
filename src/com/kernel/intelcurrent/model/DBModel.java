@@ -51,10 +51,10 @@ public class DBModel {
 	 */
 	public void delUser(Context context,int gid,SimpleUser user){
 		Log.v(TAG, user.id);
-		String sql="delete from t_ginfo where gid="+gid+" and userid="+user.id+" and platform="+user.platform;
+		String sql="delete from t_ginfo where gid=? and userid=? and platform=?";
 		DataBaseHelper helper = new DataBaseHelper(context);
 		SQLiteDatabase db = helper.getWritableDatabase();
-		db.execSQL(sql);
+		db.execSQL(sql,new String[]{gid+"",user.id,user.platform+""});
 		db.close();
 		helper.close();
 	}
@@ -64,12 +64,13 @@ public class DBModel {
 	 * @param group
 	 */
 	public void delGroup(Context context,Group group){
-		String sql1="delete from t_ginfo where gid="+group.name.hashCode();
-		String sql2="delete from t_group where gid="+group.name.hashCode();
+		String gid=group.name.hashCode()+"";
+		String sql1="delete from t_ginfo where gid=?";
+		String sql2="delete from t_group where gid=?";
 		DataBaseHelper helper = new DataBaseHelper(context);
 		SQLiteDatabase db = helper.getWritableDatabase();
-		db.execSQL(sql1);
-		db.execSQL(sql2);
+		db.execSQL(sql1,new String[]{gid});
+		db.execSQL(sql2,new String[]{gid});
 		db.close();
 		helper.close();
 	}
@@ -82,10 +83,10 @@ public class DBModel {
 	 */
 	public boolean UserIsExists(Context context,int gid,String user_id){
 		boolean flag =false;
-		String sql="select userid from t_ginfo where gid="+gid+"and userid="+user_id;
+		String sql="select userid from t_ginfo where gid=? and userid=?";
 		DataBaseHelper helper=new DataBaseHelper(context);
 		SQLiteDatabase db=helper.getReadableDatabase();
-		Cursor cursor=db.rawQuery(sql,null);
+		Cursor cursor=db.rawQuery(sql,new String []{gid+"",user_id});
 		while(cursor.moveToNext()){
 			if(cursor.getString(cursor.getColumnIndex("userid"))!=null){
 				flag=true;
@@ -103,12 +104,12 @@ public class DBModel {
 	 * @param users 用户的openid和platform(腾讯为1)
 	 */
 	public void addUsers(Context context,int gid,LinkedList<SimpleUser> users){
-		String sql = "insert into t_ginfo values("+gid+",?,?)";
+		String sql = "insert into t_ginfo values(?,?,?)";
 		DataBaseHelper helper=new DataBaseHelper(context);
 		SQLiteDatabase db=helper.getWritableDatabase();
 		if(users.size()!=0){
 			for(SimpleUser user:users){
-				db.execSQL(sql, new String[]{user.id,user.platform+""});
+				db.execSQL(sql, new String[]{gid+"",user.id,user.platform+""});
 			}
 		}
 		db.close();
