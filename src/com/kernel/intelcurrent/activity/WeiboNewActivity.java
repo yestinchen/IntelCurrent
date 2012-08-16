@@ -87,6 +87,8 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 				}
 				break;
 			case ON_RESULT_CHOOSE_AT:
+				int start = inputEditText.getSelectionStart();
+				inputEditText.getText().insert(start, "@"+data.getStringExtra("name")+" ");
 				break;
 			}
 		}

@@ -18,17 +18,8 @@
     
     <ListView 
         android:id="@+id/activity_at_lv"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         />
 
-    <TextView
-        android:id="@+id/activity_at_tv"
-        android:padding="@dimen/padding_large"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:text="@string/activity_at_net_tip"
-        android:gravity="center"
-        />
 </LinearLayout>
