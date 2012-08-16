@@ -222,6 +222,18 @@ public class MainService extends Service
 		model.doTask(t, this);
 	}
 	/**
+	 * 根据关键字搜索用户
+	 * @param keyword 1-20字节
+	 */
+	public void searchUser(String keyword){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("keyword", keyword);
+		map.put("pagesize", "15");
+		map.put("page", "1");
+		Task t=new Task(Task.USER_SEARCH,map,null);
+		model.doTask(t, this);
+	}
+	/**
 	 * 收听用户
 	 * @param name 用户名
 	 * @author allenjin
