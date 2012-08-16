@@ -8,4 +8,10 @@ public class WeiboDraftEntryDAO {
 	public long created;
 	public String statusid;
 	public int platform;
+	@Override
+	public String toString() {
+		return "WeiboDraftEntryDAO [userid=" + userid + ", content=" + content
+				+ ", img=" + img + ", type=" + type + ", created=" + created
+				+ ", statusid=" + statusid + ", platform=" + platform + "]";
+	}
 }

@@ -78,7 +78,7 @@ public class DraftListAdapter extends BaseAdapter {
 		}else if(draft.type == WeiboNewActivity.MODEL_FORWORD){
 			holder.typeTv.setText(R.string.weibo_type_repost);
 		}
-		holder.timeTv.setText(QStrOperate.getTimeState(draft.created+""));
+		holder.timeTv.setText(QStrOperate.getTimeState(draft.created/1000+""));
 		holder.contentTv.setText(draft.content);
 		if(draft.platform == Task.PLATFORM_SINA || draft.platform == Task.PLATFORM_ALL){
 			holder.sinaImage.setVisibility(View.VISIBLE);

@@ -6,6 +6,7 @@ import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.model.WeiboDraftEntryDAO;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 public class WeiboDraftsListActivity extends Activity implements OnClickListener{
 
+	private static final String TAG = WeiboDraftsListActivity.class.getSimpleName();
+	
 	private TextView titleTv;
 	private ImageView leftImage,rightImage;
 	private ListView lv;
@@ -48,6 +51,7 @@ public class WeiboDraftsListActivity extends Activity implements OnClickListener
 	private void init(){
 		dbModel = DBModel.getInstance();
 		list = dbModel.getAllDrafts(this);
+		Log.d(TAG, "list:"+list);
 	}
 	
 	private void setListeners(){
