@@ -67,7 +67,16 @@ public class MainService extends Service
 		Task t = new Task(Task.G_GET_GROUP_TIMELINE,map,null);
 		model.doTask(t,this);
 	}
-	
+	/**
+	 * 批量获取一批用户的简单信息
+	 *@see fopenids:需要读取的用户的openid列表,用下划线_隔开，(<=30);
+	 */
+	public void getSimpleUserList(String fopenids){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("fopenids", fopenids);
+		Task t=new Task(Task.USER_SIMPLE_INFO_LIST,map,null);
+		model.doTask(t, this);
+	}
 	/**
 	 * 获取用户的信息 //fopenids为0为用户自己（腾讯）
 	 * @author allenjin

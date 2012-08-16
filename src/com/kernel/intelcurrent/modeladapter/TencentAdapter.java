@@ -96,6 +96,9 @@ public class TencentAdapter extends ModelAdapter {
 		case Task.WEIBO_ADD_AT:
 			searchUser();
 			break;
+		case Task.USER_SIMPLE_INFO_LIST:
+			getSimUserInfoList();
+			break;
 		}
 		model.callBack(task);
 	}
@@ -263,7 +266,44 @@ public class TencentAdapter extends ModelAdapter {
 		task.result.add(response);
 		return response;
 	}
-	
+	/**
+	 * 获取一批人的简单资料
+	 * @see fopenids:需要读取的用户的openid列表,用下划线_隔开，(<=30);
+	 * 		处理的结果为一个ArrayList<User>
+	 * @author allenjin
+	 */
+	public void getSimUserInfoList(){
+		UserAPI uapi=new UserAPI();
+		Map<String,Object> map = task.param;
+		String response = null;
+		ArrayList<User> users = new ArrayList<User>();
+		try {
+			response=uapi.infos((OAuth)map.get("oauth"), "json",null,map.get("fopenids").toString());
+			JSONObject data=new JSONObject(response).getJSONObject("data");
+			if(data.get("info") instanceof JSONArray){
+				JSONArray infolist=data.getJSONArray("info");
+				for(int i=0;i<infolist.length();i++){
+					JSONObject iobj=infolist.getJSONObject(i);
+					User user=new User();
+					user.name=iobj.getString("name");
+					user.id=iobj.getString("openid");
+					user.nick=iobj.getString("nick");
+					user.head=iobj.getString("head");
+					user.fansnum=iobj.getInt("fansnum");
+					user.idolnum=iobj.getInt("idolnum");
+					user.gender = iobj.getInt("sex");
+					user.platform=User.PLATFORM_TENCENT_CODE;
+					users.add(user);
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		task.result.add(users);
+		uapi.shutdownConnection();
+		Log.v(TAG, "getUserList:"+response);
+	}
 	/**得到用户的信息
 	 * @see Map参数:openid:用户的openid(0为用户自己)
 	 * 处理结果为一个User对象

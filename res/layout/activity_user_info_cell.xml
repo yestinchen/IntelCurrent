@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
+    android:layout_width="70dp"
     android:layout_height="wrap_content"
     android:background="@drawable/ic_user_cell_bg"
     android:gravity="center"
@@ -8,7 +8,7 @@
    <TextView 
        android:id="@+id/other_user_cell_nums"
        android:layout_width="fill_parent"
-       android:layout_height="35dp"
+       android:layout_height="30dp"
        android:textColor="#000000"
        android:textSize="18sp"
        android:gravity="bottom|center_horizontal"
@@ -22,7 +22,7 @@
    <TextView 
        android:id="@+id/other_user_cell_title"
        android:layout_width="fill_parent"
-       android:layout_height="45dp"
+       android:layout_height="40dp"
        android:textSize="20sp"
        android:textColor="#000000"
        android:textStyle="bold"

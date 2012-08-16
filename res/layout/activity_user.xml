@@ -135,8 +135,8 @@
 	    android:gravity="center"
 	    android:background="@drawable/ic_user_panel_bg"
 	    android:layout_gravity="center"
-	    android:layout_marginLeft="2dp"
-	    android:layout_marginRight="2dp"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
 	    android:layout_marginTop="10dp"
 	    >
 	    <include layout="@layout/activity_user_info_cell"

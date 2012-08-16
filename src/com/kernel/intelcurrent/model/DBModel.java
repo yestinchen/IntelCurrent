@@ -47,6 +47,18 @@ public class DBModel {
 		helper.close();
 	}
 	/**
+	 * 删除组内的某个组员
+	 */
+	public void delUser(Context context,int gid,SimpleUser user){
+		Log.v(TAG, user.id);
+		String sql="delete from t_ginfo where gid="+gid+" and userid="+user.id+" and platform="+user.platform;
+		DataBaseHelper helper = new DataBaseHelper(context);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.execSQL(sql);
+		db.close();
+		helper.close();
+	}
+	/**
 	 * 删除某一个分组
 	 * @param context
 	 * @param group

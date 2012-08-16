@@ -72,7 +72,7 @@ public class UserFriendListAdapter extends BaseAdapter {
 			holder.user_head.reset();
 		}
 		User user=users.get(position);
-		holder.user_name.setText(user.nick);
+		holder.user_name.setText(user.nick+"("+user.name+")");
 		holder.user_info.setText(user.location);
 		holder.user_is_friend.setText(user.ismyidol?R.string.user_follow_cancle:R.string.user_follow_add);
 		holder.user_layout.setOnClickListener(new OnBtnClickListener(user));

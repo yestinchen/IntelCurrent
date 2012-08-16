@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:paddingTop="3dp"
     android:background="#ffffff"
-    android:id="@+id/user_list_cell_layout"
+    android:id="@+id/group_userlist_cell_layout"
     android:orientation="horizontal" >
     <com.kernel.intelcurrent.widget.UrlImageView
-        android:id="@+id/user_list_cell_head"
+        android:id="@+id/group_user_list_cell_head"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="10dp"
@@ -16,39 +15,39 @@
 	<LinearLayout 
 	    android:orientation="vertical"
 	    android:layout_height="fill_parent"
-	    android:layout_width="140dp"
+	    android:layout_width="180dp"
 	    >
 	    <TextView 
 	        android:layout_height="40dp"
 	        android:layout_width="fill_parent"
-	        android:id="@+id/user_list_cell_name"
+	        android:id="@+id/group_user_list_cell_name"
 	        android:text="@string/user_words"
 	        android:textColor="#000000"
-	        android:typeface="monospace"
-	        android:ellipsize="end"
 	        android:singleLine="true"
+	        android:ellipsize="end"
+	        android:typeface="monospace"
 	        android:textStyle="bold"
 	        android:gravity="center_vertical"
 	        />
-	    <TextView 
+	    <Button
 	        android:layout_height="40dp"
 	        android:layout_width="fill_parent"
 	        android:textColor="#000000"
-	        android:id="@+id/user_list_cell_info"
+	        android:background="#00ffffff"
+	        android:clickable="false"
+	        android:id="@+id/group_user_list_cell_info"
 	        android:gravity="center_vertical"
 	        android:typeface="monospace"
 	        />
 	</LinearLayout>
 	<TextView 
-	    android:layout_height="40dp"
-	    android:layout_width="80dp"
+	    android:layout_height="30dp"
+	    android:layout_width="30dp"
 	    android:layout_marginLeft="5dp"
 	    android:layout_gravity="center_vertical"
-	    android:background="@drawable/ic_user_list_cell_btn_bg"
-	    android:id="@+id/user_list_cell_btn"
-	    android:gravity="center"
-	    android:textColor="@color/ic_user_list_cell_btn_color"
+	    android:background="@drawable/ic_group_uselist_del_bg"
+	    android:id="@+id/group_user_list_cell_btn"
+	    android:gravity="center_vertical"
 	    android:textStyle="bold"
-	    android:text="@string/user_follow_cancle"
 	    />
 </LinearLayout>

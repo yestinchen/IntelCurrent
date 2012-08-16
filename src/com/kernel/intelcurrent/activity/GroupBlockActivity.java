@@ -110,7 +110,19 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 		}).show();
 	
 	}
-	
+	/**
+	 * 显示组的详细信息
+	 * 
+	 */
+	private void ShowGroup(Group group){
+		ArrayList<SimpleUser> users=DBModel.getInstance().getUsersByGname(GroupBlockActivity.this,group.name);
+		group.users.addAll(users);
+		Intent intent=new Intent(GroupBlockActivity.this,GroupDetailActivity.class);
+		Bundle bundle=new Bundle();
+		bundle.putSerializable("group", group);
+		intent.putExtra("bundle",bundle);
+		startActivity(intent);
+	}
 	/**
 	 * 删除组的对话框
 	 * @param group
@@ -155,7 +167,8 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 						@Override
 						public boolean onLongClick(View v) {
 							// TODO Auto-generated method stub
-							delGroup((Group)v.getTag());
+							//delGroup((Group)v.getTag());//删除组
+							ShowGroup((Group)v.getTag());//显示组
 							return false;			
 				}
 						

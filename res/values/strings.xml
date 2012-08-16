@@ -26,6 +26,12 @@
 	<string name="info_comment_me">评论</string>
 	<string name="info_msg">私信</string>
 	
+		<!--GroupDetailActivity布局使用-->
+		<string name="group_detail_user_del">删除</string>
+		<string name="group_detail_gname">组名:</string>
+		<string name="group_detail_wrods">描述:</string>
+		<string name="group_detail_edit">编辑</string>
+		<string name="group_detail_find">搜索</string>
 		<!-- ShowAllListActivity布局专用 -->
 	<string name="showlist_me_fans">我的听众</string>
 	<string name="showlist_me_weibo">我的广播</string>
