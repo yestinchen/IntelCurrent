@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.kernel.intelcurrent.model.Comment;
 import com.kernel.intelcurrent.model.ICArrayList;
-import com.kernel.intelcurrent.model.SimpleUser;
 import com.kernel.intelcurrent.model.Status;
 import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
@@ -98,6 +97,9 @@ public class TencentAdapter extends ModelAdapter {
 			break;
 		case Task.USER_SIMPLE_INFO_LIST:
 			getSimUserInfoList();
+			break;
+		case Task.USER_SEARCH:
+			searchUser();
 			break;
 		}
 		model.callBack(task);
@@ -843,7 +845,7 @@ public class TencentAdapter extends ModelAdapter {
 	 * Map参数： keyword:关键字匹配用户名和昵称,pagesize:记录的条数，page：从1开始
 	 * 处理结果为ICArrayList
 	 * 其中hastnext表示为：0，第一页且只有一页,1.多页第一页,还可向下翻页，2-还可向上翻页，3-可向上或向下翻页
-	 * 其中list存放SimpleUser类的对象列表.
+	 * 其中list存放User类的对象列表.
 	 * @author allenjin
 	 */
 	public void searchUser(){
@@ -859,12 +861,16 @@ public class TencentAdapter extends ModelAdapter {
 			if(data.get("info")instanceof JSONArray){
 				JSONArray info=data.getJSONArray("info");
 				for(int j=0;j<info.length();j++){
-					SimpleUser users=new SimpleUser();
+					User users=new User();
 					JSONObject iobj=info.getJSONObject(j);
 					users.head=iobj.getString("head");
 					users.id=iobj.getString("openid");
 					users.name=iobj.getString("name");
 					users.nick=iobj.getString("nick");
+					users.location=iobj.getString("location");
+					users.fansnum=iobj.getInt("fansnum");
+					users.idolnum=iobj.getInt("idolnum");
+					users.ismyidol=iobj.getBoolean("isidol");
 					users.platform=User.PLATFORM_TENCENT_CODE;
 					Log.v("第"+j+"个：用户", users.toString());
 					list.list.add(users);

@@ -38,7 +38,7 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 	private LinkedList<Status> statuses = new LinkedList<Status>();
 	private int hasNext = -1;
 	private int state = -1;
-	
+	private long curTime;
 	private MainActivity activityGroup;
 	private MainService mService;
 	
@@ -58,6 +58,8 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 	public void update(int type, Object param) {
 		//类型较检，不符合自己类型的数据忽略
 		if(type != Task.G_GET_GROUP_TIMELINE)return;
+		if(((Task)param).time!=curTime)return;
+		Log.v(TAG, "Task time"+curTime);
 		if(((Task)param).result.size() == 0) return;
 		//根据之前标志位的状态决定刷新来做什么
 		ICArrayList result;
@@ -120,7 +122,8 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 
 		state = 1;
 		if(group.users.size()!=0){
-			mService.getTimeline(group, 0, 0, "0");
+			curTime=System.currentTimeMillis();
+			mService.getTimeline(curTime,group, 0, 0, "0");
 			Log.d(TAG, "myservice:"+mService);
 		}
 	}
@@ -138,14 +141,16 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 			@Override
 			public void onRefresh() {
 				state = 2;
-				mService.getTimeline(group, 0, 0, "0");
+				curTime=System.currentTimeMillis();
+				mService.getTimeline(curTime,group, 0, 0, "0");
 			}
 		});
 		lv.setOnLoadMoreListener(new OnLoadMoreListener() {
 			@Override
 			public void onLoadMore() {
 				state = 3;
-				mService.getTimeline(group, 1, statuses.getLast().timestamp, statuses.getLast().id);
+				curTime=System.currentTimeMillis();
+				mService.getTimeline(curTime,group, 1, statuses.getLast().timestamp, statuses.getLast().id);
 			}
 		});
 		rightImage.setOnClickListener(this);

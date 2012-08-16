@@ -24,11 +24,12 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 	private ListView listview;
 	private GroupUserListAdapter gadapter;
 	private  int userlist_next=0;
-	private LinkedList<User> users=new LinkedList<User>();
+	private LinkedList<User> users;
 	private static final int REQUEST_FIRST = 1;
 	private static final int REQUEST_LOAD_MORE = 2;
 	private int request = -1;
 	private Group group;
+	private long curtime;
 	private static final String TAG=GroupDetailActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,14 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		setListener();
 	}
 	
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		 users=new LinkedList<User>();
+	}
+
 
 	private void findViews(){
 		group_title=(TextView)findViewById(R.id.common_head_tv_title);
@@ -105,7 +114,8 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 			if(mService==null){
 				Log.v(TAG, "mservice is null");
 			}else{
-				mService.getSimpleUserList(openids.toString());
+				curtime=System.currentTimeMillis();
+				mService.getSimpleUserList(openids.toString(),curtime);
 			}
 		}
 	}
@@ -120,6 +130,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 	public void update(int type, Object param) {
 		// TODO Auto-generated method stub
 		if(type!=Task.USER_SIMPLE_INFO_LIST)return;
+		if(curtime!=((Task)param).time)return;
 		if(((Task)param).result.size() == 0) return;	
 		ArrayList<User> result;
 		LinkedList<User> tmpList;

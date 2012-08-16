@@ -69,7 +69,10 @@ public class Task implements Serializable
 	 * 任务类型
 	 * */
 	public int type;
-	
+	/**
+	 * 任务开始执行的时间
+	 */
+	public long time;
 	/**
 	 * 线程总数
 	 * */
@@ -99,6 +102,12 @@ public class Task implements Serializable
     	type=t;
     	param=p;
     	this.target=target;
+    }
+    public Task(long time,int t,Map<String,Object> p,Activity target){
+    	type=t;
+    	param=p;
+    	this.target=target;
+    	this.time=time;
     }
 	@Override
 	public String toString() {

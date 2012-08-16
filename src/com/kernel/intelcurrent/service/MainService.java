@@ -52,7 +52,7 @@ public class MainService extends Service
 	
 	/**得到Timeline的信息
 	 * @author sheling*/
-	public void getTimeline(Group group,int pageflag, long pagetime,String lastid){
+	public void getTimeline(long time,Group group,int pageflag, long pagetime,String lastid){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("pageflag", pageflag);
 		map.put("pagetime", pagetime);
@@ -64,17 +64,17 @@ public class MainService extends Service
 			openids.append(user.id).append("_");
 		}
 		map.put("fopenids", openids.toString());
-		Task t = new Task(Task.G_GET_GROUP_TIMELINE,map,null);
+		Task t = new Task(time,Task.G_GET_GROUP_TIMELINE,map,null);
 		model.doTask(t,this);
 	}
 	/**
 	 * 批量获取一批用户的简单信息
 	 *@see fopenids:需要读取的用户的openid列表,用下划线_隔开，(<=30);
 	 */
-	public void getSimpleUserList(String fopenids){
+	public void getSimpleUserList(String fopenids,long time){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("fopenids", fopenids);
-		Task t=new Task(Task.USER_SIMPLE_INFO_LIST,map,null);
+		Task t=new Task(time,Task.USER_SIMPLE_INFO_LIST,map,null);
 		model.doTask(t, this);
 	}
 	/**
