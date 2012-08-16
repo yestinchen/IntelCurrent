@@ -3,6 +3,7 @@ package com.kernel.intelcurrent.model;
 public class WeiboDraftEntryDAO {
 	public String userid;
 	public String content;
+	public String img;
 	public int type;
 	public long created;
 	public String statusid;

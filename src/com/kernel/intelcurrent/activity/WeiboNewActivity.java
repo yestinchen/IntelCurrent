@@ -36,6 +36,7 @@ import android.widget.Toast;
  * <br/>"ext"放入其他如评论微博id或转播微博id,String
  * <br/>"text"加入预置文字
  * <br/>"cursor"指定光标显示位置,CURSOR_BEGEIN 或 CURSOR_END
+ * <br/>"img" 图片地址
  * @author sheling*/
 public class WeiboNewActivity extends BaseActivity implements View.OnClickListener,Updateable{
 
@@ -252,6 +253,7 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		statusId = intent.getStringExtra("ext");
 		text = intent.getStringExtra("text");
 		cursorPosition = intent.getIntExtra("cursor", 0);
+		lastPhotoPath = intent.getStringExtra("img");
 		switch(model){
 		case MODEL_NEW_WEIBO:
 			titleTv.setText(R.string.weibo_new_new);
@@ -285,6 +287,9 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 		if(text != null){
 			inputEditText.setText(text);
 		}
+		if(lastPhotoPath != null){
+			setPic(lastPhotoPath);
+		}
 		if(cursorPosition == CURSOR_BEGEIN)
 			inputEditText.setSelection(0);
 	}
@@ -299,6 +304,7 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 					WeiboDraftEntryDAO draft = new WeiboDraftEntryDAO();
 					draft.userid = "1";
 					draft.type = model;
+					draft.img = lastPhotoPath;
 					draft.platform = platform;
 					draft.statusid = statusId;
 					draft.content = inputEditText.getText().toString();

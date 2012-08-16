@@ -29,7 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		String createSql_1 = "create table t_group( gid varchar(255) primary key, gname varchar(255) );";
 		String createSql_2 = "create table t_ginfo( gid varchar(255), userid varchar(255), platform int );";
-		String createSql_3 = "create table t_wb_draft(userid text not null,content text not null,type int not null,created int not null,statusid text,platform int not null);";
+		String createSql_3 = "create table t_wb_draft(userid text not null,content text not null,img text,type int not null,created int not null,statusid text,platform int not null);";
 		db.execSQL(createSql_1);
 		db.execSQL(createSql_2);
 		db.execSQL(createSql_3);

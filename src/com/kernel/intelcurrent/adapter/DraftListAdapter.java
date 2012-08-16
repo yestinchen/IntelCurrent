@@ -92,6 +92,7 @@ public class DraftListAdapter extends BaseAdapter {
 				Intent intent = new Intent(context,WeiboNewActivity.class);
 				intent.putExtra("model", draft.type);
 				intent.putExtra("text", draft.content);
+				intent.putExtra("img", draft.img);
 				intent.putExtra("ext", draft.statusid);
 				intent.putExtra("platform", draft.platform);
 				context.startActivity(intent);
