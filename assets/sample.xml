@@ -1,0 +1,12 @@
+<iclist>
+	<group name="测试">
+		<user name="马化腾" id="34343234242" platform="1"/>
+		<user name="留的" id="342342525423423" platform="2"/>
+		<user name="神马" id="xxx2222313" platform="1"/>
+	</group>
+	<group name="不存在的">
+		<user name="好的" id="32423452" platform="1"/>
+		<user name="你说呢" id="fdarfdasre" platform="2"/>
+		<user name="x" id="dasdaferwr" platform="1"/>
+	</group>
+</iclist>

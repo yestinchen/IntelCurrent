@@ -49,7 +49,8 @@ public class MoreActivity extends Activity implements Updateable{
 		views1[0] = new MoreListCell(this, R.string.more_group_draft
 				,DBModel.getInstance().getAllDrafts(this).size(),
 				new Intent(this,WeiboDraftsListActivity.class));
-		views1[1] = new MoreListCell(this, R.string.more_group_order_center,0,null);
+		views1[1] = new MoreListCell(this, R.string.more_group_order_center,0,
+				new Intent(this,OrderCenterListActivity.class));
 		views1[2] = new MoreListCell(this, R.string.more_group_push_center,0,
 				new Intent(this,PushCenterActivity.class));
 		views1[3] = new MoreListCell(this, R.string.more_group_shake,0,null);

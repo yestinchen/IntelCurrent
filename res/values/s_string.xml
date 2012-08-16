@@ -62,4 +62,6 @@
    	</string-array>
    	
    	<string name="activity_at_net_tip">去联网搜索>></string>
+   	
+   	<string name="activity_order_list_add_tip">已添加订阅，若需要取消，请直接删除相应分组</string>
 </resources>
