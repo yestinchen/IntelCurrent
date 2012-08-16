@@ -41,9 +41,13 @@
     <string name="push_center_time_field">仅在(8:00&#8211;21:00)推送</string>
     <string name="push_center_group_push_type">推送种类</string>
     <string name="push_center_push_type_sixin">私信</string>
-    <string name="push_center_push_type_pinglun">评论</string>
     <string name="push_center_push_type_tiji">微博提及(@)</string>
     <string name="push_center_push_type_tingzhong">新粉丝</string>
+    <string name="push_center_group_time_rate">新推送检查频率</string>
+    <string name="push_center_time_rate_5">5分钟</string>
+    <string name="push_center_time_rate_10">10分钟</string>
+    <string name="push_center_time_rate_20">20分钟</string>
+    <string name="push_center_time_rate_30">30分钟</string>
     <string name="push_center_group_push_noti">推送提示</string>
     <string name="push_center_push_shake">震动</string>
     <string name="push_center_push_music">响铃</string>

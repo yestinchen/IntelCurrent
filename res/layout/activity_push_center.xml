@@ -39,6 +39,23 @@
             android:background="@drawable/more_group_bg"
             android:layout_margin="@dimen/padding_small"
             />
+         <TextView
+            android:id="@+id/activity_push_center_tv_tip3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="@dimen/padding_small"  
+            android:paddingTop="@dimen/padding_small"
+            />
+          <com.kernel.intelcurrent.widget.NoScrollListView
+            android:id="@+id/activity_push_center_lv_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/more_group_bg"
+            android:layout_margin="@dimen/padding_small"
+            />
+          
         <TextView
             android:id="@+id/activity_push_center_tv_tip2"
             android:layout_width="fill_parent"
