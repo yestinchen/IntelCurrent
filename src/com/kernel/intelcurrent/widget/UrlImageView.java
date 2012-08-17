@@ -215,7 +215,7 @@ public class UrlImageView extends RelativeLayout {
 	private void bindUrl(URL url) throws IOException{
 		Log.v(LOG_TAG, "bindURL...");
 		DownloadTask dTask = new DownloadTask(context);
-	    dTask.execute(url);
+	    dTask.execute(url,storePath);
 //	    if(!bitmap.isRecycled()){
 //	    	bitmap.recycle();
 //	    }
@@ -225,18 +225,18 @@ public class UrlImageView extends RelativeLayout {
 	 * 下载图片并更新显示条的内部类
 	 * 弱引用异步任务
 	 * @author sheling*/
-	class DownloadTask extends WeakAsyncTask<URL, Long, String, Context>{
+	class DownloadTask extends WeakAsyncTask<Object, Long, String, Context>{
 		public DownloadTask(Context target) {
 			super(target);
 		}
 		
 		@Override
-		protected String doInBackground(URL... params) {
+		protected String doInBackground(Object... params) {
 			// TODO get bitmap and set update process signal
 		      /* 取得连接 */
 		      HttpURLConnection conn;
 		      File tmpFile = null;
-		      tmpFile = new File(storePath);
+		      tmpFile = new File((String) params[1]);
 			try {
 			      //存在，判断大小是否一致
 			      if(tmpFile.exists()){
@@ -244,7 +244,7 @@ public class UrlImageView extends RelativeLayout {
 			    	  publishProgress(80L);
 			      }
 			      else{
-				      conn = (HttpURLConnection) params[0].openConnection();
+				      conn = (HttpURLConnection) ((URL)params[0]).openConnection();
 					  conn.connect();
 				      /* 取得返回的InputStream */
 				      InputStream is = conn.getInputStream();
@@ -301,7 +301,7 @@ public class UrlImageView extends RelativeLayout {
 	      if(extraHandler != null){
 	    	  Message msg = Message.obtain();
 	    	  msg.what = 2;
-	    	  msg.obj = storePath;
+	    	  msg.obj = tmpFileStr;
 	    	  extraHandler.handleMessage(msg);
 	      }
 		}
