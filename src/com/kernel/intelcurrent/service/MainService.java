@@ -9,12 +9,15 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.kernel.intelcurrent.activity.Updateable;
+import com.kernel.intelcurrent.model.ErrorEntry;
 import com.kernel.intelcurrent.model.Group;
 import com.kernel.intelcurrent.model.ICModel;
 import com.kernel.intelcurrent.model.SimpleUser;
 import com.kernel.intelcurrent.model.Task;
+import com.kernel.intelcurrent.model.User;
 /**
  * classname:MainService.java
  * @author 许凌霄
@@ -335,6 +338,52 @@ public class MainService extends Service
     	msg.what=task.type;
     	handler.sendMessage(msg);
     }
+    /**较检任务返回代码
+     * @return true if result is okay*/
+    private boolean checkTaskResultCode(Task task){
+    	HashMap<Integer,ErrorEntry> map = task.errors;
+    	if(map.get(User.PLATFORM_SINA_CODE) != null){
+        	
+    	}
+    	if(map.get(User.PLATFORM_TENCENT_CODE) != null){
+    		ErrorEntry error = map.get(User.PLATFORM_TENCENT_CODE);
+        	if(error.ret == 0 && error.exception == 0) return true;
+        	if(checkTaskException(error)){
+        		checkTencentErrorCode();
+        	}
+    	}
+    	return false;
+    }
+    
+    /**检查任务执行中是否有异常
+     * @return true 若无异常*/
+    private boolean checkTaskException(ErrorEntry error){
+    	switch(error.exception){
+    	case ErrorEntry.EXCEPTION_SSL:
+    		Toast.makeText(this, "当前连接出现SSL问题！请检查连接状况", Toast.LENGTH_SHORT).show();
+    		return false;
+    	case ErrorEntry.EXCEPTION_CONNECT_TIME_OUT:
+    		Toast.makeText(this, "连接超时！请检查连接状况", Toast.LENGTH_SHORT).show();
+    		return false;
+    	case ErrorEntry.EXCEPTION_UNKNOWN_HOST:
+    		Toast.makeText(this, "未知域名！请检查连接状况及DNS设置", Toast.LENGTH_SHORT).show();
+    		return false;
+    	case ErrorEntry.EXCEPTION_JSON:
+    		Toast.makeText(this, "数据问题", Toast.LENGTH_SHORT).show();
+    		return false;
+    	case ErrorEntry.EXCEPTION_OTHER:
+    		Toast.makeText(this, "其他异常！", Toast.LENGTH_SHORT).show();
+    		return false;
+		default:
+			return true;
+    	}
+    }
+    
+    /**较检腾讯错误码*/
+    private void checkTencentErrorCode(){
+    	
+    }
+    
     /**
      * 处理底层消息的内部类
      * */
@@ -342,6 +391,7 @@ public class MainService extends Service
     {
     	public void handleMessage(Message msg)
     	{
+        	if(checkTaskResultCode((Task)msg.obj))
     		((Updateable)currentActivity).update(msg.what,msg.obj);
     	}
     };

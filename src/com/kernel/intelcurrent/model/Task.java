@@ -1,6 +1,7 @@
 ﻿package com.kernel.intelcurrent.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -97,6 +98,12 @@ public class Task implements Serializable
 	 * 任务参数表
 	 * */
     public Map<String,Object> param;
+    
+    /**
+     * 任务返回错误值
+     * 以平台的int值为key*/
+    public HashMap<Integer,ErrorEntry> errors = new HashMap<Integer,ErrorEntry>();
+    
     public Task(int t,Map<String,Object> p,Activity target)
     {
     	type=t;
@@ -111,8 +118,9 @@ public class Task implements Serializable
     }
 	@Override
 	public String toString() {
-		return "Task [type=" + type + ", total=" + total + ", current="
-				+ current + ", target=" + target + ", result=" + result
-				+ ", param=" + param + "]";
+		return "Task [type=" + type + ", time=" + time + ", total=" + total
+				+ ", current=" + current + ", target=" + target + ", result="
+				+ result + ", param=" + param + ", errors=" + errors + "]";
 	}
+	
 }

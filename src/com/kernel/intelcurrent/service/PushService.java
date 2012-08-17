@@ -121,7 +121,11 @@ public class PushService extends Service {
 		map.put("type", 0);
 		Task t = new Task(Task.MSG_NUM_NOTIFICATION, map, null);
 		TencentAdapter adapter = new TencentAdapter(t);
-		adapter.getUpdateMsg();
+		try {
+			adapter.getUpdateMsg();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if(t.result != null && t.result.size() != 0){
 			@SuppressWarnings("unchecked")
 			HashMap<String,Integer> m = (HashMap<String, Integer>) t.result.get(0);
