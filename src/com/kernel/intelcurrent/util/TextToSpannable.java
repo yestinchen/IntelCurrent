@@ -26,17 +26,16 @@ import android.widget.Toast;
  * @author sheling*/
 public class TextToSpannable {
 	
-	enum Status{
-		NORMAL,
-		URL,
-		URL_HTML,
-		EMOTION_TENCENT,
-		EMOTION_SINA,
-		AT,
-		HUA_TI
-	}
+	private static final int NORMAL = 1;
+	private static final int URL = 2;
+	private static final int URL_HTML = 3;
+	private static final int EMOTION_TENCENT = 4;
+	private static final int EMOTION_SINA = 5;
+	private static final int AT = 6;
+	private static final int HUA_TI = 7;
+	
 	//默认状态，正常状态
-	private Status state = Status.NORMAL;
+	private int state = NORMAL;
 	
 	private static String TAG = TextToSpannable.class.getSimpleName();
 	private String text;
@@ -72,32 +71,32 @@ public class TextToSpannable {
 			switch(state){
 			case NORMAL:
 				if(text.startsWith("[",start)){
-					state = Status.EMOTION_SINA;
+					state = EMOTION_SINA;
 					contentStart = start;
 				}else if(text.startsWith("/",start)){
-					state = Status.EMOTION_TENCENT;
+					state = EMOTION_TENCENT;
 					contentStart  = start;
 //					start++;//不考虑当前表情开始位置的//
 				}else if(text.startsWith("@",start)){
-					state = Status.AT;
+					state = AT;
 					contentStart = start;
 				}else if(text.startsWith("http://", start)){
-					state = Status.URL;
+					state = URL;
 					contentStart = start;
 					//加速循环
 					start += 6;
 				}else if(text.startsWith("<a",start)){
-					state = Status.URL_HTML;
+					state = URL_HTML;
 					contentStart = start;
 				}else if(text.startsWith("#",start)){
-					state = Status.HUA_TI;
+					state = HUA_TI;
 					contentStart = start;
 				}
 				
 				break;
 			case EMOTION_SINA:
 				if(text.startsWith("]", start) || text.startsWith(" ", start) || start+1 == end){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildSinaEmotion(contentStart,start+1);
 				}
 				break;
@@ -105,26 +104,26 @@ public class TextToSpannable {
 				//必须用正则表达式匹配
 				//另外要判断是否长度已经超过3了（加上\为4），如果超过了，果断结掉
 				if(text.substring(start, start+1).matches("[^\u4e00-\u9fa5a-zA-Z]") || start-contentStart>3){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildTencentEmotion(contentStart,start);
 					start--;//退回前一步，看当前位置是否有表情
 				}else if(start+1 == end){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildTencentEmotion(contentStart,start+1);
 				}
 				break;
 			case AT:
 				if(text.substring(start, start+1).matches("[^\u4e00-\u9fa5a-zA-Z0-9-_]")){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildAt(contentStart,start);
 				}else if(start+1 == end){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildAt(contentStart,start+1);
 				}
 				break;
 			case URL:
 				if(text.startsWith(" ",start) || text.startsWith(":",start)){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildUrl(contentStart,start);
 				}else if(start+1 == end){
 					buildUrl(contentStart,end);
@@ -134,7 +133,7 @@ public class TextToSpannable {
 				if(text.startsWith(">",start)){
 					htmlEndTmp = start+1;
 				}else if(text.startsWith("</a>",start)){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildHtmlUrl(contentStart,start+4);
 					//加速循环
 					start +=3;
@@ -142,7 +141,7 @@ public class TextToSpannable {
 				break;
 			case HUA_TI:
 				if(text.startsWith("#",start)){
-					state = Status.NORMAL;
+					state = NORMAL;
 					buildHuati(contentStart,start+1);
 				}
 				break;
