@@ -5,6 +5,7 @@ import com.kernel.intelcurrent.widget.CheckboxEntry;
 import com.kernel.intelcurrent.widget.NoScrollListView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -70,6 +71,13 @@ public class PushCenterActivity extends Activity implements View.OnClickListener
 		editor.putInt("push_time_rate", checked);
 		editor.commit();
 		super.onStop();
+	}
+
+	@Override
+	protected void onDestroy() {
+		Intent intent = new Intent(this,com.kernel.intelcurrent.service.PushService.class);
+		startService(intent);
+		super.onDestroy();
 	}
 
 	private void findViews(){

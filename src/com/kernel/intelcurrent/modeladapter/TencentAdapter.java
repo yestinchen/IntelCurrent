@@ -1,6 +1,7 @@
 package com.kernel.intelcurrent.modeladapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -16,6 +17,7 @@ import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
 import com.tencent.weibo.api.FavAPI;
 import com.tencent.weibo.api.FriendsAPI;
+import com.tencent.weibo.api.InfoAPI;
 import com.tencent.weibo.api.PrivateAPI;
 import com.tencent.weibo.api.SearchAPI;
 import com.tencent.weibo.api.StatusesAPI;
@@ -1040,5 +1042,26 @@ public class TencentAdapter extends ModelAdapter {
 		}
 		task.result.add(response);
 		fapi.shutdownConnection();
+	}
+	
+	/**获取数据更新条数*/
+	public void getUpdateMsg(){
+		InfoAPI iapi = new InfoAPI();
+		Map<String ,Object> map = task.param;
+		String response = null;
+		try {
+			response = iapi.update((OAuth)map.get("oauth"), "json", map.get("op").toString(), map.get("type").toString());
+			JSONObject data=new JSONObject(response).getJSONObject("data");
+			HashMap<String,Integer> m = new HashMap<String,Integer>();
+			m.put("home", data.getInt("home"));
+			m.put("private", data.getInt("private"));
+			m.put("fans", data.getInt("fans"));
+			m.put("mentions", data.getInt("mentions"));
+			task.result.add(m);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Log.d(TAG, response);
+		iapi.shutdownConnection();
 	}
 }
