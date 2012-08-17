@@ -225,12 +225,12 @@ public class MainService extends Service
 	 * 根据关键字搜索用户
 	 * @param keyword 1-20字节
 	 */
-	public void searchUser(String keyword){
+	public void searchUser(long time,String keyword,int page){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("keyword", keyword);
 		map.put("pagesize", "15");
-		map.put("page", "1");
-		Task t=new Task(Task.USER_SEARCH,map,null);
+		map.put("page", page);
+		Task t=new Task(time,Task.USER_SEARCH,map,null);
 		model.doTask(t, this);
 	}
 	/**

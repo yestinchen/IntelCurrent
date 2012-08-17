@@ -42,17 +42,41 @@
     	        android:textColor="@color/ic_user_list_cell_btn_color"
     	        />
     </LinearLayout>
-	<LinearLayout 
+    <LinearLayout 
+        android:layout_margin="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="360dp"
+        android:orientation="vertical"
+       	android:background="@drawable/ic_user_panel_bg"
+        android:id="@+id/search_show_layout"
+        >
+	<RelativeLayout 
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
+	    android:id="@+id/search_layout"
 	    android:orientation="vertical"
-	    android:background="#ffffff"
+	    android:visibility="gone"
+
 	    >
-	    <ListView 
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:id="@+id/search_userlist"
-	        android:scrollbars="none"
-	        ></ListView>
-	</LinearLayout>
+    	    <ImageView 
+    	        	android:layout_height="wrap_content"
+    	        	android:layout_width="wrap_content"
+    	        	android:layout_centerInParent="true"
+    	        	android:background="@drawable/ic_search_loading_bg"
+    	        />
+    	    <ImageView 
+    	        	android:layout_height="wrap_content"
+    	        	android:layout_width="wrap_content"
+    	        	android:id="@+id/search_load"
+    	        	android:layout_centerInParent="true"
+    	        	android:background="@drawable/ic_search_loading_fg"
+    	        />
+	</RelativeLayout>
+	<ListView 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:scrollbars="none"
+	    android:id="@+id/search_list"
+	    ></ListView>
+</LinearLayout>
 </LinearLayout>

@@ -99,9 +99,9 @@ public class UserCenterActivity extends Activity implements Updateable{
 		weibo_btn.setText(R.string.user_table_weibo);
 		
 		fans_counts=(TextView)user_fans_layout.findViewById(R.id.other_user_cell_nums);		
-		weibo_counts=(TextView)user_follow_layout.findViewById(R.id.other_user_cell_nums);
+		weibo_counts=(TextView)user_weibo_layout.findViewById(R.id.other_user_cell_nums);
 		shoucang_counts=(TextView)user_shoucang_layout.findViewById(R.id.other_user_cell_nums);
-		follow_counts=(TextView)user_weibo_layout.findViewById(R.id.other_user_cell_nums);
+		follow_counts=(TextView)user_follow_layout.findViewById(R.id.other_user_cell_nums);
 
 		 
 	}
