@@ -2,10 +2,8 @@ package com.kernel.intelcurrent.activity;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,13 +14,10 @@ import com.kernel.intelcurrent.model.OAuthManager;
 import com.tencent.weibo.oauthv2.OAuthV2;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import com.tencent.weibo.webview.OAuthV2AuthorizeWebView;
-import com.weibo.net.DialogError;
 import com.weibo.net.Weibo;
-import com.weibo.net.WeiboDialogListener;
-import com.weibo.net.WeiboException;
-import com.weibo.net.WeiboParameters;
+import com.weibo.net.WeiboDialog;
 
-public class LoginActivity extends Activity implements WeiboDialogListener{
+public class LoginActivity extends Activity{
 	
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
@@ -61,6 +56,21 @@ public class LoginActivity extends Activity implements WeiboDialogListener{
 	                }
 	            } 
 	        }
+	       else if(requestCode == 3){
+	    	   if(resultCode == WeiboDialog.RESULT_CODE_SUCCESS){
+		    		Bundle bundle = data.getBundleExtra("result");
+	    			String token = bundle.getString("access_token");
+	    			String expires_in = bundle.getString("expires_in");
+	    			Map<String,String> map = new HashMap<String, String>();
+	    			map.put(OAuthManager.SINA_ACCESS_TOKEN, token);
+	    			map.put(OAuthManager.SINA_EXPIRES_IN, expires_in);
+	    			map.put(OAuthManager.SINA_UID,bundle.getString("uid"));
+	    			map.put(OAuthManager.SINA_ACCESS_TOKEN_START_TIME, System.currentTimeMillis()+"");
+	    			authManager.setOAuthKey(LoginActivity.this, OAuthManager.SINA_PLATFORM, map);
+	    	   }else if(resultCode == WeiboDialog.RESULT_CODE_ERROR){
+	    		   Toast.makeText(this, "授权出错!", Toast.LENGTH_SHORT).show();
+	    	   }
+	       }
 	}
 	
 	private void findViewById(){
@@ -94,7 +104,9 @@ public class LoginActivity extends Activity implements WeiboDialogListener{
 					Weibo weibo = Weibo.getInstance();
 					weibo.setupConsumerConfig(OAuthManager.SINA_CUSTOMER_ID, OAuthManager.SINA_CUSTOMER_KEY);
 					weibo.setRedirectUrl(OAuthManager.SINA_REDIRECT_URI);
-					weibo.authorize(LoginActivity.this,LoginActivity.this);
+					Intent intent = new Intent(LoginActivity.this,com.weibo.net.WeiboDialog.class);
+					intent.putExtra("weibo", weibo);
+					LoginActivity.this.startActivityForResult(intent,3);
 				}
 			}
 		});
@@ -108,30 +120,4 @@ public class LoginActivity extends Activity implements WeiboDialogListener{
 		OAuthV2Client.getQHttpClient().shutdownConnection();
 	}
 
-	@Override
-	public void onCancel() {
-		
-	}
-
-	@Override
-	public void onComplete(Bundle bundle) {
-		String token = bundle.getString("access_token");
-		String expires_in = bundle.getString("expires_in");
-		Map<String,String> map = new HashMap<String, String>();
-		map.put(OAuthManager.SINA_ACCESS_TOKEN, token);
-		map.put(OAuthManager.SINA_EXPIRES_IN, expires_in);
-		map.put(OAuthManager.SINA_UID,bundle.getString("uid"));
-		map.put(OAuthManager.SINA_ACCESS_TOKEN_START_TIME, System.currentTimeMillis()+"");
-		authManager.setOAuthKey(LoginActivity.this, OAuthManager.SINA_PLATFORM, map);
-	}
-
-	@Override
-	public void onError(DialogError error) {
-		Log.e(TAG, error.toString());
-	}
-
-	@Override
-	public void onWeiboException(WeiboException e) {
-		e.printStackTrace();
-	}
 }
