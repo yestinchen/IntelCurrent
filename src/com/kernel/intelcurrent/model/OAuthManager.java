@@ -6,7 +6,10 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kernel.intelcurrent.activity.LoginActivity;
 import com.tencent.weibo.oauthv2.OAuthV2;
+import com.weibo.net.AccessToken;
+import com.weibo.net.Weibo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,11 +31,12 @@ public class OAuthManager {
 	
 	public static final String SINA_WEIBO="sina";
 	public static final String SINA_ACCESS_TOKEN="sina_access_token";
-	public static final String SINA_CUSTOMER_KEY="";
-	public static final String SINA_CUSTOMER_ID="";
-	public static final String SINA_REDIRECT_URI="";
+	public static final String SINA_UID = "sina_uid";
 	public static final String SINA_EXPIRES_IN = "sina_expires_in";
 	public static final String SINA_ACCESS_TOKEN_START_TIME = "sina_start_time";
+	public static final String SINA_CUSTOMER_KEY="48797f21d90826561ef6ce79e06bcf46";
+	public static final String SINA_CUSTOMER_ID="3683762445";
+	public static final String SINA_REDIRECT_URI="http://weibo.com/sheling";
 	
 	public static final String TENCENT_WEIBO="tencent";
 	public static final String TENCENT_ACCESS_TOKEN="tencent_access_token";
@@ -111,36 +115,40 @@ public class OAuthManager {
 			editor.commit();
 			break;
 		case SINA_PLATFORM:
-			
+			editor.putBoolean(SINA_WEIBO,true);
+			editor.putString(SINA_UID, map.get(SINA_UID));
+			editor.putString(SINA_ACCESS_TOKEN, map.get(SINA_ACCESS_TOKEN));
+			editor.putString(SINA_EXPIRES_IN, map.get(SINA_EXPIRES_IN));
+			editor.putString(SINA_ACCESS_TOKEN_START_TIME, map.get(SINA_ACCESS_TOKEN_START_TIME));
+			editor.commit();
 			break;
 		}
 	}
 	
 	/**
 	 * 获取对应平台的OAuth认证返回的参数并封装
-	 * @return Map<String,Object> result;
+	 * @return Object result 腾讯返回oauth,新浪返回weibo对象;
 	 * @author allenjin
 	 */
-	public Map<String,Object> getOAuthKey(Context context,int type){
-		Map<String,Object> result =null;
+	public Object getOAuthKey(Context context,int type){
 		SharedPreferences spf=context.getSharedPreferences(OAUTH_FILE, 0);
 		switch(type){
 		case TENCENT_PLATFORM:
-			result=new HashMap<String, Object>();
 			OAuthV2 oauth=new OAuthV2(TENCENT_CUSTOMER_ID,TENCENT_CUSTOMER_KEY,TENCENT_REDIRECT_URI);
 			oauth.setAccessToken(spf.getString(TENCENT_ACCESS_TOKEN, null));
 			oauth.setOpenid(spf.getString(TENCENT_OPEN_ID, null));
 			oauth.setOpenkey(spf.getString(TENCENT_OPEN_KEY, null));
 //			oauth.setClientIP(getClientIP());
 			oauth.setExpiresIn(spf.getString(TENCENT_EXPIRES_IN,null));
-			result.put(TENCENT_WEIBO, oauth);
-			break;
+			return oauth;
 		case SINA_PLATFORM:
-			
-			break;
+			Weibo weibo = Weibo.getInstance();
+			weibo.setupConsumerConfig(SINA_CUSTOMER_ID, SINA_CUSTOMER_KEY);
+			weibo.setRedirectUrl(SINA_REDIRECT_URI);
+			weibo.setAccessToken(new AccessToken(spf.getString(SINA_ACCESS_TOKEN, null),null));
+			return weibo;
 		}
-
-		return result;
+		return null;
 	}
 	
 	/**

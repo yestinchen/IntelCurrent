@@ -129,7 +129,7 @@ public class ICModel
 			   if(platformAvaliable == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE ||
 					   platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE){
 				   tencentOAuth = (OAuthV2) OAuthManager.getInstance().
-						   getOAuthKey(context,OAuthManager.TENCENT_PLATFORM).get(OAuthManager.TENCENT_WEIBO);
+						   getOAuthKey(context,OAuthManager.TENCENT_PLATFORM);
 				   Log.d(TAG, "tencentOauth:"+tencentOAuth);
 			   }
 		   }

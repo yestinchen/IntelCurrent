@@ -84,7 +84,7 @@ public class PushService extends Service {
 			OAuthV2 tencentOAuth = null;
 			int result = 0;
 			if(check == OAuthManager.RESULT_BOTH_AVALIABLE || check == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
-				tencentOAuth = (OAuthV2) manager.getOAuthKey(this, OAuthManager.TENCENT_PLATFORM).get(OAuthManager.TENCENT_WEIBO);	
+				tencentOAuth = (OAuthV2) manager.getOAuthKey(this, OAuthManager.TENCENT_PLATFORM);	
 			}
 			Map<String,Integer> resultMap = requestUpdateMsg(tencentOAuth);
 			if(prefs.getBoolean("push_type_tiji", true)){

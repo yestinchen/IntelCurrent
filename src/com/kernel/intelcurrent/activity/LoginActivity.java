@@ -16,15 +16,24 @@ import com.kernel.intelcurrent.model.OAuthManager;
 import com.tencent.weibo.oauthv2.OAuthV2;
 import com.tencent.weibo.oauthv2.OAuthV2Client;
 import com.tencent.weibo.webview.OAuthV2AuthorizeWebView;
+import com.weibo.net.DialogError;
+import com.weibo.net.Weibo;
+import com.weibo.net.WeiboDialogListener;
+import com.weibo.net.WeiboException;
+import com.weibo.net.WeiboParameters;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements WeiboDialogListener{
+	
+	private static final String TAG = LoginActivity.class.getSimpleName();
+	
 	private TextView t_weibo,s_weibo;
 	private OAuthV2 t_oauth;
+	private OAuthManager authManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+		authManager = OAuthManager.getInstance();
 		findViewById();
 		init();
 		setListener();
@@ -32,7 +41,6 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 	       if (requestCode==2) {
 	            if (resultCode==OAuthV2AuthorizeWebView.RESULT_CODE)    {
@@ -64,9 +72,6 @@ public class LoginActivity extends Activity {
 		t_weibo.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				SharedPreferences spf=LoginActivity.this.getSharedPreferences(OAuthManager.OAUTH_FILE, 0);
-				OAuthManager authManager = OAuthManager.getInstance();
 				int result = authManager.oAuthCheck(LoginActivity.this);
 				if(result == OAuthManager.RESULT_BOTH_AVALIABLE ||
 					result == OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
@@ -81,8 +86,16 @@ public class LoginActivity extends Activity {
 		s_weibo.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(LoginActivity.this, "现在还未实现！", 3000).show();
+				int result = authManager.oAuthCheck(LoginActivity.this);
+				if(result == OAuthManager.RESULT_ONLY_SINA_AVALIABLE ||
+						result == OAuthManager.RESULT_BOTH_AVALIABLE){
+					Toast.makeText(LoginActivity.this, "已经登陆!直接跳转到主界面.", Toast.LENGTH_SHORT).show();
+				}else{
+					Weibo weibo = Weibo.getInstance();
+					weibo.setupConsumerConfig(OAuthManager.SINA_CUSTOMER_ID, OAuthManager.SINA_CUSTOMER_KEY);
+					weibo.setRedirectUrl(OAuthManager.SINA_REDIRECT_URI);
+					weibo.authorize(LoginActivity.this,LoginActivity.this);
+				}
 			}
 		});
 	}
@@ -93,5 +106,32 @@ public class LoginActivity extends Activity {
 		t_oauth.setClientId(OAuthManager.TENCENT_CUSTOMER_ID);
 		t_oauth.setClientSecret(OAuthManager.SINA_CUSTOMER_KEY);
 		OAuthV2Client.getQHttpClient().shutdownConnection();
+	}
+
+	@Override
+	public void onCancel() {
+		
+	}
+
+	@Override
+	public void onComplete(Bundle bundle) {
+		String token = bundle.getString("access_token");
+		String expires_in = bundle.getString("expires_in");
+		Map<String,String> map = new HashMap<String, String>();
+		map.put(OAuthManager.SINA_ACCESS_TOKEN, token);
+		map.put(OAuthManager.SINA_EXPIRES_IN, expires_in);
+		map.put(OAuthManager.SINA_UID,bundle.getString("uid"));
+		map.put(OAuthManager.SINA_ACCESS_TOKEN_START_TIME, System.currentTimeMillis()+"");
+		authManager.setOAuthKey(LoginActivity.this, OAuthManager.SINA_PLATFORM, map);
+	}
+
+	@Override
+	public void onError(DialogError error) {
+		Log.e(TAG, error.toString());
+	}
+
+	@Override
+	public void onWeiboException(WeiboException e) {
+		e.printStackTrace();
 	}
 }
