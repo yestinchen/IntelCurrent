@@ -7,10 +7,12 @@ import android.content.Context;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 
+import com.kernel.intelcurrent.modeladapter.SinaAdapter;
 import com.kernel.intelcurrent.modeladapter.TencentAdapter;
 import com.kernel.intelcurrent.service.MainService;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.oauthv2.OAuthV2;
+import com.weibo.net.Weibo;
 
 /**
  * classname:ICModel.java
@@ -27,6 +29,7 @@ public class ICModel
    private int sinaAccessToken,tencentAccessToken;
    
    private OAuthV2 tencentOAuth = null;
+   private Weibo weibo = null;
    private String clientIp;
    private static int platformAvaliable = -1;
    private int total;//多平台一共能启动的线程数
@@ -103,6 +106,9 @@ public class ICModel
 			   TencentAdapter ta = new TencentAdapter(task);
 			   ta.start();
 		   case Task.PLATFORM_SINA:
+			   task.param.put("weibo", weibo);
+			   SinaAdapter sa = new SinaAdapter(context, task);
+			   sa.start();
 			   break;
 		   case Task.PLATFORM_TENCENT:
 			   task.param.put("oauth", tencentOAuth);
@@ -131,6 +137,11 @@ public class ICModel
 				   tencentOAuth = (OAuthV2) OAuthManager.getInstance().
 						   getOAuthKey(context,OAuthManager.TENCENT_PLATFORM);
 				   Log.d(TAG, "tencentOauth:"+tencentOAuth);
+			   }
+			   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE || 
+					   platformAvaliable == OAuthManager.RESULT_ONLY_SINA_AVALIABLE){
+				   weibo = (Weibo) OAuthManager.getInstance().
+						   getOAuthKey(context, OAuthManager.SINA_PLATFORM);
 			   }
 		   }
 		   if(platformAvaliable == OAuthManager.RESULT_ONLY_SINA_AVALIABLE ||

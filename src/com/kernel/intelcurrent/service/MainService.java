@@ -343,7 +343,11 @@ public class MainService extends Service
     private boolean checkTaskResultCode(Task task){
     	HashMap<Integer,ErrorEntry> map = task.errors;
     	if(map.get(User.PLATFORM_SINA_CODE) != null){
-        	
+    		ErrorEntry error = map.get(User.PLATFORM_SINA_CODE);
+    		if(error.ret == 0 && error.exception == 0) return true;
+        	if(checkTaskException(error)){
+        		checkTencentErrorCode();
+        	}
     	}
     	if(map.get(User.PLATFORM_TENCENT_CODE) != null){
     		ErrorEntry error = map.get(User.PLATFORM_TENCENT_CODE);
