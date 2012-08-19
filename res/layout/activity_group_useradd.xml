@@ -34,6 +34,8 @@
 	            android:background="@drawable/ic_group_list_down_bg"
 	            />
 	    </RelativeLayout>
+	     <include layout="@layout/activity_loading"
+        		android:id="@+id/group_useraddlist_loading"/>
 	    <ListView 
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"

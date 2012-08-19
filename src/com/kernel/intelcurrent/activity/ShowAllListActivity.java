@@ -6,9 +6,12 @@ import java.util.LinkedList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kernel.intelcurrent.adapter.TimelineListAdapter;
@@ -17,8 +20,6 @@ import com.kernel.intelcurrent.model.ICArrayList;
 import com.kernel.intelcurrent.model.Status;
 import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.User;
-import com.kernel.intelcurrent.widget.PullToRefreshListView;
-import com.kernel.intelcurrent.widget.PullToRefreshListView.OnLoadMoreListener;
 
 public class ShowAllListActivity extends BaseActivity implements Updateable{
 	
@@ -30,10 +31,16 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 	private int startindex=1;
 	private int show_list_type;
 	private ImageView head_left;
-	private TextView head_title;
-	private PullToRefreshListView show_list;
+	private TextView head_title,loadMore;
+	private ListView show_list;
+	private View footview;
+	private RelativeLayout loading_layout;
+	private UserFriendListAdapter uflAdapter;
+	private TimelineListAdapter tllAdapter;
 	private LinkedList<Status> statuses=new LinkedList<Status>();
 	private LinkedList<User> users=new LinkedList<User>();
+	private String other_name;
+	private String other_openid;
 	private static final String TAG=ShowAllListActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +54,14 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 
 
 	private void findViews(){
+		footview=LayoutInflater.from(this).inflate(R.layout.common_foot_load_more, null);
+		loadMore = (TextView)footview.findViewById(R.id.common_foot_load_more_tv);
 		head_left=(ImageView)findViewById(R.id.common_head_iv_left);
 		head_left.setBackgroundResource(R.drawable.ic_title_back);
 		head_title=(TextView)findViewById(R.id.common_head_tv_title);
-		show_list=(PullToRefreshListView)findViewById(R.id.activity_showlist_main);
+		show_list=(ListView)findViewById(R.id.activity_showlist_main);
+		show_list.addFooterView(footview);
+		loading_layout=(RelativeLayout)findViewById(R.id.showlist_loading);
 	}
 	private void setListener(){
 		head_left.setOnClickListener(new OnClickListener() {
@@ -61,39 +72,46 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				ShowAllListActivity.this.finish();
 			}
 		});
-//		show_list.setOnRefreshListener(new OnRefreshListener() {
-//			
-//			@Override
-//			public void onRefresh() {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
-		show_list.setOnLoadMoreListener(new OnLoadMoreListener() {
+		loadMore.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onLoadMore() {
+			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				state=REQUEST_TYPE_MORE;
-				switch(show_list_type){
-				case Task.USER_FAV_LIST:
-					mService.getUserShoucangList(1, statuses.getLast().timestamp, statuses.getLast().id);
-					break;
-				case Task.USER_WEIBO_LIST:
-					mService.getUserWeiboList(1, statuses.getLast().timestamp, statuses.getLast().id);
-					break;
-				case Task.USER_FANS_LIST:
-					startindex++;
-					mService.getUserFansList(startindex);
-					break;
-				case Task.USER_FRIENDS_LIST:
-					startindex++;
-					mService.getUserFriendsList(startindex);
-					break;
+				if(state==REQUEST_TYPE_RESET){
+					state=REQUEST_TYPE_MORE;
+					switch(show_list_type){
+					case Task.USER_FAV_LIST:
+						mService.getUserShoucangList(1, statuses.getLast().timestamp, statuses.getLast().id);
+						break;
+					case Task.USER_WEIBO_LIST:
+						mService.getUserWeiboList(1, statuses.getLast().timestamp, statuses.getLast().id);
+						break;
+					case Task.USER_FANS_LIST:
+						startindex++;
+						mService.getUserFansList(startindex);
+						break;
+					case Task.USER_FRIENDS_LIST:
+						startindex++;
+						mService.getUserFriendsList(startindex);
+						break;
+					case Task.USER_OTHER_FANS_LIST:
+						startindex++;
+						mService.getOtherFansList(other_name, startindex);
+						break;
+					case Task.USER_OTHER_FRIENDS_LIST:
+						startindex++;
+						mService.getOtherFollowList(other_name, startindex);
+						break;
+					case Task.USER_OTHER_WEIBO_LIST:
+						mService.getOtherWeiboList(other_openid, 1,statuses.getLast().timestamp, statuses.getLast().id);
+						break;
+					}
+					
 				}
-				
+				loadMore.setText(R.string.common_loading);
 			}
 		});
+
 	}
 	@Override
 	public void update(int type, Object param) {
@@ -101,6 +119,7 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 		if(type!=show_list_type)return;
 		if(((Task)param).result.size() == 0) return;	
 		Log.v(TAG,((Task)param).result.toString());
+		loading_layout.setVisibility(View.GONE);
 		switch(type){
 			case Task.USER_FAV_LIST:			
 				showShoucangList(param);
@@ -118,6 +137,7 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 			case Task.USER_OTHER_FANS_LIST:
 			case Task.USER_OTHER_FRIENDS_LIST:
 				showOtherFList(param);
+				break;
 		}
 
 	}
@@ -133,8 +153,10 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 			for(Object user: result.list){
 				users.add((User)user);
 			}
-			if(users.size()!=0)
-			show_list.setAdapter(new UserFriendListAdapter(mService,this, users));
+			if(users.size()!=0){
+				uflAdapter=new UserFriendListAdapter(mService,this, users);		
+				show_list.setAdapter(uflAdapter);
+			}
 			break;
 		case REQUEST_TYPE_MORE:
 			tmpList=new LinkedList<User>();
@@ -143,7 +165,8 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				tmpList.add((User)user);
 			}
 			users.addAll(users.size(),tmpList);
-			show_list.onLoadMoreComplete();
+			uflAdapter.notifyDataSetChanged();
+			loadMore.setText(R.string.common_load_more);
 			break;
 			
 		}
@@ -161,8 +184,10 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				Log.v(TAG, user.toString());
 				users.add(user);
 			}
-			if(users.size()!=0)
-			show_list.setAdapter(new UserFriendListAdapter(mService,this, users));
+			if(users.size()!=0){
+				uflAdapter=new UserFriendListAdapter(mService,this, users);		
+				show_list.setAdapter(uflAdapter);
+			}
 			break;
 		case REQUEST_TYPE_MORE:
 			tmpList=new LinkedList<User>();
@@ -172,7 +197,8 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				tmpList.add(user);
 			}
 			users.addAll(users.size(),tmpList);
-			show_list.onLoadMoreComplete();
+			uflAdapter.notifyDataSetChanged();
+			loadMore.setText(R.string.common_load_more);
 			break;
 			
 		}
@@ -190,8 +216,10 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				Log.v(TAG, user.toString());
 				users.add(user);
 			}
-			if(users.size()!=0)
-			show_list.setAdapter(new UserFriendListAdapter(mService,this, users));
+			if(users.size()!=0){
+				uflAdapter=new UserFriendListAdapter(mService,this, users);		
+				show_list.setAdapter(uflAdapter);
+			}
 			break;
 		case REQUEST_TYPE_MORE:
 			tmpList=new LinkedList<User>();
@@ -201,7 +229,8 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				tmpList.add(user);
 			}
 			users.addAll(users.size(),tmpList);
-			show_list.onLoadMoreComplete();
+			uflAdapter.notifyDataSetChanged();
+			loadMore.setText(R.string.common_load_more);
 			break;
 			
 		}
@@ -212,26 +241,27 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 		int hasNext;
 		ICArrayList result;
 		LinkedList<Status> tmpList;
+		result=(ICArrayList) ((Task)param).result.get(0);
+		hasNext=result.hasNext;
 		switch(state){
 		case REQUEST_TYPE_INIT:
-			result=(ICArrayList) ((Task)param).result.get(0);
-			hasNext=result.hasNext;
+
 			for(Object status: result.list){
 				statuses.add((Status)status);
 			}
 			if(statuses.size()!=0){
-				show_list.setAdapter(new TimelineListAdapter(this, statuses));
+				tllAdapter=new TimelineListAdapter(this, statuses);
+				show_list.setAdapter(tllAdapter);
 			}
 			break;
 		case REQUEST_TYPE_MORE:
 			tmpList = new LinkedList<Status>();
-			result = (ICArrayList)((Task)param).result.get(0);
-			hasNext = result.hasNext;
 			for(Object status: result.list){
 				tmpList.add((Status)status);
 			}
 			statuses.addAll(statuses.size(), tmpList);
-			show_list.onLoadMoreComplete();
+			tllAdapter.notifyDataSetChanged();
+			loadMore.setText(R.string.common_load_more);
 			break;
 		}
 		state  = REQUEST_TYPE_RESET;
@@ -249,7 +279,8 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				statuses.add((Status)status);
 			}
 			if(statuses.size()!=0){
-				show_list.setAdapter(new TimelineListAdapter(this, statuses));
+				tllAdapter=new TimelineListAdapter(this, statuses);
+				show_list.setAdapter(tllAdapter);
 			}
 			break;
 		case REQUEST_TYPE_MORE:
@@ -260,7 +291,8 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 				tmpList.add((Status)status);
 			}
 			statuses.addAll(statuses.size(), tmpList);
-			show_list.onLoadMoreComplete();
+			tllAdapter.notifyDataSetChanged();
+			loadMore.setText(R.string.common_load_more);
 			break;
 		}
 		state  = REQUEST_TYPE_RESET;
@@ -279,9 +311,9 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 		if(intent==null)return;
 		show_list_type=intent.getIntExtra("show_list_type", -1);
 		Log.v(TAG, show_list_type+"");
-		String other_name=intent.getStringExtra("other_name");
+		other_name=intent.getStringExtra("other_name");
 		String other_nick=intent.getStringExtra("other_nick");
-		String other_openid=intent.getStringExtra("other_openid");
+		other_openid=intent.getStringExtra("other_openid");
 		switch(show_list_type){
 			case Task.USER_FANS_LIST:
 				head_title.setText(R.string.showlist_me_fans);

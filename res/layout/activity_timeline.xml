@@ -5,6 +5,10 @@
     android:orientation="vertical" >
     
     <include layout="@layout/common_head"/>
+    <include layout="@layout/activity_loading"
+        	android:layout_width="fill_parent"
+        	android:layout_height="430dp"
+        	android:id="@+id/timeline_loading"/>
     <com.kernel.intelcurrent.widget.PullToRefreshListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

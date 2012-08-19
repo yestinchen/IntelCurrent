@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class GroupUserAddActivity extends BaseActivity implements Updateable{
 	private int startindex=1;
 	private int onstate=1;
 	private static final String TAG=GroupUserAddActivity.class.getSimpleName();
+	private RelativeLayout loading_layout;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -50,6 +52,7 @@ public class GroupUserAddActivity extends BaseActivity implements Updateable{
 		findViews();
 	}
 	public void findViews(){
+		loading_layout=(RelativeLayout)findViewById(R.id.group_useraddlist_loading);
 		footview=LayoutInflater.from(this).inflate(R.layout.common_foot_load_more, null);
 		loadMore = (TextView)footview.findViewById(R.id.common_foot_load_more_tv);
 		loadMore.setOnClickListener(new OnClickListener() {
@@ -116,22 +119,7 @@ public class GroupUserAddActivity extends BaseActivity implements Updateable{
 			}
 		});
 	}
-	
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-		Log.v(TAG, "onstart");
 
-	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		Log.v(TAG, "onresume");
-	}
-	
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
@@ -140,12 +128,6 @@ public class GroupUserAddActivity extends BaseActivity implements Updateable{
 		onstate=2;
 	}
 	
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		Log.v(TAG, "onpause()");
-	}
 	@Override
 	public void onConnectionFinished() {
 		// TODO Auto-generated method stub
@@ -167,7 +149,9 @@ public class GroupUserAddActivity extends BaseActivity implements Updateable{
 	public void update(int type, Object param) {
 		// TODO Auto-generated method stub
 		if(type!=Task.USER_FRIENDS_LIST)return;
-		if(((Task)param).result.size()==0){return;}
+		if(((Task)param).result.size()==0)return;
+		
+		loading_layout.setVisibility(View.GONE);
 		ArrayList<User> result;
 		LinkedList<User> tmpList;
 		switch(state){

@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**显示timeline
@@ -33,6 +34,7 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 	
 	private static final String TAG = TimelineActivity.class.getSimpleName();
 	private PullToRefreshListView lv;
+	private RelativeLayout loading_layout;
 	private ImageView leftImage,rightImage;
 	private Group group;
 	private LinkedList<Status> statuses = new LinkedList<Status>();
@@ -61,6 +63,7 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 		if(((Task)param).time!=curTime)return;
 		Log.v(TAG, "Task time"+curTime);
 		if(((Task)param).result.size() == 0) return;
+		loading_layout.setVisibility(View.GONE);
 		//根据之前标志位的状态决定刷新来做什么
 		ICArrayList result;
 		LinkedList<Status> tmpList;
@@ -131,7 +134,7 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 		lv = (PullToRefreshListView)findViewById(R.id.activity_timeline_lv_main);
 		leftImage = (ImageView)findViewById(R.id.common_head_iv_left);
 		rightImage = (ImageView)findViewById(R.id.common_head_iv_right);
-		
+		loading_layout=(RelativeLayout)findViewById(R.id.timeline_loading);
 		leftImage.setImageResource(R.drawable.ic_title_back);
 		rightImage.setImageResource(R.drawable.ic_title_new);
 	}

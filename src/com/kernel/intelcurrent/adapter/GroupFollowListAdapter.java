@@ -78,7 +78,7 @@ public class GroupFollowListAdapter extends BaseAdapter {
 			holder.head.reset();
 		}	
 		if(DBModel.getInstance().UserIsExists(context, gid, user.id)){
-			holder.check.setBackgroundResource(R.drawable.ic_group_user_add_confirm);
+			holder.check.setBackgroundResource(R.drawable.ic_order_group_added);
 		}else{
 			if(userids.contains(user.id)){
 				holder.check.setBackgroundResource(R.drawable.ic_group_user_add_check_ok);

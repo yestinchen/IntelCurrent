@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     <include layout="@layout/common_head"/>
-	    <com.kernel.intelcurrent.widget.PullToRefreshListView
+    <include layout="@layout/activity_loading"
+        	android:id="@+id/showlist_loading"/>
+	    <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/activity_showlist_main"

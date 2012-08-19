@@ -8,17 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.TranslateAnimation;
-import android.widget.AbsoluteLayout;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kernel.intelcurrent.adapter.GroupUserListAdapter;
 import com.kernel.intelcurrent.model.DBModel;
@@ -31,6 +24,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 	private TextView group_title,group_gname,group_user_nums,group_edit,group_search;
 	private ImageView group_left,group_right,group_bg;
 	private ListView listview;
+	private RelativeLayout loading_layout;
 	private GroupUserListAdapter gadapter;
 	private  int userlist_next=0;
 	private LinkedList<User> users;
@@ -81,6 +75,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		group_left.setBackgroundResource(R.drawable.ic_title_back);
 		group_right=(ImageView)findViewById(R.id.common_head_iv_right);
 		group_right.setBackgroundResource(R.drawable.ic_group_user_add);
+		loading_layout=(RelativeLayout)findViewById(R.id.group_user_loading);
 	}
 	private void setListener(){
 		group_edit.setOnClickListener(new OnBtnClickListener());
@@ -150,6 +145,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		if(((Task)param).result.size() == 0) return;	
 		ArrayList<User> result;
 		LinkedList<User> tmpList;
+		loading_layout.setVisibility(View.GONE);
 		if(request == REQUEST_FIRST){
 			result=(ArrayList<User>) ((Task)param).result.get(0);
 			for(User user: result){

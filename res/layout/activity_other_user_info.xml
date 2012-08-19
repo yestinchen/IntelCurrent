@@ -5,6 +5,8 @@
     android:background="#ffffff"
     android:orientation="vertical" >
     <include layout="@layout/common_head"/>
+    <include layout="@layout/activity_loading"
+        	android:id="@+id/other_user_loading"/>"
 	<LinearLayout 
 	    android:layout_width="fill_parent"
 	    android:layout_height="200dp"

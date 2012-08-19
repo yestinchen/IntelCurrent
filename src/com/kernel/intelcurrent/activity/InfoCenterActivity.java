@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,15 +34,12 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	private LinearLayout showlayout;
 	private MainActivity activityGroup;
 	private MainService mService;
-	
+	private RelativeLayout loading_layout;
 	public static final int REQUEST_TYPE_INIT = 1;
 	public static final int REQUEST_TYPE_REFRESH = 2;
 	public static final int REQUEST_TYPE_PAGE_DOWN = 3;
 	public static final int REQUEST_TYPE_RESET=-1;
 	private LinkedList<Status> statuses=new LinkedList<Status>();
-	private LinkedList<Status> at_statuses;
-	private LinkedList<Status> comment_statuses;
-	private LinkedList<Status> msg_statuses;
 	private int hasNext = -1;
 	private int state =REQUEST_TYPE_RESET;
 	private int type; //保存当前获取的提及微博列表的类型   0:为获取所有提及信息
@@ -67,6 +65,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 		info_msg=(TextView)findViewById(R.id.info_btn_msg);
 		info_msg.setOnClickListener(new MyTabClickedListener());
 		showlayout=(LinearLayout)findViewById(R.id.info_showlayout);
+		loading_layout=(RelativeLayout)findViewById(R.id.infocenter_loading);
 	
 	}
 
@@ -78,6 +77,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 			switch(v.getId()){
 			case R.id.info_btn_at_me:		
 				if(info_curPosition!=INFO_AT_POSITION){
+					loading_layout.setVisibility(View.VISIBLE);
 					showlayout.removeAllViews();
 				switchBG(info_curPosition);
 				info_at_me.setBackgroundResource(R.drawable.ic_info_tab_selected);
@@ -91,6 +91,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 				break;
 			case R.id.info_btn_comments:
 				if(info_curPosition!=INFO_COMMENTS_POSITION){
+					loading_layout.setVisibility(View.VISIBLE);
 					showlayout.removeAllViews();
 					switchBG(info_curPosition);
 					info_comments.setBackgroundResource(R.drawable.ic_info_tab_selected);
@@ -102,6 +103,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 				break;
 			case R.id.info_btn_msg:
 				if(info_curPosition!=INFO_MSG_POSITION){
+					loading_layout.setVisibility(View.VISIBLE);
 					showlayout.removeAllViews();
 					switchBG(info_curPosition);
 					info_msg.setBackgroundResource(R.drawable.ic_info_tab_selected);
@@ -238,6 +240,7 @@ public class InfoCenterActivity extends Activity implements Updateable{
 	public void update(int type, Object param) {
 		if(type != cur_type)return;
 		if(((Task)param).result.size() == 0) return;
+		loading_layout.setVisibility(View.GONE);
 		ICArrayList result;
 		LinkedList<Status> tmpList;
 		switch(state){

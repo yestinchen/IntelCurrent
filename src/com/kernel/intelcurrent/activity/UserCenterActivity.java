@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kernel.intelcurrent.model.Task;
@@ -36,6 +37,7 @@ public class UserCenterActivity extends Activity implements Updateable{
 	private TextView follow_counts,fans_counts,shoucang_counts,weibo_counts;
 	private ImageView user_sex,switcher_left,switcher_right;
 	private LinearLayout user_weibo_layout,user_fans_layout,user_follow_layout,user_shoucang_layout;
+	private RelativeLayout loading_layout;
 	private ImageView user_touxiang;	
 	private User userinfo=null;
 	private MainActivity activityGroup;
@@ -102,8 +104,8 @@ public class UserCenterActivity extends Activity implements Updateable{
 		weibo_counts=(TextView)user_weibo_layout.findViewById(R.id.other_user_cell_nums);
 		shoucang_counts=(TextView)user_shoucang_layout.findViewById(R.id.other_user_cell_nums);
 		follow_counts=(TextView)user_follow_layout.findViewById(R.id.other_user_cell_nums);
-
-		 
+		//loading
+		loading_layout=(RelativeLayout)findViewById(R.id.user_loading);
 	}
 	private void setListener(){
 		user_fans_layout.setOnClickListener(new UserOnclickListener());
@@ -159,8 +161,8 @@ public class UserCenterActivity extends Activity implements Updateable{
 		if(((Task)param).result.size() == 0) return;
 		Task task=(Task)param;
 		userinfo=(User)task.result.get(0);	
+		loading_layout.setVisibility(View.GONE);
 		if(userinfo!=null){
-			Log.v(TAG,"username:"+userinfo.nick+"userhead:"+userinfo.head+"userlocation:"+userinfo.location);
 			init();
 			setListener();
 		}

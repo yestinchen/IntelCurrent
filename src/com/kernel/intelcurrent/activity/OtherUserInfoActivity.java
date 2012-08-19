@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kernel.intelcurrent.model.Task;
@@ -38,6 +39,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 	private ImageView other_head;
 	private Button other_name,other_platform;
 	private ImageView other_left,other_right;
+	private RelativeLayout loading_layout;
 	private Handler handler=new Handler(){
 
 		@Override
@@ -95,6 +97,8 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		other_weibo=(TextView) other_weibo_layout.findViewById(R.id.other_user_cell_title);
 		other_weibo.setText(R.string.user_table_weibo);
 		other_weibo_nums=(TextView) other_weibo_layout.findViewById(R.id.other_user_cell_nums);
+		
+		loading_layout=(RelativeLayout)findViewById(R.id.other_user_loading);
 	}
 	private void setListener(){
 		other_follow_btn.setOnClickListener(new OnBtnListener(userinfo));
@@ -155,6 +159,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		if(((Task)param).result.size() == 0) return;	
 		Task task=(Task)param;
 		userinfo=(User)task.result.get(0);	
+		loading_layout.setVisibility(View.GONE);
 		if(userinfo!=null){
 			Log.v(TAG,"username:"+userinfo.nick+"userhead:"+userinfo.head+"userlocation:"+userinfo.location);
 			initOne();
