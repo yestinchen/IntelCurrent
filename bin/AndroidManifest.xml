@@ -64,6 +64,7 @@
         <activity android:name=".AtUserActivity" android:label="@string/title_activity_base" android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".OrderCenterListActivity" android:label="@string/title_activity_base"></activity>
           <activity android:name=".GroupDetailActivity" android:label="@string/title_activity_base"></activity>
+          <activity android:name=".GroupUserAddActivity" android:label="@string/title_activity_base"></activity>
         <activity 
             android:name=".LoginActivity"
             android:label="@string/title_activity_base"

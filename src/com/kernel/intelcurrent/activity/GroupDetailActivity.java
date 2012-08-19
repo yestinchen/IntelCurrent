@@ -8,11 +8,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.TranslateAnimation;
+import android.widget.AbsoluteLayout;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kernel.intelcurrent.adapter.GroupUserListAdapter;
+import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.model.Group;
 import com.kernel.intelcurrent.model.SimpleUser;
 import com.kernel.intelcurrent.model.Task;
@@ -30,6 +39,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 	private int request = -1;
 	private Group group;
 	private long curtime;
+	private Bundle bundle;
 	private static final String TAG=GroupDetailActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +47,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group_detail);
 		Intent intent=getIntent();
-		Bundle bundle=intent.getBundleExtra("bundle");
+		bundle=intent.getBundleExtra("bundle");
 		group=(Group) bundle.get("group");
 		Log.v(TAG, "组员数："+group.users.size());
 		findViews();
@@ -49,7 +59,11 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		 users=new LinkedList<User>();
+		users=new LinkedList<User>();
+		ArrayList<SimpleUser> susers=DBModel.getInstance().getUsersByGname(GroupDetailActivity.this,group.name);
+		group.users.clear();
+		group.users.addAll(susers);
+		group_user_nums.setText("共"+group.users.size()+"个组员");
 	}
 
 
@@ -62,8 +76,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		group_gname.setText(getResources().getString(R.string.group_detail_gname)+group.name);
 		group_edit=(TextView)findViewById(R.id.group_edit_btn);
 		group_search=(TextView)findViewById(R.id.group_search_btn);
-		group_user_nums=(TextView)findViewById(R.id.group_user_nums);
-		group_user_nums.setText("共"+group.users.size()+"个组员");
+		group_user_nums=(TextView)findViewById(R.id.group_user_nums);	
 		listview=(ListView)findViewById(R.id.group_user_list);
 		group_left.setBackgroundResource(R.drawable.ic_title_back);
 		group_right=(ImageView)findViewById(R.id.common_head_iv_right);
@@ -81,7 +94,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch(v.getId()){
-			case R.id.group_edit_btn:
+			case R.id.group_edit_btn:			
 				break;
 			case R.id.group_search_btn:
 				break;
@@ -89,6 +102,9 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 				GroupDetailActivity.this.finish();
 				break;
 			case R.id.common_head_iv_right:
+				Intent intent =new Intent(GroupDetailActivity.this,GroupUserAddActivity.class);
+				intent.putExtra("gbundle", bundle);
+				startActivity(intent);
 				break;
 			}
 		}
@@ -153,7 +169,7 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		
 	}
 	private void setAdapter() {
-		gadapter=new GroupUserListAdapter(this, users,group);
+		gadapter=new GroupUserListAdapter(this, users,group,group_user_nums);
 		if(users.size()!=0){
 			listview.setAdapter(gadapter);
 		}

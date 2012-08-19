@@ -115,9 +115,9 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 	 * 
 	 */
 	private void ShowGroup(Group group){
-		ArrayList<SimpleUser> users=DBModel.getInstance().getUsersByGname(GroupBlockActivity.this,group.name);
-		group.users.clear();
-		group.users.addAll(users);
+//		ArrayList<SimpleUser> users=DBModel.getInstance().getUsersByGname(GroupBlockActivity.this,group.name);
+//		group.users.clear();
+//		group.users.addAll(users);
 		Intent intent=new Intent(GroupBlockActivity.this,GroupDetailActivity.class);
 		Bundle bundle=new Bundle();
 		bundle.putSerializable("group", group);

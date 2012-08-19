@@ -33,6 +33,8 @@
 		<string name="group_detail_wrods">描述:</string>
 		<string name="group_detail_edit">编辑</string>
 		<string name="group_detail_find">搜索</string>
+		<string name="group_detail_list">请选择要添加的组员</string>
+		<string name="group_detail_ok">添加</string>
 		<!-- ShowAllListActivity布局专用 -->
 	<string name="showlist_me_fans">我的听众</string>
 	<string name="showlist_me_weibo">我的广播</string>

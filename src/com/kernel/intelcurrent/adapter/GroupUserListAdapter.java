@@ -30,13 +30,15 @@ import com.kernel.intelcurrent.widget.UrlImageView;
 public class GroupUserListAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	private Context context;
+	private TextView group_user_nums;
 	private LinkedList<User> users;
 	private Group group;
-	public GroupUserListAdapter(Context context,LinkedList<User> users,Group group){
+	public GroupUserListAdapter(Context context,LinkedList<User> users,Group group,TextView gnums){
 		this.context=context;
 		mInflater=LayoutInflater.from(context);
 		this.users=users;
 		this.group=group;
+		this.group_user_nums=gnums;
 	}
 	@Override
 	public int getCount() {
@@ -95,8 +97,8 @@ public class GroupUserListAdapter extends BaseAdapter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		holder.user_del.setOnClickListener(new OnBtnClickListener(user));
-		holder.user_layout.setOnClickListener(new OnBtnClickListener(user));
+		holder.user_del.setOnClickListener(new OnBtnClickListener(user,position));
+		holder.user_layout.setOnClickListener(new OnBtnClickListener(user,position));
 		return convertView;
 	}
 	class ViewHolder{
@@ -107,8 +109,10 @@ public class GroupUserListAdapter extends BaseAdapter {
 	}
 	private  class OnBtnClickListener implements OnClickListener {
 			User user;
-		public OnBtnClickListener(User user){
+			int curposition;
+		public OnBtnClickListener(User user,int curposition){
 			this.user=user;
+			this.curposition=curposition;
 		}
 		@Override
 		public void onClick(View v) {
@@ -123,6 +127,9 @@ public class GroupUserListAdapter extends BaseAdapter {
 					SimpleUser simpleuser=new SimpleUser();
 					simpleuser.id=user.id;
 					simpleuser.platform=user.platform;
+					users.remove(curposition);
+					group_user_nums.setText("共"+users.size()+"个组员");
+					GroupUserListAdapter.this.notifyDataSetChanged();
 					DBModel.getInstance().delUser(context, group.name.hashCode(), simpleuser);
 					Toast.makeText(context, "已经成功删除了"+user.nick, Toast.LENGTH_SHORT).show();
 				}

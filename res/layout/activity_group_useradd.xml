@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	    <RelativeLayout 
+	        android:layout_width="fill_parent"
+	        android:layout_height="50dp"
+	        android:background="@drawable/ic_group_user_add_bg"
+	        >
+	        <ImageView 
+	            android:id="@+id/group_myfollowlist_confirm"
+	            android:layout_width="40dp"
+	            android:layout_height="40dp"
+	            android:background="@drawable/ic_title_back"
+	            android:layout_alignParentLeft="true"
+	            android:layout_margin="5dp"
+	            />
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerInParent="true"
+	            android:textSize="18sp"
+	            android:textColor="@color/white"
+	            android:textStyle="bold"
+	            android:text="@string/group_detail_list"
+	            />
+	        <ImageView
+	            android:id="@+id/group_myfollowlist_down"
+	            android:layout_width="40dp"
+	            android:layout_height="40dp"
+	            android:layout_margin="5dp"
+	            android:layout_alignParentRight="true"
+	            android:background="@drawable/ic_group_list_down_bg"
+	            />
+	    </RelativeLayout>
+	    <ListView 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/group_myfollowlist"
+	        android:scrollbars="none"
+	        >
+	    </ListView>
+</LinearLayout>

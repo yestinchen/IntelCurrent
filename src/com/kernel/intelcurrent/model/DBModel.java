@@ -109,7 +109,9 @@ public class DBModel {
 		SQLiteDatabase db=helper.getWritableDatabase();
 		if(users.size()!=0){
 			for(SimpleUser user:users){
+				if(!UserIsExists(context, gid, user.id)){
 				db.execSQL(sql, new String[]{gid+"",user.id,user.platform+""});
+				}
 			}
 		}
 		db.close();

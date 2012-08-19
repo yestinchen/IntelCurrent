@@ -400,7 +400,7 @@ public class TencentAdapter extends ModelAdapter {
 			me.regTime = infoObj.getString("regtime");
 			if(!openid.equals("0")){
 				if(infoObj.getInt("ismyfans") ==1) me.ismyfan = true;
-				if(infoObj.getInt("ismyidol") == 1); me.ismyidol = true;
+				if(infoObj.getInt("ismyidol") == 1)me.ismyidol = true;
 			}
 			me.platform = User.PLATFORM_TENCENT_CODE;
 		}

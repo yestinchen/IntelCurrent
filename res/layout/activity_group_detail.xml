@@ -6,6 +6,7 @@
     android:orientation="vertical" >
     <include layout="@layout/common_head"/>
     <LinearLayout 
+        android:id="@+id/group_detail_layout"
         android:layout_width="fill_parent"
         android:layout_height="140dp"
         android:background="@drawable/ic_user_panel_bg"
@@ -67,10 +68,12 @@
         </LinearLayout>
     </LinearLayout>
 	<LinearLayout 
+	    android:id="@+id/group_userlist_layout"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_margin="5dp"  
+	    android:layout_height="320dp"
+		android:layout_margin="5dp"
 	    android:orientation="vertical"
+	   
 	    >
 	    <TextView 
 	        android:id="@+id/group_user_nums"
@@ -92,5 +95,4 @@
 	        android:scrollbars="none"
 	        ></ListView>
 	</LinearLayout>
-
 </LinearLayout>
