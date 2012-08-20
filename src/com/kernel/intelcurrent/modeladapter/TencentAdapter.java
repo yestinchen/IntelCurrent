@@ -587,7 +587,7 @@ public class TencentAdapter extends ModelAdapter {
 		TAPI tapi=new TAPI();
 		Map<String, Object> map=task.param;
 		String response=null;
-		response=tapi.reList((OAuth)map.get("oauth"),"josn",map.get("flag").toString(),map.get("rootid").toString(),
+		response=tapi.reList((OAuth)map.get("oauth"),"json",map.get("flag").toString(),map.get("rootid").toString(),
 				map.get("pageflag").toString(), map.get("pagetime").toString(),
 				map.get("reqnum").toString(), map.get("twitterid").toString());
 		
@@ -599,7 +599,7 @@ public class TencentAdapter extends ModelAdapter {
 		
 		if(error.ret == 0){
 			ICArrayList ica=new ICArrayList();
-			JSONObject jsonobject=new JSONObject(response.substring(5, response.length()-1));
+			JSONObject jsonobject=new JSONObject(response);
 			JSONObject data=jsonobject.getJSONObject("data");
 			ica.hasNext = data.getInt("hasnext");
 			if(data.get("info")instanceof JSONArray){
