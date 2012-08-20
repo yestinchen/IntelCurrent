@@ -113,6 +113,9 @@ public class TencentAdapter extends ModelAdapter {
 			case Task.USER_SEARCH:
 				searchUser();
 				break;
+			case Task.USER_HOME_TIMELINE_LIST:
+				getHomeTimeLine();
+				break;
 			}
 		} catch(SSLException e){
 			Log.e(TAG, "exception: "+e.toString());
@@ -181,7 +184,7 @@ public class TencentAdapter extends ModelAdapter {
 //		task.result.add(response);
 //		tapi.shutdownConnection();
 //	}
-	
+
 	/**
 	 * 获取一条微博的详细信息,通过微博ID
 	 * Map参数：id 微博的id
@@ -765,8 +768,83 @@ public class TencentAdapter extends ModelAdapter {
 		}
 		sapi.shutdownConnection();
 	}
-	
-	
+	/**
+	 * 获取主页的时间线
+	 * @author allenjin
+	 * @throws Exception
+	 */
+	public void getHomeTimeLine() throws Exception{
+		StatusesAPI sapi=new StatusesAPI();
+		Map<String,Object> map=task.param;
+		String response=null;
+		response=sapi.homeTimeline((OAuth)map.get("oauth"), "json", map.get("pageflag").toString(),
+				map.get("pagetime").toString(), map.get("reqnum").toString(), "3", "0");
+		if(response == null) throw new ConnectTimeoutException();
+		JSONObject json = new JSONObject(response);
+		error.ret = json.getInt("ret");
+		error.errorCode = json.getInt("errcode");
+		error.detail = json.getString("msg");
+		
+		Log.v(TAG, response);
+		if(error.ret == 0){
+			JSONObject data=new JSONObject(response).getJSONObject("data");
+			ICArrayList ica=new ICArrayList();
+			ica.hasNext=data.getInt("hasnext");
+			if(data.get("info") instanceof JSONArray){
+				JSONArray infolist=data.getJSONArray("info");
+				for(int i=0;i<infolist.length();i++){
+					JSONObject iobj=infolist.getJSONObject(i);
+					Status s=new Status();
+					s.id=iobj.getString("id");
+					s.cCount=iobj.getInt("count");
+					s.rCount=iobj.getInt("mcount");
+					s.geo=null;
+					s.platform=User.PLATFORM_TENCENT_CODE;
+					s.source=iobj.getString("from");
+					s.text=iobj.getString("origtext");
+					s.timestamp=iobj.getLong("timestamp");
+					s.user.head=iobj.getString("head");
+					s.user.id=iobj.getString("openid");
+					s.user.name=iobj.getString("name");
+					s.user.nick=iobj.getString("nick");
+					if(iobj.get("image")instanceof JSONArray){
+						JSONArray imgs=iobj.getJSONArray("image");
+						for(int j=0;j<imgs.length();j++){			
+							s.image.add(imgs.getString(j));
+						}
+					}
+
+					if(iobj.get("source") instanceof JSONObject){
+						JSONObject res=iobj.getJSONObject("source");
+						Status reStatus=new Status();
+						reStatus.cCount=res.getInt("count");
+						reStatus.rCount=res.getInt("mcount");
+						reStatus.geo=null;
+						reStatus.id=res.getString("id");
+						reStatus.source=res.getString("from");
+						reStatus.platform=User.PLATFORM_TENCENT_CODE;
+						reStatus.timestamp=res.getLong("timestamp");
+						reStatus.text=res.getString("origtext");
+						reStatus.user.head=res.getString("head");
+						reStatus.user.id=res.getString("openid");
+						reStatus.user.name=res.getString("name");
+						reStatus.user.nick=res.getString("nick");
+						if(res.get("image")instanceof JSONArray){
+							JSONArray image=res.getJSONArray("image");
+							for(int j=0;j<image.length();j++){
+								reStatus.image.add(image.getString(j));
+							}
+						}
+						s.reStatus=reStatus;
+					}
+					ica.list.add(s);
+					Log.v("第"+i+"个发表微博：",s.toString());
+				}
+				}
+			task.result.add(ica);
+		}
+		sapi.shutdownConnection();
+	}
 	/**
 	 *获取其他用户发表的微博列表
 	 *Map参数：pageflag:分页标识，pagetime:本页起始时间，reqnum:每次请求条数,

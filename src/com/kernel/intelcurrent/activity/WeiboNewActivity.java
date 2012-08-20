@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.kernel.intelcurrent.adapter.ExpressionGridAdapter;
 import com.kernel.intelcurrent.model.DBModel;
 import com.kernel.intelcurrent.model.Task;
+import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.model.WeiboDraftEntryDAO;
 import com.kernel.intelcurrent.widget.ImageCheckBox;
 import android.app.AlertDialog;
@@ -69,7 +70,7 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 	private int cursorPosition;
 	private String text;
 	String statusId;//非新建时对应的statusid
-
+	private Intent at_intent;
 	@Override
 	public void update(int type, Object param) {
 		if(type != Task.WEIBO_ADD && type != Task.WEIBO_COMMENTS_ADD && type != Task.WEIBO_REPOST) return;
@@ -248,6 +249,10 @@ public class WeiboNewActivity extends BaseActivity implements View.OnClickListen
 	/**根据不同Model调整布局*/
 	private void initModel(){
 		Intent intent = getIntent();
+		if(intent.getFlags()==1){   //at调用的
+			int start = inputEditText.getSelectionStart();
+			inputEditText.getText().insert(start, "@"+intent.getStringExtra("at_name")+" ");
+		}
 		model = intent.getIntExtra("model", 0);
 		platform = intent.getIntExtra("platform", 3);
 		statusId = intent.getStringExtra("ext");

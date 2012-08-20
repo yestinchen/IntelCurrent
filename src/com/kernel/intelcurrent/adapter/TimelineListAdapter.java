@@ -139,6 +139,7 @@ public class TimelineListAdapter extends BaseAdapter {
 				Intent intent = new Intent(context,OtherUserInfoActivity.class);
 				intent.putExtra("user_openid", status.user.id);
 				intent.putExtra("user_nick", status.user.nick);
+				intent.putExtra("user_name", status.user.name);
 				context.startActivity(intent);
 			}
 		});

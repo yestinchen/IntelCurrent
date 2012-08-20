@@ -60,6 +60,7 @@ public class Task implements Serializable
 	public static final int USER_OTHER_WEIBO_LIST=0x00002B;
 	public static final int USER_OTHER_INFO=0x00002C;
 	public static final int USER_SIMPLE_INFO_LIST=0x00002D;
+	public static final int USER_HOME_TIMELINE_LIST=0x00002E;
 	/*-----关于消息的操作-----*/
 	public static final int MSG_COMMENTS_MENTIONS = 0x000031;
 	public static final int MSG_COMMENTS_ME_LIST = 0x000032;

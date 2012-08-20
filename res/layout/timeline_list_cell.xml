@@ -29,6 +29,7 @@
             android:id="@+id/timeline_list_cell_urlimage_head"
             android:layout_height="50dp"
             android:layout_width="50dp"
+            android:background="@drawable/ic_user_touxiang_default"
             android:layout_margin="@dimen/padding_small"
             />
         

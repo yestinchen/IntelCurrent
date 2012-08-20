@@ -156,6 +156,7 @@ public class GroupFollowListAdapter extends BaseAdapter {
 				Intent intent=new Intent(context,OtherUserInfoActivity.class);
 				intent.putExtra("user_openid",user.id);
 				intent.putExtra("user_nick", user.nick);
+				intent.putExtra("user_name", user.name);
 				context.startActivity(intent);		
 			}
 		}

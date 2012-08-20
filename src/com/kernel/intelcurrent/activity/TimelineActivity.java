@@ -1,15 +1,7 @@
 package com.kernel.intelcurrent.activity;
 
 import java.util.LinkedList;
-import com.kernel.intelcurrent.adapter.TimelineListAdapter;
-import com.kernel.intelcurrent.model.Group;
-import com.kernel.intelcurrent.model.ICArrayList;
-import com.kernel.intelcurrent.model.Status;
-import com.kernel.intelcurrent.model.Task;
-import com.kernel.intelcurrent.service.MainService;
-import com.kernel.intelcurrent.widget.PullToRefreshListView;
-import com.kernel.intelcurrent.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.kernel.intelcurrent.widget.PullToRefreshListView.OnRefreshListener;
+
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.content.Intent;
@@ -22,7 +14,18 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.kernel.intelcurrent.adapter.TimelineListAdapter;
+import com.kernel.intelcurrent.model.Group;
+import com.kernel.intelcurrent.model.ICArrayList;
+import com.kernel.intelcurrent.model.Status;
+import com.kernel.intelcurrent.model.Task;
+import com.kernel.intelcurrent.service.MainService;
+import com.kernel.intelcurrent.widget.PullToRefreshListView;
+import com.kernel.intelcurrent.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.kernel.intelcurrent.widget.PullToRefreshListView.OnRefreshListener;
 
 /**显示timeline
  * @author sheling*/
@@ -36,6 +39,7 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 	private PullToRefreshListView lv;
 	private RelativeLayout loading_layout;
 	private ImageView leftImage,rightImage;
+	private TextView title;
 	private Group group;
 	private LinkedList<Status> statuses = new LinkedList<Status>();
 	private int hasNext = -1;
@@ -131,6 +135,8 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 		}
 	}
 	private void findViews(){
+		title=(TextView)findViewById(R.id.common_head_tv_title);
+		title.setText(group.name);
 		lv = (PullToRefreshListView)findViewById(R.id.activity_timeline_lv_main);
 		leftImage = (ImageView)findViewById(R.id.common_head_iv_left);
 		rightImage = (ImageView)findViewById(R.id.common_head_iv_right);

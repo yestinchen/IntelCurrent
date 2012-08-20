@@ -146,6 +146,7 @@ public class GroupUserListAdapter extends BaseAdapter {
 			}else{
 				Toast.makeText(context, user.nick, Toast.LENGTH_SHORT).show();
 				Intent intent=new Intent(context,OtherUserInfoActivity.class);
+				intent.putExtra("user_name", user.name);
 				intent.putExtra("user_openid",user.id);
 				intent.putExtra("user_nick", user.nick);
 				context.startActivity(intent);

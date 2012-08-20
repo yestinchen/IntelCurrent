@@ -31,7 +31,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 	private Intent intent;
 	private User userinfo=null;
 	private static final String TAG=OtherUserInfoActivity.class.getSimpleName();
-	
+	private String at_name;
 	private TextView other_title,other_words,other_location,other_follow_btn,other_at_btn;
 	private TextView other_weibo,other_fans,other_follow;
 	private TextView other_weibo_nums,other_fans_nums,other_follow_nums;
@@ -121,6 +121,15 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 				follow(v,user.name);
 				break;
 			case R.id.other_user_at_btn:
+				Intent intent0=new Intent(OtherUserInfoActivity.this,WeiboNewActivity.class);
+				intent0.putExtra("at_name", at_name);
+				if(userinfo.platform==User.PLATFORM_TENCENT_CODE){
+					intent0.putExtra("platform", Task.PLATFORM_TENCENT);
+				}else if(userinfo.platform==User.PLATFORM_SINA_CODE){
+					intent0.putExtra("platform", Task.PLATFORM_SINA);
+				}				
+				intent0.addFlags(1);
+				startActivity(intent0);
 				break;
 			case R.id.other_user_fans_layout:
 				Log.v(TAG, user.toString());
@@ -172,8 +181,9 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		// TODO Auto-generated method stub
 		if(intent!=null){
 			String openid=intent.getStringExtra("user_openid");
-			String name=intent.getStringExtra("user_nick");
-			other_title.setText(name);
+			String nick=intent.getStringExtra("user_nick");
+			at_name=intent.getStringExtra("user_name");
+			other_title.setText(nick);
 			Log.v(TAG, openid);
 			mService.getOtherUserInfo(openid);
 		}
