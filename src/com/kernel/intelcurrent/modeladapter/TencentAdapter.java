@@ -336,6 +336,7 @@ public class TencentAdapter extends ModelAdapter {
 		error.errorCode = json.getInt("errcode");
 		error.detail = json.getString("msg");
 		if(error.ret == 0){
+			
 			JSONObject data=new JSONObject(response).getJSONObject("data");
 			if(data.get("info") instanceof JSONArray){
 				JSONArray infolist=data.getJSONArray("info");
@@ -445,6 +446,7 @@ public class TencentAdapter extends ModelAdapter {
 		error.errorCode = json.getInt("errcode");
 		error.detail = json.getString("msg");
 		if(error.ret == 0){
+		  if(json.get("data") instanceof JSONObject){
 			rawArrays = json.getJSONObject("data").getJSONArray("info");
 			int length = rawArrays.length();
 			for(int i=0;i<length;i++){
@@ -471,9 +473,10 @@ public class TencentAdapter extends ModelAdapter {
 				user.ismyidol = obj.getBoolean("isidol");
 				user.platform = User.PLATFORM_TENCENT_CODE;
 				users.add(user);
-			}
+			}	
+		  task.result.add(users);
+		  }
 		}
-		task.result.add(users);
 		fapi.shutdownConnection();
 		Log.v(TAG, "getUserList:"+type+" "+response);
 		Log.v(TAG, "get object:"+users.toString());
@@ -503,7 +506,8 @@ public class TencentAdapter extends ModelAdapter {
 		
 		Log.v(TAG,response);
 		if(error.ret == 0){
-			JSONObject data=new JSONObject(response).getJSONObject("data");
+		 if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ICArrayList ica=new ICArrayList();
 			ica.hasNext=data.getInt("hasnext");
 			if(data.get("info") instanceof JSONArray){
@@ -523,6 +527,7 @@ public class TencentAdapter extends ModelAdapter {
 				}
 			}
 			task.result.add(ica);
+		 }
 		}
 		fapi.shutdownConnection();
 	}
@@ -549,8 +554,9 @@ public class TencentAdapter extends ModelAdapter {
 		error.errorCode = json.getInt("errcode");
 		error.detail = json.getString("msg");
 		if(error.ret == 0){
-			Log.v(TAG,response);
-			JSONObject data=new JSONObject(response).getJSONObject("data");
+		 	Log.v(TAG,response);
+		 if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ICArrayList ica=new ICArrayList();
 			ica.hasNext=data.getInt("hasnext");
 			if(data.get("info") instanceof JSONArray){
@@ -570,6 +576,7 @@ public class TencentAdapter extends ModelAdapter {
 				}
 			}
 			task.result.add(ica);
+		  }
 		}
 		fapi.shutdownConnection();
 	}
@@ -602,8 +609,8 @@ public class TencentAdapter extends ModelAdapter {
 		
 		if(error.ret == 0){
 			ICArrayList ica=new ICArrayList();
-			JSONObject jsonobject=new JSONObject(response);
-			JSONObject data=jsonobject.getJSONObject("data");
+		 if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ica.hasNext = data.getInt("hasnext");
 			if(data.get("info")instanceof JSONArray){
 			JSONArray info=data.getJSONArray("info");	
@@ -620,6 +627,7 @@ public class TencentAdapter extends ModelAdapter {
 			  }	
 			}
 			task.result.add(ica);
+		 }
 		}
 		tapi.shutdownConnection();
 	}
@@ -648,7 +656,8 @@ public class TencentAdapter extends ModelAdapter {
 		error.detail = json.getString("msg");
 		
 		if(error.ret == 0){
-			jsonObj = new JSONObject(response).getJSONObject("data");
+			 if(json.get("data") instanceof JSONObject){
+			jsonObj = json.getJSONObject("data");
 			arraylist.hasNext = jsonObj.getInt("hasnext");
 			if(jsonObj.get("info")instanceof JSONArray){
 				jsonArr = jsonObj.getJSONArray("info");
@@ -677,6 +686,7 @@ public class TencentAdapter extends ModelAdapter {
 				}
 			}
 			task.result.add(arraylist);
+			 }
 		}
 		sapi.shutdownConnection();
 		Log.v(TAG, "getUserWeibos "+response);		
@@ -710,7 +720,8 @@ public class TencentAdapter extends ModelAdapter {
 		
 		Log.v(TAG, response);
 		if(error.ret == 0){
-		JSONObject data=new JSONObject(response).getJSONObject("data");
+		if(json.get("data") instanceof JSONObject){
+		JSONObject data=json.getJSONObject("data");
 		ICArrayList ica=new ICArrayList();
 		ica.hasNext=data.getInt("hasnext");
 		if(data.get("info") instanceof JSONArray){
@@ -764,7 +775,8 @@ public class TencentAdapter extends ModelAdapter {
 				Log.v("第"+i+"个发表微博：",s.toString());
 			}
 			}
-		task.result.add(ica);
+			task.result.add(ica);
+			}
 		}
 		sapi.shutdownConnection();
 	}
@@ -787,7 +799,8 @@ public class TencentAdapter extends ModelAdapter {
 		
 		Log.v(TAG, response);
 		if(error.ret == 0){
-			JSONObject data=new JSONObject(response).getJSONObject("data");
+			 if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ICArrayList ica=new ICArrayList();
 			ica.hasNext=data.getInt("hasnext");
 			if(data.get("info") instanceof JSONArray){
@@ -842,6 +855,7 @@ public class TencentAdapter extends ModelAdapter {
 				}
 				}
 			task.result.add(ica);
+		 }
 		}
 		sapi.shutdownConnection();
 	}
@@ -871,7 +885,8 @@ public class TencentAdapter extends ModelAdapter {
 		
 		Log.v(TAG, response);
 		if(error.ret == 0){
-			JSONObject data=new JSONObject(response).getJSONObject("data");
+		  if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ICArrayList ica=new ICArrayList();
 			ica.hasNext=data.getInt("hasnext");
 			if(data.get("info") instanceof JSONArray){
@@ -926,6 +941,7 @@ public class TencentAdapter extends ModelAdapter {
 				}
 				}
 			task.result.add(ica);
+		  }
 		}
 		sapi.shutdownConnection();
 	}
@@ -954,7 +970,8 @@ public class TencentAdapter extends ModelAdapter {
 		error.errorCode = json.getInt("errcode");
 		error.detail = json.getString("msg");
 		if(error.ret == 0){
-			JSONObject data=new JSONObject(response).getJSONObject("data");
+			 if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ICArrayList ica=new ICArrayList();
 			if(data.get("info") instanceof JSONArray){
 				JSONArray infolist=data.getJSONArray("info");
@@ -1008,6 +1025,7 @@ public class TencentAdapter extends ModelAdapter {
 				}
 				}
 			task.result.add(ica);
+		 }
 		}
 		papi.shutdownConnection();
 	}
@@ -1034,7 +1052,8 @@ public class TencentAdapter extends ModelAdapter {
 		error.errorCode = json.getInt("errcode");
 		error.detail = json.getString("msg");
 		if(error.ret == 0){
-			JSONObject data=new JSONObject(response).getJSONObject("data");
+		  if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ICArrayList list=new ICArrayList();
 			list.hasNext=data.getInt("hasnext");
 			if(data.get("info")instanceof JSONArray){
@@ -1057,6 +1076,7 @@ public class TencentAdapter extends ModelAdapter {
 			}
 			Log.v(TAG,response);
 			task.result.add(list);
+		  }
 		}
 		sapi.shutdownConnection();
 	}
@@ -1127,9 +1147,10 @@ public class TencentAdapter extends ModelAdapter {
 			error.errorCode = json.getInt("errcode");
 			error.detail = json.getString("msg");
 			if(error.ret == 0){
-			Log.v(TAG, response);
+			Log.v(TAG, response);	
+		if(json.get("data") instanceof JSONObject){
+			JSONObject data=json.getJSONObject("data");
 			ICArrayList iclist=new ICArrayList();
-			JSONObject data=new JSONObject(response).getJSONObject("data");
 			iclist.hasNext=data.getInt("hasnext");
 			if(data.get("info")instanceof JSONArray){
 				JSONArray info=data.getJSONArray("info");
@@ -1184,6 +1205,7 @@ public class TencentAdapter extends ModelAdapter {
 				task.result.add(iclist);
 			}
 		}
+			}
 		fav.shutdownConnection();
 	}
 	

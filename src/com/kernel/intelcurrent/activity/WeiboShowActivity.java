@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class WeiboShowActivity extends BaseActivity implements View.OnClickListener,Updateable,OnItemClickListener{
@@ -60,7 +61,10 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	public void update(int type, Object param) {
 		Log.d(TAG, "task"+param);
 		if(type != Task.WEIBO_COMMENTS_BY_ID)return;
-		if(((Task)param).result.size() == 0) return;
+		if(((Task)param).result.size() == 0) {
+			loadMoreTv.setText("当前没有更多内容");
+			loadMoreTv.setClickable(false);
+			return;}
 		ICArrayList result =(ICArrayList) ((Task)param).result.get(0);
 		if(request == REQUEST_FIRST){
 			for(Object comment: result.list){

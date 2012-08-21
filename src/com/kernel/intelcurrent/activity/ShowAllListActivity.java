@@ -117,7 +117,11 @@ public class ShowAllListActivity extends BaseActivity implements Updateable{
 	public void update(int type, Object param) {
 		// TODO Auto-generated method stub
 		if(type!=show_list_type)return;
-		if(((Task)param).result.size() == 0) return;	
+		if(((Task)param).result.size() == 0) {
+			 loadMore.setText("没有更多内容");
+			 loadMore.setClickable(false);
+			 return;
+			}	
 		Log.v(TAG,((Task)param).result.toString());
 		loading_layout.setVisibility(View.GONE);
 		switch(type){

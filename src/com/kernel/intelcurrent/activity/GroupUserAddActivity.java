@@ -149,8 +149,11 @@ public class GroupUserAddActivity extends BaseActivity implements Updateable{
 	public void update(int type, Object param) {
 		// TODO Auto-generated method stub
 		if(type!=Task.USER_FRIENDS_LIST)return;
-		if(((Task)param).result.size()==0)return;
-		
+		if(((Task)param).result.size()==0){
+			loadMore.setText("没有更多内容");
+			loadMore.setClickable(false);
+			return;
+		}
 		loading_layout.setVisibility(View.GONE);
 		ArrayList<User> result;
 		LinkedList<User> tmpList;
