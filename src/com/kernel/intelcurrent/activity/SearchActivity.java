@@ -116,8 +116,12 @@ public class SearchActivity extends Activity implements Updateable{
 			case R.id.search_btn:
 				if(input.getText()==null||input.getText().toString().equals("")){
 					Toast.makeText(SearchActivity.this,"输入不能为空!",Toast.LENGTH_SHORT).show();
-				}else{		
+				}else if(input.getText().toString().getBytes().length>20){
+					Toast.makeText(SearchActivity.this,"输入的长度过长!",Toast.LENGTH_SHORT).show();
+				}
+				else{		
 					//隐藏软键盘 
+					request_type=REQUEST_INIT;
 					((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(SearchActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 					search_layout.setVisibility(View.VISIBLE);
 					listview.setVisibility(View.GONE);
@@ -180,6 +184,9 @@ public class SearchActivity extends Activity implements Updateable{
 		Task t=(Task)param;
 		if(t.time!=CurTime)return;
 		if(t.result.size()==0){
+			search_layout.setVisibility(View.GONE);
+			
+			Toast.makeText(this, "没有找到匹配的记录。", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		switch(type){
