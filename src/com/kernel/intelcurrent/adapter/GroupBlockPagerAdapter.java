@@ -37,7 +37,7 @@ public class GroupBlockPagerAdapter extends PagerAdapter {
 		pageSize = 9;
 		//加上第一个主页块
 		groupNum ++;
-		firstGroup = new Group("主页时间线",null,null);
+		firstGroup = new Group("主页",null,null);
 		pageNum = groupNum % pageSize == 0 ? groupNum / pageSize : groupNum /pageSize +1;
 		for(int i=0;i<pageNum;i++){
 			views.add(mInflater.inflate(R.layout.page_group_block, null));

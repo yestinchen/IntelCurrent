@@ -71,6 +71,20 @@ public class MainService extends Service
 		model.doTask(t,this);
 	}
 	/**
+	 * 获取主页时间线
+	 * @param time
+	 * @param pageflag
+	 * @param pagetime
+	 */
+	public void getHomeTimeLine(long time,int pageflag,long pagetime){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("pageflag", pageflag);
+		map.put("pagetime", pagetime);
+		map.put("reqnum", 25);
+		Task t=new Task(time, Task.USER_HOME_TIMELINE_LIST, map,null);
+		model.doTask(t, this);
+	}
+	/**
 	 * 批量获取一批用户的简单信息
 	 *@see fopenids:需要读取的用户的openid列表,用下划线_隔开，(<=30);
 	 */

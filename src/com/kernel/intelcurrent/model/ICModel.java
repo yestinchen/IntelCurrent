@@ -80,6 +80,7 @@ public class ICModel
 	   case Task.USER_OTHER_WEIBO_LIST:
 	   case Task.USER_SIMPLE_INFO_LIST:
 	   case Task.USER_SEARCH:
+	   case Task.USER_HOME_TIMELINE_LIST:
 		   total=checkForThreadsNum(type,context);
 		   task.total=total;
 		   if(platformAvaliable == OAuthManager.RESULT_BOTH_AVALIABLE

@@ -8,13 +8,17 @@ import com.kernel.intelcurrent.model.SimpleUser;
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -22,6 +26,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 public class GroupBlockActivity extends Activity implements OnClickListener,Updateable{
@@ -169,15 +174,55 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 						public boolean onLongClick(View v) {
 							// TODO Auto-generated method stub
 							//delGroup((Group)v.getTag());//删除组
-							ShowGroup((Group)v.getTag());//显示组
+							//ShowGroup((Group)v.getTag());//显示组
+							showWindow(v);
 							return false;			
 				}
 						
 			});
 		viewPager.setAdapter(adapter);
 	}
+	/**
+	 * 显示组操作界面
+	 * @param group
+	 */
+	private void showWindow(View v){
+		final Group vgroup=(Group)v.getTag();
+		View view=LayoutInflater.from(this).inflate(R.layout.long_touch_window, null);
+		WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		float width=(float)windowManager.getDefaultDisplay().getWidth();
+		float height=(float)windowManager.getDefaultDisplay().getHeight();
+		int w=(int)((height/width)*90);
+		int h=(int)((height/width)*40);
+		final PopupWindow pop=new PopupWindow(view,w,h);
+		pop.setFocusable(true);
+		pop.setOutsideTouchable(true);
+		pop.setBackgroundDrawable(new BitmapDrawable());
+		pop.showAsDropDown(v,10,-v.getBottom());
+		ImageView del_btn,show_btn;
+		show_btn=(ImageView)view.findViewById(R.id.window_group_detail);
+		show_btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ShowGroup(vgroup);
+				pop.dismiss();
+			}
+		});
+		del_btn=(ImageView)view.findViewById(R.id.window_group_delete);
+		del_btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				delGroup(vgroup);
+				pop.dismiss();
+			}
+		});
 	
-
+		
+	}
 	private void startTimelineActivity(Group group){
 		LinearLayout container=(LinearLayout)((ActivityGroup)getParent()).getWindow().findViewById(R.id.layout_main_layout_container);	
 		container.removeAllViews();
