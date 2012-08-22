@@ -1,6 +1,7 @@
 ﻿package com.kernel.intelcurrent.model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * classname:User.java
@@ -121,6 +122,14 @@ public String toString() {
   public int platform;
 
 
+  public static class NickNameComparator implements Comparator<User>{
+
+	@Override
+	public int compare(User lhs, User rhs) {
+		return lhs.nick.compareTo(rhs.nick);
+	}
+	  
+  }
   
   /**
    * 最新微博

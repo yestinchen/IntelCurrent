@@ -1,6 +1,7 @@
 package com.kernel.intelcurrent.model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * classname:SimpleUser.java
@@ -51,5 +52,10 @@ public class SimpleUser implements Serializable{
 				+ fansnum + "]";
 	}
 	
-	
+	 public static class NickNameComparator implements Comparator<SimpleUser>{
+		@Override
+		public int compare(SimpleUser lhs, SimpleUser rhs) {
+			return lhs.nick.compareTo(rhs.nick);
+		}
+	 }
 }

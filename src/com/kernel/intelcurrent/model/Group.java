@@ -1,6 +1,7 @@
 ﻿package com.kernel.intelcurrent.model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.LinkedList;
 /**
  * classname:Group.java
@@ -103,5 +104,12 @@ public class Group implements Serializable
 				+ description + ", users=" + users + "]";
 	}
      
+	public static class NameComparator implements Comparator<Group>{
+		@Override
+		public int compare(Group lhs, Group rhs) {
+			return lhs.name.compareTo(rhs.name);
+		}
+		
+	}
      
 }

@@ -3,6 +3,7 @@
 import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * classname:Status.java
@@ -79,8 +80,12 @@ public class Status implements Serializable
 				+ "]";
 	}
 	
-	
-
-    
-    
+	/**根据时间排序*/
+	public static class TimeComparator implements Comparator<Status>{
+		@Override
+		public int compare(Status lhs, Status rhs) {
+			return (int) (lhs.timestamp - rhs.timestamp);
+		}
+		
+	}
 }
