@@ -63,7 +63,6 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		if(type != Task.WEIBO_COMMENTS_BY_ID)return;
 		if(((Task)param).result.size() == 0) {
 			loadMoreTv.setText("当前没有更多内容");
-			loadMoreTv.setClickable(false);
 			return;}
 		ICArrayList result =(ICArrayList) ((Task)param).result.get(0);
 		if(request == REQUEST_FIRST){

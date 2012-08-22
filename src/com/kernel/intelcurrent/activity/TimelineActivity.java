@@ -63,6 +63,7 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 	@Override
 	public void update(int type, Object param) {
 		//类型较检，不符合自己类型的数据忽略
+		
 		if(type != Task.G_GET_GROUP_TIMELINE)return;
 		if(((Task)param).time!=curTime)return;
 		Log.v(TAG, "Task time"+curTime);
@@ -141,6 +142,10 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 		leftImage = (ImageView)findViewById(R.id.common_head_iv_left);
 		rightImage = (ImageView)findViewById(R.id.common_head_iv_right);
 		loading_layout=(RelativeLayout)findViewById(R.id.timeline_loading);
+		if(group.users.size()==0){
+			loading_layout.setVisibility(View.GONE);
+			Toast.makeText(this, "当前未添加任何组员", Toast.LENGTH_SHORT).show();
+		}
 		leftImage.setImageResource(R.drawable.ic_title_back);
 		rightImage.setImageResource(R.drawable.ic_title_new);
 	}

@@ -10,9 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,10 +28,9 @@ public class SearchActivity extends Activity implements Updateable{
 	private EditText input;
 	private TextView title,search_btn,loadMore;
 	private View footview;
-	private ImageView del_btn,load_img;
+	private ImageView del_btn;
 	private ListView listview;
 	private RelativeLayout search_layout;
-	private RotateAnimation load_amin;
 	private LinkedList<User> users;
 	private MainActivity activityGroup;
 	private MainService mService;
@@ -68,15 +64,8 @@ public class SearchActivity extends Activity implements Updateable{
 		search_layout=(RelativeLayout)findViewById(R.id.search_layout);
 		listview=(ListView)findViewById(R.id.search_list);
 		listview.addFooterView(footview);
-		load_img=(ImageView)findViewById(R.id.search_load);
 		
-		//旋转动画
-		load_amin=new RotateAnimation(0f,360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-		load_amin.setDuration(600);	
-		load_amin.setRepeatCount(Animation.INFINITE);
-		AccelerateDecelerateInterpolator ainter=new AccelerateDecelerateInterpolator();
-		load_amin.setInterpolator(ainter);
-		load_img.startAnimation(load_amin);
+	
 	}
 	public void setListener(){
 		loadMore.setOnClickListener(new OnBtnClickListener());

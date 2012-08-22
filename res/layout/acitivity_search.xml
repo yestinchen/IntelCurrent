@@ -56,21 +56,15 @@
 	    android:id="@+id/search_layout"
 	    android:orientation="vertical"
 	    android:visibility="gone"
-
 	    >
-    	    <ImageView 
-    	        	android:layout_height="wrap_content"
-    	        	android:layout_width="wrap_content"
-    	        	android:layout_centerInParent="true"
-    	        	android:background="@drawable/ic_search_loading_bg"
-    	        />
-    	    <ImageView 
-    	        	android:layout_height="wrap_content"
-    	        	android:layout_width="wrap_content"
-    	        	android:id="@+id/search_load"
-    	        	android:layout_centerInParent="true"
-    	        	android:background="@drawable/ic_search_loading_fg"
-    	        />
+    	<ProgressBar 
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    style="?android:attr/progressBarStyleInverse"
+    	    android:layout_centerInParent="true"
+    	    android:indeterminateDrawable="@drawable/progress_bg"
+    	    android:background="@drawable/ic_search_loading_bg"
+    	    />
 	</RelativeLayout>
 	<ListView 
 	    android:layout_width="fill_parent"

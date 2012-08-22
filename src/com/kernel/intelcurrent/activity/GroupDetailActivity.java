@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kernel.intelcurrent.adapter.GroupUserListAdapter;
 import com.kernel.intelcurrent.model.DBModel;
@@ -43,7 +44,6 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		Intent intent=getIntent();
 		bundle=intent.getBundleExtra("bundle");
 		group=(Group) bundle.get("group");
-		Log.v(TAG, "组员数："+group.users.size());
 		findViews();
 		setListener();
 	}
@@ -58,6 +58,9 @@ public class GroupDetailActivity extends BaseActivity implements Updateable{
 		group.users.clear();
 		group.users.addAll(susers);
 		group_user_nums.setText("共"+group.users.size()+"个组员");
+		if(group.users.size()==0){
+			loading_layout.setVisibility(View.GONE);
+		}
 	}
 
 
