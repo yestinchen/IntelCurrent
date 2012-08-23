@@ -622,7 +622,7 @@ public class TencentAdapter extends ModelAdapter {
 				comment.nick=infoobject.getString("nick");
 				comment.text=infoobject.getString("origtext");
 				comment.name = infoobject.getString("name");
-				comment.timestamp=Integer.parseInt(infoobject.getString("timestamp"));
+				comment.timestamp=infoobject.getLong("timestamp");
 				ica.list.add(comment);
 			  }	
 			}

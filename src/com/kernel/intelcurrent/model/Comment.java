@@ -28,7 +28,7 @@ public class Comment {
 	 /**
      * 评论时间戳
      * */
-	public int timestamp;
+	public long timestamp;
 	
 	 /**
      * 评论内容
