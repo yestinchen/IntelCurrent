@@ -209,7 +209,7 @@ public class TextToSpannable {
 	}
 	/**根据起始位置渲染url*/
 	private void buildUrl(int start,int end){
-		spannableSB.setSpan(new URLSpan(text.substring(start,end)),
+		spannableSB.setSpan(new MyUrlSpan(text.substring(start,end)),
 				start-offset, end-offset, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 	
@@ -217,7 +217,7 @@ public class TextToSpannable {
 		if(end > text.length()) return;
 		String showString = text.substring(htmlEndTmp, end-4);
 		Log.d(TAG, "subStr:"+showString);
-		spannableSB.setSpan(new URLSpan(showString), start-offset, end-offset, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannableSB.setSpan(new MyUrlSpan(showString), start-offset, end-offset, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 		int orginLength = spannableSB.length();
 		spannableSB = spannableSB.replace(start-offset, end-offset, showString);
 		offset += orginLength - spannableSB.length();
@@ -261,9 +261,24 @@ public class TextToSpannable {
     	@Override
 		public void updateDrawState(TextPaint ds) {
 			super.updateDrawState(ds);
+			ds.setUnderlineText(false);
 			ds.setColor(context.getResources().getColor(R.color.weibo_title_blue));
 		}
-
     }
+	
+	/**url span*/
+	class MyUrlSpan extends URLSpan{
+
+		public MyUrlSpan(String url) {
+			super(url);
+		}
+
+		@Override
+		public void updateDrawState(TextPaint ds) {
+			super.updateDrawState(ds);
+			ds.setUnderlineText(false);
+			ds.setColor(context.getResources().getColor(R.color.weibo_title_blue));
+		}
+	}
 	
 }
