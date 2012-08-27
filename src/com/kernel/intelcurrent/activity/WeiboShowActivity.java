@@ -56,6 +56,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	private LayoutInflater mInflater;
 	private View headView,footView;//listview上方的头视图
 	private int request = -1;
+	private boolean firstRun = true;
 	
 	@Override
 	public void update(int type, Object param) {
@@ -70,6 +71,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 				comments.add((Comment)comment);
 			}
 			setAdapter();
+			loadMoreTv.setText(getResources().getString(R.string.common_load_more));
 		}else if(request == REQUEST_LOAD_MORE){
 			ArrayList<Comment> news = new ArrayList<Comment>();
 			for(Object comment: result.list){
@@ -127,6 +129,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 		
 		leftImage.setImageResource(R.drawable.ic_title_back);
 		titleTv.setText(R.string.weibo_show_title);
+		loadMoreTv.setText(R.string.common_loading);
 	}
 	
 	private void init(){
@@ -287,14 +290,16 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 	@Override
 	public void onConnectionFinished() {
 //		if(user.platform == User.PLATFORM_TENCENT_CODE){
+		if(firstRun){
 			request = REQUEST_FIRST;
-			mService.getCommentList(status.id,0,0,"0",Task.PLATFORM_TENCENT);	
+			mService.getCommentList(status.id,0,0,"0",Task.PLATFORM_TENCENT);
+			firstRun = false;
+		}
 //		}
 	}
 
 	@Override
 	public void onConnectionDisConnected() {
-		
 	}
 
 
