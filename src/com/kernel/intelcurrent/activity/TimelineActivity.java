@@ -159,7 +159,11 @@ public class TimelineActivity extends Activity implements Updateable,OnClickList
 			public void onRefresh() {
 				state = 2;
 				curTime=System.currentTimeMillis();
+				if(group.name.equals("主页")){
+					mService.getHomeTimeLine(curTime, 0,0);
+				}else{
 				mService.getTimeline(curTime,group, 0, 0, "0");
+				}
 			}
 		});
 		lv.setOnLoadMoreListener(new OnLoadMoreListener() {
