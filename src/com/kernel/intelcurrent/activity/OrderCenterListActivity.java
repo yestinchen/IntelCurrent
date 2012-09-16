@@ -83,6 +83,7 @@ public class OrderCenterListActivity extends Activity implements OnItemClickList
 		if(! entry.exists){
 			Toast.makeText(this,"["+entry.group.name+"]"+getResources().getString(R.string.activity_order_list_add_tip), Toast.LENGTH_LONG).show();
 			entry.exists = true;
+			DBModel.getInstance().addGroup(OrderCenterListActivity.this,entry.group);
 			adapter.notifyDataSetChanged();
 		}
 	}

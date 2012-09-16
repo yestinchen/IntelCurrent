@@ -114,7 +114,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener{
 	        mFootViewText = new TextView(this.getContext());
         	mFootViewText.setText("获取更多");
         	mFootViewText.setTextAppearance(this.getContext(), android.R.style.TextAppearance_Large);
-        	mFootViewText.setGravity(Gravity.CENTER);
+        	mFootViewText.setGravity(Gravity.CENTER_HORIZONTAL);
         	mFootViewText.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -351,7 +351,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener{
 //                }else if(hasFoot)	{
 //                	removeFooterView(mFootViewText);
 //                	hasFoot = false;
-                }
+               }
 	}
 
 	@Override

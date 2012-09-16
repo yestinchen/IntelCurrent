@@ -125,9 +125,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 				intent0.putExtra("at_name", at_name);
 				if(userinfo.platform==User.PLATFORM_TENCENT_CODE){
 					intent0.putExtra("platform", Task.PLATFORM_TENCENT);
-				}else if(userinfo.platform==User.PLATFORM_SINA_CODE){
-					intent0.putExtra("platform", Task.PLATFORM_SINA);
-				}				
+				}			
 				intent0.addFlags(1);
 				startActivity(intent0);
 				break;

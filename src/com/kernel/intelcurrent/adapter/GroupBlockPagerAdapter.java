@@ -26,7 +26,6 @@ public class GroupBlockPagerAdapter extends PagerAdapter {
 	private GroupBlock blocks[];
 	private OnClickListener listener;
 	private OnLongClickListener longlistener;
-	private Group firstGroup;
 	
 	public GroupBlockPagerAdapter(ArrayList<Group> groupList,Context context,OnClickListener listener,OnLongClickListener longlistener){
 		this.groupList = groupList;
@@ -36,8 +35,7 @@ public class GroupBlockPagerAdapter extends PagerAdapter {
 		groupNum = groupList.size();
 		pageSize = 9;
 		//加上第一个主页块
-		groupNum ++;
-		firstGroup = new Group("主页",null,null);
+		//groupNum ++;
 		pageNum = groupNum % pageSize == 0 ? groupNum / pageSize : groupNum /pageSize +1;
 		for(int i=0;i<pageNum;i++){
 			views.add(mInflater.inflate(R.layout.page_group_block, null));
@@ -57,7 +55,13 @@ public class GroupBlockPagerAdapter extends PagerAdapter {
 
 	@Override
 	public void destroyItem(View container, int position, Object object) {
-		((ViewPager)container).removeViewAt(position);
+		((ViewPager) container).removeView((View) object);   
+	}
+
+	@Override
+	public int getItemPosition(Object object) {
+		// TODO Auto-generated method stub
+		return POSITION_NONE;
 	}
 
 	@Override
@@ -71,20 +75,14 @@ public class GroupBlockPagerAdapter extends PagerAdapter {
 		blocks[6] = (GroupBlock) views.get(position).findViewById(R.id.page_group_block_7);
 		blocks[7] = (GroupBlock) views.get(position).findViewById(R.id.page_group_block_8);
 		blocks[8] = (GroupBlock) views.get(position).findViewById(R.id.page_group_block_9);
-		//第一块
-		if(position == 0){
-			GroupBlock tmp = blocks[0];
-			tmp.setText(firstGroup.getName());
-			tmp.setTag(firstGroup);
-			tmp.setOnClickListener(listener);
-		}
 		//去掉第一块主页造成的影响
-		int i=position*pageSize + 1;
+		int i=position*pageSize;
 		for(; i< Math.min((position+1)*pageSize, groupNum);i++){
 			GroupBlock tmp = blocks[ i % pageSize];
-			tmp.setText(groupList.get(i-1).getName());
-			tmp.setTag(groupList.get(i-1));
+			tmp.setText(groupList.get(i).getName());
+			tmp.setTag(groupList.get(i));
 			tmp.setOnClickListener(listener);
+			if(!(groupList.get(i).getName().equals("主页")))
 			tmp.setOnLongClickListener(longlistener);
 		}
 		for(;i % pageSize != 0;i++){

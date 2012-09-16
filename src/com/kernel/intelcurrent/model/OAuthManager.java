@@ -3,14 +3,10 @@ package com.kernel.intelcurrent.model;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
-
-import com.kernel.intelcurrent.activity.LoginActivity;
 import com.tencent.weibo.oauthv2.OAuthV2;
 import com.weibo.net.AccessToken;
 import com.weibo.net.Weibo;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -76,7 +72,6 @@ public class OAuthManager {
 		int result= 0;
 		SharedPreferences spf=context.getSharedPreferences(OAUTH_FILE, 0);
 		boolean hasTencent=spf.getBoolean(TENCENT_WEIBO, false);
-		boolean hasSina=spf.getBoolean(SINA_WEIBO, false);
 		if(hasTencent){//判断是否登录了腾讯微博,若是,判断是否过期
 			String exiresIn = spf.getString(TENCENT_EXPIRES_IN, "0");
 			String startTime = spf.getString(TENCENT_ACCESS_TOKEN_START_TIME, "0");
@@ -85,15 +80,6 @@ public class OAuthManager {
 			}
 			Log.d(TAG, "check tencent"+result);
 		}
-		if(hasSina){//判断是否登录了新浪微博,若是,判断是否过期
-			String exiresIn = spf.getString(SINA_EXPIRES_IN, "0");
-			String startTime = spf.getString(SINA_ACCESS_TOKEN_START_TIME, "0");
-			if(Long.valueOf(exiresIn)*1000 + Long.valueOf(startTime) > System.currentTimeMillis()){
-				result += RESULT_ONLY_SINA_AVALIABLE;
-			}
-			Log.d(TAG, "check sina"+result);
-		}
-		Log.d(TAG, "oauth check result:"+result);
 		return result;
 	}
 	

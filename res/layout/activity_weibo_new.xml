@@ -77,22 +77,7 @@
 	        android:layout_weight="1"
 	        android:padding="@dimen/bottom_ic_padding"
 	        />
-	    <com.kernel.intelcurrent.widget.ImageCheckBox
-	        android:id="@+id/activity_weibo_new_cb_sina"
-	        android:layout_width="0dp"
-	        android:layout_height="fill_parent"
-	        android:layout_weight="1"
-	        android:gravity="center"
-	        android:padding="@dimen/bottom_ic_padding"
-	        />
-	     <com.kernel.intelcurrent.widget.ImageCheckBox
-	        android:id="@+id/activity_weibo_new_cb_tencent"
-	        android:layout_width="0dp"
-	        android:layout_height="fill_parent"
-	        android:layout_weight="1"
-	        android:gravity="center"
-	        android:padding="@dimen/bottom_ic_padding"
-	        />
+	
 	    
 	</LinearLayout>
 	<!-- 下方表情布局 -->

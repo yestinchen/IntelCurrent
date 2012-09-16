@@ -1,16 +1,10 @@
 ﻿package com.kernel.intelcurrent.model;
 
 import java.util.LinkedList;
-import java.util.Map;
-
 import android.content.Context;
-import android.text.style.ClickableSpan;
 import android.util.Log;
-
-import com.kernel.intelcurrent.modeladapter.SinaAdapter;
 import com.kernel.intelcurrent.modeladapter.TencentAdapter;
 import com.kernel.intelcurrent.service.MainService;
-import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.oauthv2.OAuthV2;
 import com.weibo.net.Weibo;
 
@@ -26,7 +20,7 @@ public class ICModel
    private LinkedList<Group> group;
    private boolean sinaBound=false,
 		           tencentBound=false;
-   private int sinaAccessToken,tencentAccessToken;
+   private int tencentAccessToken;
    
    private OAuthV2 tencentOAuth = null;
    private Weibo weibo = null;
@@ -100,27 +94,13 @@ public class ICModel
 		   task.total = 1;
 		   clientIp = OAuthManager.getInstance().getClientIP();
 		   Log.v(TAG, "client ip:"+clientIp);
-		   switch((Integer)task.param.get("platform")){
-		   case Task.PLATFORM_ALL:
-			   task.param.put("oauth", tencentOAuth);
-			   task.param.put("clientip", clientIp);
-			   TencentAdapter ta = new TencentAdapter(task);
-			   ta.start();
-		   case Task.PLATFORM_SINA:
-			   task.param.put("weibo", weibo);
-			   SinaAdapter sa = new SinaAdapter(context, task);
-			   sa.start();
-			   break;
-		   case Task.PLATFORM_TENCENT:
 			   task.param.put("oauth", tencentOAuth);
 			   task.param.put("clientip", clientIp);
 			   TencentAdapter t = new TencentAdapter(task);
 			   t.start();
-			   break;
-		   }
 		   break;
 	   }
-    }
+   }
    
    public int checkForThreadsNum(int type,Context context)
    {

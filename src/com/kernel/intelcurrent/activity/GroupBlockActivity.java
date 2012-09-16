@@ -34,7 +34,8 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 	private static final String TAG = GroupBlockActivity.class.getSimpleName();
 	private ViewPager viewPager;
 	private ImageView leftImage,rightImage;
-	
+	private GroupBlockPagerAdapter adapter;
+	private ArrayList<Group> groupList;
 	@Override
 	public void update(int type, Object param) {
 		//do nothing
@@ -44,6 +45,10 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_group_block);
+		groupList=new ArrayList<Group>();
+		Group main_group=new Group("主页",null,null);
+		groupList.add(main_group);
+		groupList.addAll(DBModel.getInstance().getAllGroups(this));
 		findViews();
 		setListeners();
 		setAdapter();
@@ -53,7 +58,7 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 		viewPager = (ViewPager)findViewById(R.id.layout_group_block_viewpager);
 		leftImage = (ImageView)findViewById(R.id.common_head_iv_left);
 		rightImage = (ImageView)findViewById(R.id.common_head_iv_right);
-		
+//setAdapter();
 		leftImage.setImageResource(R.drawable.ic_title_new);
 		rightImage.setImageResource(R.drawable.ic_title_new_group);
 //		Log.d(TAG, viewPager.toString());
@@ -100,7 +105,8 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 						Toast.makeText(GroupBlockActivity.this, "添加组"+gname, Toast.LENGTH_SHORT).show();
 						Group group=new Group(gname,null,null);
 						DBModel.getInstance().addGroup(GroupBlockActivity.this, group);
-						setAdapter();
+						//setAdapter();	
+						changeData();
 					}
 				}
 			}
@@ -141,7 +147,8 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
 					DBModel.getInstance().delGroup(GroupBlockActivity.this, group);
-					setAdapter();
+					//setAdapter();
+					changeData();
 					Toast.makeText(GroupBlockActivity.this, "删除分组"+group.name, Toast.LENGTH_SHORT).show();
 			}
 		}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -154,10 +161,16 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 			}
 		}).show();
 	}
+	private void changeData(){
+		groupList.clear();
+		Group main_group=new Group("主页",null,null);
+		groupList.add(main_group);
+		groupList.addAll(DBModel.getInstance().getAllGroups(this));
+		setAdapter();
+	}
 	private void setAdapter(){
-		ArrayList<Group> groupList = DBModel.getInstance().getAllGroups(this);
 		Log.d(TAG, "get groups:"+groupList);
-		GroupBlockPagerAdapter adapter = new GroupBlockPagerAdapter(groupList, this,
+		adapter = new GroupBlockPagerAdapter(groupList, this,
 				new OnClickListener() {
 				@Override
 				public void onClick(View v) {

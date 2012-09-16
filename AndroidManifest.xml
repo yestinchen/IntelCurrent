@@ -69,10 +69,6 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_base"
             >
-              <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
              <!-- OAuth Version 2. 使用  WebView 辅助进行ImplicitGrant方式授权必须 -->
         <activity

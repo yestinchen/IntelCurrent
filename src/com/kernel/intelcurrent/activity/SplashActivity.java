@@ -3,29 +3,41 @@ package com.kernel.intelcurrent.activity;
 import java.io.File;
 
 import com.kernel.intelcurrent.db.DataBaseHelper;
+import com.kernel.intelcurrent.model.OAuthManager;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 
 public class SplashActivity extends Activity {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setContentView(R.layout.login);
 		//初始化数据库，如果没有的话
 		DataBaseHelper dbHelper = new DataBaseHelper(this);
 		dbHelper.getReadableDatabase().close();
 		dbHelper.close();
-
 		//新建所需文件夹
 		mkDirs();
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(OAuthManager.getInstance().oAuthCheck(SplashActivity.this)==OAuthManager.RESULT_ONLY_TENCENT_AVALIABLE){
+					Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+					startActivity(intent);
+				}else{
+					Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+					startActivity(intent);
+				}
+				finish();
+			}
+		}, 2000);
 		
-		Intent intent = new Intent(this,MainActivity.class);
-		startActivity(intent);
-		finish();
 	}
 	
 	private void mkDirs(){

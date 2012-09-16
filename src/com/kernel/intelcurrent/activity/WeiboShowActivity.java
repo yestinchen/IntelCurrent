@@ -245,9 +245,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 					Intent intent = new Intent(WeiboShowActivity.this,WeiboNewActivity.class);
 					intent.putExtra("model", WeiboNewActivity.MODEL_NEW_COMMENT);
 					intent.putExtra("ext", status.id);
-					if(status.platform == User.PLATFORM_SINA_CODE){
-						intent.putExtra("platform",Task.PLATFORM_SINA);
-					}else if(status.platform == User.PLATFORM_TENCENT_CODE){
+					 if(status.platform == User.PLATFORM_TENCENT_CODE){
 						intent.putExtra("platform",Task.PLATFORM_TENCENT);
 					}
 					intent.putExtra("cursor", WeiboNewActivity.CURSOR_BEGEIN);
@@ -258,9 +256,7 @@ public class WeiboShowActivity extends BaseActivity implements View.OnClickListe
 					Intent it = new Intent(WeiboShowActivity.this,WeiboNewActivity.class);
 					it.putExtra("model", WeiboNewActivity.MODEL_FORWORD);
 					it.putExtra("ext", status.id);
-					if(status.platform == User.PLATFORM_SINA_CODE){
-						it.putExtra("platform",Task.PLATFORM_SINA);
-					}else if(status.platform == User.PLATFORM_TENCENT_CODE){
+					if(status.platform == User.PLATFORM_TENCENT_CODE){
 						it.putExtra("platform",Task.PLATFORM_TENCENT);
 					}
 					it.putExtra("cursor", WeiboNewActivity.CURSOR_BEGEIN);

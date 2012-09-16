@@ -5,10 +5,8 @@ import java.util.List;
 import com.kernel.intelcurrent.activity.R;
 import com.kernel.intelcurrent.activity.WeiboNewActivity;
 import com.kernel.intelcurrent.model.DBModel;
-import com.kernel.intelcurrent.model.Task;
 import com.kernel.intelcurrent.model.WeiboDraftEntryDAO;
 import com.tencent.weibo.utils.QStrOperate;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +24,6 @@ import android.widget.TextView;
 /**用于显示草稿的列表适配
  * @author sheling*/
 public class DraftListAdapter extends BaseAdapter {
-	
 	private LayoutInflater mInflater;
 	private List<WeiboDraftEntryDAO> list;
 	private Context context;
@@ -80,12 +76,8 @@ public class DraftListAdapter extends BaseAdapter {
 		}
 		holder.timeTv.setText(QStrOperate.getTimeState(draft.created/1000+""));
 		holder.contentTv.setText(draft.content);
-		if(draft.platform == Task.PLATFORM_SINA || draft.platform == Task.PLATFORM_ALL){
-			holder.sinaImage.setVisibility(View.VISIBLE);
-		}
-		if(draft.platform == Task.PLATFORM_TENCENT || draft.platform == Task.PLATFORM_ALL){
-			holder.tencentImage.setVisibility(View.VISIBLE);
-		}
+		holder.tencentImage.setVisibility(View.VISIBLE);
+
 		holder.layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

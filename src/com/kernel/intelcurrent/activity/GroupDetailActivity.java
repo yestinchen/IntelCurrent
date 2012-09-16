@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kernel.intelcurrent.adapter.GroupUserListAdapter;
 import com.kernel.intelcurrent.model.DBModel;
