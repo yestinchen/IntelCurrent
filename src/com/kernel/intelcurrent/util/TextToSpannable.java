@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.kernel.intelcurrent.activity.OtherUserInfoActivity;
 import com.kernel.intelcurrent.activity.R;
 
 import android.content.Context;
@@ -195,13 +196,14 @@ public class TextToSpannable {
 		OnClickListener listener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(context, "@", Toast.LENGTH_SHORT).show();
-//				Intent intent = new Intent();
-//				intent.setClass(context, com.demo.weibolistdemo.AnotherActivity.class);
+				Toast.makeText(context, subString.substring(1), Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.setClass(context, OtherUserInfoActivity.class);
+				intent.putExtra("user_name",subString.substring(1));
 //				Bundle bundle = new Bundle();
 //				bundle.putString("link",subString);
 //				intent.putExtra("ext", bundle);
-//				context.startActivity(intent);
+				context.startActivity(intent);
 				Log.v(TAG, "clicked");
 			}
 		};
@@ -229,7 +231,7 @@ public class TextToSpannable {
 		OnClickListener listener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(context, "#huati#", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, subString, Toast.LENGTH_SHORT).show();
 //				Intent intent = new Intent();
 //				intent.setClass(context, com.demo.weibolistdemo.AnotherActivity.class);
 //				Bundle bundle = new Bundle();

@@ -367,14 +367,21 @@ public class TencentAdapter extends ModelAdapter {
 	public void getUserInfo() throws Exception{
 		UserAPI uapi = new UserAPI();
 		Map<String,Object> map = task.param;
-		String response = null,openid =null;
+		String response = null,openid =null,name=null;
 		JSONObject rawObj,infoObj = null;
 		User me = null;
-		openid = map.get("openid").toString();
-		if(openid.equals("0")){
+		if(map.containsKey("openid")){
+			openid = map.get("openid").toString();
+			Log.v(TAG, openid);
+		}
+		if(map.containsKey("name")){
+			name=map.get("name").toString();
+			Log.v(TAG, name);
+		}
+		if(openid!=null&&openid.equals("0")){
 			response = uapi.info((OAuth)map.get("oauth"), "json");	
 		}else{
-			response = uapi.otherInfo((OAuth)map.get("oauth"), "json",null,openid);
+			response = uapi.otherInfo((OAuth)map.get("oauth"), "json",name,openid);
 		}
 		
 		if(response == null) throw new ConnectTimeoutException();
@@ -382,6 +389,7 @@ public class TencentAdapter extends ModelAdapter {
 		error.ret = json.getInt("ret");
 		error.errorCode = json.getInt("errcode");
 		error.detail = json.getString("msg");
+		Log.v(TAG, "ret:"+error.ret+",errorcode:"+error.errorCode+",detail:"+error.detail);
 		if(error.ret == 0){
 			infoObj = json.getJSONObject("data");
 			me = new User();
@@ -402,7 +410,7 @@ public class TencentAdapter extends ModelAdapter {
 			me.favnum = infoObj.getInt("favnum");
 			me.statusnum = infoObj.getInt("tweetnum");
 			me.regTime = infoObj.getString("regtime");
-			if(!openid.equals("0")){
+			if(openid==null||!openid.equals("0")){
 				if(infoObj.getInt("ismyfans") ==1) me.ismyfan = true;
 				if(infoObj.getInt("ismyidol") == 1)me.ismyidol = true;
 			}

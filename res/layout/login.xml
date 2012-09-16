@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical" 
      android:gravity="center|center"
     android:background="#6B9ACE">
+    <LinearLayout 
+        android:layout_marginTop="130dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        >
     <ImageView
-           android:layout_marginTop="-60dp"
 	       android:paddingLeft="20dip"
 	       android:paddingRight="20dip"
 	       android:scaleType="centerInside"
 	       android:layout_width="wrap_content"
 	       android:layout_height="wrap_content"
+	       android:layout_gravity="center"
 	       android:id="@+id/wordpress_logo"
 	       android:src="@drawable/screen_logo1">
      </ImageView>
@@ -21,6 +28,7 @@
      <TextView android:text="@string/app_name"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
+               android:layout_gravity="center"
                android:layout_marginTop="20dip"
                android:typeface="serif"
                android:shadowDx="0"
@@ -29,8 +37,28 @@
                android:textStyle="bold"
                android:shadowColor="#FFFFFF"
                android:textColor="#444444"
-               android:textSize="25sp"
+               android:textSize="40sp"
                android:id="@+id/app_name"
                android:gravity="bottom">
      </TextView>
+     </LinearLayout>
+     <RelativeLayout
+         android:layout_marginBottom="10dp"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_gravity="bottom"
+         
+         >
+     <TextView 
+         android:layout_alignParentBottom="true"
+         android:text="@string/app_copyright"
+         android:textSize="12sp"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:gravity="center_horizontal"
+         android:typeface="serif"
+         android:textStyle="bold"
+         />
+     </RelativeLayout>
 </LinearLayout>

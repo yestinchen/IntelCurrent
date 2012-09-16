@@ -10,12 +10,17 @@
        android:layout_width="fill_parent"
        android:layout_height="30dp"
        android:textColor="#000000"
+       android:singleLine="true"
+       android:ellipsize="marquee"
+       android:focusable="true"
+	   android:focusableInTouchMode="true"
        android:textSize="18sp"
        android:gravity="bottom|center_horizontal"
        android:paddingBottom="1dp"
        /> 
        <TextView 
            android:layout_width="fill_parent"
+            android:singleLine="true"
            android:layout_height="1dp"
            android:background="#ffffff"
            />
@@ -23,6 +28,7 @@
        android:id="@+id/other_user_cell_title"
        android:layout_width="fill_parent"
        android:layout_height="40dp"
+        android:singleLine="true"
        android:textSize="20sp"
        android:textColor="#000000"
        android:textStyle="bold"

@@ -25,6 +25,7 @@
     <string name="more_group_settings">设置</string>
     <string name="more_group_skin">换肤</string>
     <string name="more_group_about">关于</string>
+    <string name="more_group_clear_data">清空缓存</string>
     <string name="more_group_account">帐号管理</string>
     
     <string name="common_load_more">加载更多</string>

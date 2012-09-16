@@ -31,7 +31,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 	private Intent intent;
 	private User userinfo=null;
 	private static final String TAG=OtherUserInfoActivity.class.getSimpleName();
-	private String at_name;
+	private String at_name=null;
 	private TextView other_title,other_words,other_location,other_follow_btn,other_at_btn;
 	private TextView other_weibo,other_fans,other_follow;
 	private TextView other_weibo_nums,other_fans_nums,other_follow_nums;
@@ -178,12 +178,16 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 	public void onConnectionFinished() {
 		// TODO Auto-generated method stub
 		if(intent!=null){
-			String openid=intent.getStringExtra("user_openid");
-			String nick=intent.getStringExtra("user_nick");
+			String openid=null,nick=null;
+			if(intent.getStringExtra("user_openid")!=null){
+				openid=intent.getStringExtra("user_openid");
+			}
+			if(intent.getStringExtra("user_nick")!=null)
+			nick=intent.getStringExtra("user_nick");
+			if(intent.getStringExtra("user_name")!=null)
 			at_name=intent.getStringExtra("user_name");
 			other_title.setText(nick);
-			Log.v(TAG, openid);
-			mService.getOtherUserInfo(openid);
+			mService.getOtherUserInfo(at_name,openid);
 		}
 
 	}
@@ -207,6 +211,7 @@ public class OtherUserInfoActivity extends BaseActivity implements Updateable{
 		}
 		//other_title.setText(userinfo.nick);
 		other_name.setText(userinfo.nick);
+		other_title.setText(userinfo.nick);
 		Drawable sex_img;
 		if(userinfo.gender==1){
 			other_at_btn.setText("@他");

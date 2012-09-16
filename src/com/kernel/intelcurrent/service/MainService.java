@@ -266,9 +266,12 @@ public class MainService extends Service
 	 * @param openid 其他用户的openid
 	 * @author allenjin
 	 */
-	public void getOtherUserInfo(String openid){
+	public void getOtherUserInfo(String name,String openid){
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(openid!=null)
 		map.put("openid", openid);
+		if(name!=null)
+		map.put("name", name);
 		Task t=new Task(Task.USER_OTHER_INFO,map,null);
 		model.doTask(t, this);
 		Log.v(TAG,"getuserinfo in service");

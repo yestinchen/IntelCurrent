@@ -1,12 +1,94 @@
 <iclist>
-	<group name="测试">
-		<user name="马化腾" id="34343234242" platform="1"/>
-		<user name="留的" id="342342525423423" platform="2"/>
-		<user name="神马" id="xxx2222313" platform="1"/>
+	<group name="[科技]">
+		<user name="techtoipo" id="A14225F5A435AF1E6276BD128696B74D" platform="1"/>
+		<user name="爱范儿" id="F4EDC7ABE89137B267C127464F03D5D8" platform="1"/>
+		<user name="techweb" id="9C46063538F5FE89A54CE5A6F271BC89" platform="1"/>
+		<user name="qqtech" id="2DE775ADA399A0BCB56A8AE626A4514D" platform="1"/>
+		<user name="donewsoffice" id="DED6433837D4D0C80BD03F892B21F617" platform="1"/>
+		<user name="wow36kr" id="6C62CDBB793AD48348DF4D99834477A4" platform="1"/>
+		<user name="IT_ads" id="233777FF9865C125489E424F030D65E1" platform="1"/>
+		<user name="Win8ebbs" id="E4AFFBC9D36B8F37A11AB1AA52CB7B30" platform="1"/>
+		<user name="vivo智能手机" id="1E1AA3ECBD3E8FF3A0C2F5EF2BF8652B" platform="1"/>
+		<user name="技嘉科技" id="E2D7890816CC29BF565F4045DA38FF0D" platform="1"/>
+		<user name="网易科技" id="A77C31E8A7A77CEFD9246903FD8010EE" platform="1"/>
+		<user name="科技传媒" id="DDB4214BB46E9518C37D2CB7FD704529" platform="1"/>
 	</group>
-	<group name="不存在的">
-		<user name="好的" id="32423452" platform="1"/>
-		<user name="你说呢" id="fdarfdasre" platform="2"/>
-		<user name="x" id="dasdaferwr" platform="1"/>
+	<group name="[新闻]">
+		<user name="微博新鲜报" id="B1259308978EB80404FFF794BDEF2F07" platform="1"/>
+		<user name="楚天都市报" id="4A9A62446B0268BE8D6BB0D490FED08C" platform="1"/>
+		<user name="微讯" id="E301B4EB99ABDD16097985CE38441FBE" platform="1"/>
+		<user name="新华视点" id="EAEDDE731A1896939739DBB6C941065B" platform="1"/>
+		<user name="新华视点" id="70737E3A1717BC8AF88C305A8A4ECA12" platform="1"/>
+		<user name="腾讯新闻" id="EC903992014AB514E640215D4CC70881" platform="1"/>
+		<user name="中国之声" id="1847AF42118C2E3A1821A4BB77E88AB9" platform="1"/>
+		<user name="南方周末" id="31B75A99A7647E7D010C4BB3554CE6E3" platform="1"/>
+		<user name="中青在线" id="27F8C0B4EF1870C3F7F92EBE7EEC8C35" platform="1"/>
+		<user name="新闻哥 " id="7BBE6F35A3370AEB6E32FF274FD557F4" platform="1"/>	
+		<user name="央视新闻" id="F4F3D263C5E016A021281E3F18B66506" platform="1"/>
+		<user name="东森新闻" id="3D526FF97CCC37909F6310967CFC7536" platform="1"/>
+		<user name="新闻晨报" id="F502579358BD99B87AC228945DB2E654" platform="1"/>
+		<user name="新闻发言人" id="CC858F43E89F431142C5C7A976B88A66" platform="1"/>
+		<user name="中国新闻周刊" id="6B73D4F5BE5B9407AA8A689976AF39BE" platform="1"/>
+	</group>
+	<group name="[星座]">
+		<user name="星座情感学" id="4DA406335B6AE7C1179AED5591F24C06" platform="1"/>
+		<user name="星座小王子" id="839FBA81A6D10381FCAE5A80CABC79C2" platform="1"/>
+		<user name="星座宝典" id="24E4854B4676D4F9251A725D03CAFF44" platform="1"/>
+		<user name="星座爱情" id="707FECDBE5BA85C71492B3DA3C33FCD3" platform="1"/>
+		<user name="星座秘语" id="D1B5017E29772DB745891AAE64042563" platform="1"/>
+		<user name="腾讯星座" id="ABAE8C9F83211A6D0F7990C007A37AD2" platform="1"/>
+		<user name="星座之泉" id="07C1D1EBAE4F8A7F7A2D492BF88598AF" platform="1"/>
+		<user name="好星座" id="7A525D4A863DD8C7C1556268D90D7E76" platform="1"/>
+		<user name="布丁星座" id="A27435EF2C686E04C61980B3905D63F3" platform="1"/>
+		<user name="微博星座运势" id="E69CE6FEA75D3D25FE030C4CC9E755CC" platform="1"/>
+		<user name="星座专家薇薇安" id="5A23206866E42913C29A6E15955E8B56" platform="1"/>
+		<user name="Pandora占星小巫" id="6C99816BEDDBBD2612E60FD0B28F6ABA" platform="1"/>
+		<user name="星座小蚊子" id="727B1B09F103E92C9D2AAB5894BFF5C5" platform="1"/>
+	</group>
+	<group name="[娱乐]">
+		<user name="腾讯娱乐" id="FB69CF2E64B5ED6FB16A6E1F53D25545" platform="1"/>
+		<user name="娱乐姐" id="C3066E28FD36A2B967C0E630F1CFDD89" platform="1"/>
+		<user name="欧美星娱乐" id="47E624635F3C73899A41C69EA746043C" platform="1"/>
+		<user name="娱乐直通车" id="56B868A69C55DE7226296B42D55CC4B1" platform="1"/>
+		<user name="娱乐直播" id="EE9EF07D528153D6D1AA105B51F516A6" platform="1"/>
+		<user name="娱乐无极限" id="AFBC7235C6759227708A3D0997CFD401" platform="1"/>
+		<user name="韩国娱乐" id="CDDB5BACED0DFA7AD88A93F4E41286AA" platform="1"/>
+		<user name="南都娱乐周刊" id="DADD8FD11490A2173A3FA3A859C7C9AB" platform="1"/>
+		<user name="快乐大本营" id="6C9D4FBD79AE87E1FCE931A0EA4191B6" platform="1"/>
+		<user name="大秦娱乐" id="5681BC98168F8AB695CD0A291DFCD088" platform="1"/>
+		<user name="娱乐急先锋" id="AA29D6C49885CEA53A217DBFDB79E231" platform="1"/>
+		<user name="娱乐底片" id="59EA26B49E2EC5D826D9ECF9AC2534B7" platform="1"/>
+		<user name="华声娱乐" id="A805E8AA5EA040358AA49133A84AB6B4" platform="1"/>
+		<user name="娱乐爆点" id="584C2BBEE5E97322951F7032C75B3F37" platform="1"/>
+		<user name="娱乐没有圈" id="54EBDACED5AED2C0710816540C1C38DB" platform="1"/>
+		<user name="娱乐大风暴" id="2E93BF7FB73DC79E9EE116C8688EBD96" platform="1"/>
+	</group>
+	<group name="[语录]">
+		<user name="老雷语录" id="1690F00DC139E79442E0FC1612884717" platform="1"/>
+		<user name="国学语录" id="9D91329E8175BFCD9E5634160113D6D6" platform="1"/>
+		<user name="语录" id="AAA9EB417CF1B8B6E3E3E78D78FAEA2C" platform="1"/>
+		<user name="经典语录" id="2B3E2D7317993D897F06A295ABD944B1" platform="1"/>
+		<user name="热点语录" id="EC0709B39522957DA2BC2E38E6832212" platform="1"/>
+		<user name="经典语录" id="A894BD71AAED211B1A1FED9F1D566AD4" platform="1"/>
+		<user name="经典语录" id="7D8BB10175EF551CDC109475C47A560E" platform="1"/>
+		<user name="优美语录" id="9AF2993150799F8D5458B706FE414BB0" platform="1"/>
+		<user name="经典语录" id="77871D05443275CB0701C9E2AD1EA0CC" platform="1"/>
+		<user name="爱情语录" id="66AD6DA52D1A91221BD4C683FEBBF728" platform="1"/>
+		<user name="微侃侃" id="B4E2BC56DBC0E6078C94B1BFBAFAE823" platform="1"/>
+		<user name="8090微语录" id="54A53D91BC243E6181CC26FF8F8E5571" platform="1"/>
+		<user name="英权语录" id="0C7F5E92725E3A2CED8B03FA15B6CAD3" platform="1"/>
+		<user name="語錄" id="6BECEA1E0E2D04BBCC58F67EC266F572" platform="1"/>
+	</group>
+	<group name="[英语]">
+		<user name="英语学习频道" id="6F99ACE5615900C3EA19E39D1DB770CB" platform="1"/>
+		<user name="口袋英语" id="B34F9F3604CF982FFC9BDF78BA518BA1" platform="1"/>
+		<user name="欧文英语" id="C1B9340AA7B3DD131FB7F71FA9BE22D9" platform="1"/>
+		<user name="沪江英语" id="C9D06BCE2DABDCB98EEB3F94E921B4CD" platform="1"/>
+		<user name="爱酷英语" id="E53322973D1E5AD34FC46EB37C858BC2" platform="1"/>
+		<user name="讲笑话学英语" id="23A36E0C2100885683CBAA4770CA7979" platform="1"/>
+		<user name="西岸英语" id="CB05C7784BC716B294C390A7E1D9C6D1" platform="1"/>
+		<user name="华尔街英语" id="59378D7276CF302E1A6C306CB5596158" platform="1"/>
+		<user name="线话英语" id="8A98082E32C9E7D16ADD216156259F37" platform="1"/>
+		<user name="VIPABC英语" id="305FBAD9BA96709671FF1A240393D3C6" platform="1"/>
 	</group>
 </iclist>

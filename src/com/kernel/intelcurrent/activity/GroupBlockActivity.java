@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -186,8 +187,8 @@ public class GroupBlockActivity extends Activity implements OnClickListener,Upda
 						@Override
 						public boolean onLongClick(View v) {
 							// TODO Auto-generated method stub
-							//delGroup((Group)v.getTag());//删除组
-							//ShowGroup((Group)v.getTag());//显示组
+							Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+							vibrator.vibrate(50);
 							showWindow(v);
 							return false;			
 				}

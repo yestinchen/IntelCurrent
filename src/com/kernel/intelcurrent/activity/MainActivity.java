@@ -5,14 +5,17 @@ import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.service.MainService;
 import com.kernel.intelcurrent.service.MainService.ICBinder;
 import android.app.ActivityGroup;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
@@ -139,6 +142,28 @@ public class MainActivity extends ActivityGroup implements Updateable{
 		}
 	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode==KeyEvent.KEYCODE_BACK){
+			AlertDialog.Builder builder=new AlertDialog.Builder(this);
+			builder.setMessage("是否退出微博").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					MainActivity.this.finish();
+				}
+			}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					}
+				}).show();
+			return true;
+		}else{
+			return super.onKeyDown(keyCode, event);
+		}
+		
+	}
+
 	/**
     * */
    private ServiceConnection connection= new ServiceConnection(){

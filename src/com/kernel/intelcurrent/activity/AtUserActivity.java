@@ -3,9 +3,8 @@ package com.kernel.intelcurrent.activity;
 import java.util.ArrayList;
 import com.kernel.intelcurrent.adapter.AtListAdapter;
 import com.kernel.intelcurrent.model.ICArrayList;
-import com.kernel.intelcurrent.model.SimpleUser;
 import com.kernel.intelcurrent.model.Task;
-
+import com.kernel.intelcurrent.model.User;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +30,7 @@ public class AtUserActivity extends BaseActivity implements Updateable,View.OnCl
 	private ListView lv;
 	private View footView,headView;
 	private EditText editText;
-	private ArrayList<SimpleUser> users = new ArrayList<SimpleUser>();
+	private ArrayList<User> users = new ArrayList<User>();
 	private AtListAdapter adapter;
 	private int request = -1;
 	private int page = 1;
@@ -40,9 +39,9 @@ public class AtUserActivity extends BaseActivity implements Updateable,View.OnCl
 	public void update(int type, Object param) {
 		if(type != Task.WEIBO_ADD_AT) return;
 		ICArrayList result = (ICArrayList) ((Task)param).result.get(0);
-		ArrayList<SimpleUser> list = new ArrayList<SimpleUser>();
+		ArrayList<User> list = new ArrayList<User>();
 		for(Object o:result.list){
-			list.add((SimpleUser)o);
+			list.add((User)o);
 		}
 		if(request == REQUEST_FIRST){
 			users.clear();

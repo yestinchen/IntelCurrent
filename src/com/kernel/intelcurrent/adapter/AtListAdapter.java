@@ -3,11 +3,9 @@ package com.kernel.intelcurrent.adapter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
-
 import com.kernel.intelcurrent.activity.R;
-import com.kernel.intelcurrent.model.SimpleUser;
+import com.kernel.intelcurrent.model.User;
 import com.kernel.intelcurrent.widget.UrlImageView;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +16,10 @@ import android.widget.TextView;
 public class AtListAdapter extends BaseAdapter {
 
 	private Context context;
-	private List<SimpleUser> list;
+	private List<User> list;
 	private LayoutInflater mInflater;
 	
-	public AtListAdapter(Context context, List<SimpleUser> list){
+	public AtListAdapter(Context context, List<User> list){
 		this.context = context;
 		this.list = list;
 		mInflater = LayoutInflater.from(context);
@@ -54,7 +52,7 @@ public class AtListAdapter extends BaseAdapter {
 			holder.nickTv = (TextView)view.findViewById(R.id.cell_user_simple_list_nick);
 			holder.headIv = (UrlImageView)view.findViewById(R.id.cell_user_simple_list_head);
 		}
-		SimpleUser user = list.get(position);
+		User user = list.get(position);
 		holder.nickTv.setText(user.nick);
 		holder.nameTv.setText("@"+user.name);
 		try {
